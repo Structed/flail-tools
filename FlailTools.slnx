@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/FlailTools.Core/FlailTools.Core.csproj" />
+    <Project Path="src/FlailTools.Web/FlailTools.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/FlailTools.Core.Tests/FlailTools.Core.Tests.csproj" />
+  </Folder>
+</Solution>

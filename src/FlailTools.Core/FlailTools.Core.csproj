@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The tests reach internal helpers directly rather than widening the public API to suit them. -->
+    <InternalsVisibleTo Include="FlailTools.Core.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Structed.Inkwell" Version="0.1.1" />
+  </ItemGroup>
+
+</Project>
