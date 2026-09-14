@@ -1,0 +1,105 @@
+{
+  "app": {
+    "title": "FLAIL! Tools",
+    "tagline": "An unofficial adventure site generator",
+    "description": "Rolls dungeons, caves, wizard towers and hexcrawl locations for FLAIL!, draws them a map, and gives you a link that rebuilds exactly what you saw."
+  },
+
+  "licence": {
+    "independentHtml": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the <a href=\"https://gamesomnivorous.com/pages/flail-license\" target=\"_blank\" rel=\"noopener noreferrer\">Games Omnivorous Third Party Licence</a>.",
+    "copyrightHtml": "FLAIL is copyright of <a href=\"https://gamesomnivorous.com\" target=\"_blank\" rel=\"noopener noreferrer\">Games Omnivorous</a>.",
+    "unofficial": "Unofficial",
+    "contentHtml": "FLAIL! has no SRD and is not openly licensed. Its licence permits reusing rules and mechanics, and forbids copying or translating text, so this tool implements the procedures from the book and fills them with tables written from scratch. Nothing here is transcribed or paraphrased from FLAIL!. If you want the game itself, buy it — this is a tool for people who already own it.",
+    "licenceLinkText": "Games Omnivorous Third Party Licence"
+  },
+
+  "kinds": {
+    "dungeon": "Dungeon",
+    "cave": "Cave",
+    "tower": "Wizard tower",
+    "location": "Location",
+    "landmark": "Landmark"
+  },
+
+  "areaNames": {
+    "dungeon": "Room",
+    "cave": "Chamber",
+    "tower": "Floor",
+    "location": "Area",
+    "landmark": "Area"
+  },
+
+  "labels": {
+    "site/name/stem": "Name",
+    "site/name/tail": "Name ending",
+    "site/kind": "Kind",
+    "site/silhouette": "Layout",
+
+    "dungeon/flavour": "Flavour",
+    "dungeon/type": "Type",
+    "dungeon/location": "Location",
+    "dungeon/key-feature": "Key feature",
+    "dungeon/creatures": "Creatures",
+    "dungeon/rooms/count": "Rooms",
+
+    "cave/flavour": "Flavour",
+    "cave/type": "Type",
+    "cave/location": "Location",
+    "cave/key-feature": "Key feature",
+    "cave/creatures": "Creatures",
+    "cave/chambers/count": "Chambers",
+
+    "tower/shape": "Shape",
+    "tower/occupant": "Occupant",
+    "tower/reaction": "Reaction",
+    "tower/goal": "Goal",
+    "tower/floors/count": "Floors",
+
+    "location/location": "Location",
+    "location/biome": "Biome",
+    "location/condition": "Condition",
+    "location/key-feature": "Key feature",
+    "location/occupant": "Occupant",
+
+    "landmark/landmark": "Landmark",
+    "landmark/biome": "Biome",
+    "landmark/condition": "Condition",
+    "landmark/key-feature": "Key feature",
+    "landmark/occupant": "Occupant"
+  },
+
+  "roles": {
+    "plain": "",
+    "entrance": "Entrance",
+    "finale": "Final area",
+    "entry": "Way in",
+    "core": "Heart",
+    "hidden": "Hidden",
+    "cluster": "Connected",
+    "top": "Top floor"
+  },
+
+  "actions": {
+    "generate": "Roll a site",
+    "reroll": "Re-roll",
+    "rerollField": "Re-roll this",
+    "lock": "Lock",
+    "unlock": "Unlock",
+    "anyKind": "Any kind",
+    "copyLink": "Copy link",
+    "copied": "Copied",
+    "download": "Download",
+    "about": "About"
+  },
+
+  "messages": {
+    "seed": "Seed",
+    "fieldsHeading": "Details",
+    "areasHeading": "Areas",
+    "mapAlt": "A hand-drawn map of the site",
+    "loading": "Loading…",
+    "noContentTitle": "The tables are still empty",
+    "noContentBody": "Every entry this tool rolls has to be written from scratch rather than copied out of the book, and that writing has not been done yet. The generator, the maps and the seeds all work — the results are simply blank until the tables are filled.",
+    "emptyField": "—"
+  }
+}

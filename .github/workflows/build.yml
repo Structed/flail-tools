@@ -12,7 +12,14 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Both, because the golden fixtures are byte-compared and line endings differ by platform —
+    # a generator that renders CRLF on one and LF on the other would otherwise ship unnoticed.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v7
 

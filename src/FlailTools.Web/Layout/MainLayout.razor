@@ -1,16 +1,63 @@
-﻿@inherits LayoutComponentBase
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+@inherits LayoutComponentBase
+@inject GameDataSource Source
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+<div class="shell">
+    <header class="masthead">
+        <a class="wordmark" href="">
+            <span class="wordmark-name">@Title</span>
+            <span class="badge-unofficial">@Unofficial</span>
+        </a>
+        <nav class="masthead-nav">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">@Generate</NavLink>
+            <NavLink class="nav-link" href="about">@About</NavLink>
+        </nav>
+    </header>
 
-        <article class="content px-4">
-            @Body
-        </article>
+    <main class="content">
+        @if (_error is not null)
+        {
+            <div class="notice notice-bad" role="alert">
+                <h1>The data files could not be read</h1>
+                <p>@_error</p>
+            </div>
+        }
+        else if (_data is null)
+        {
+            <p class="loading" role="status">Loading…</p>
+        }
+        else
+        {
+            <CascadingValue Value="_data" IsFixed="true">
+                @Body
+            </CascadingValue>
+        }
     </main>
+
+    <LicenceFooter Data="_data" />
 </div>
+
+@code {
+    private GameData? _data;
+    private string? _error;
+
+    private string Title => _data?.Ui.App.Title is { Length: > 0 } title ? title : "FLAIL! Tools";
+
+    private string Unofficial =>
+        _data?.Ui.Licence.Unofficial is { Length: > 0 } text ? text : "Unofficial";
+
+    private string Generate => _data?.Ui.Action("generate") ?? "Roll a site";
+
+    private string About => _data?.Ui.Action("about") ?? "About";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _data = await Source.GetAsync();
+        }
+        catch (Exception error) when (error is not OperationCanceledException)
+        {
+            _error = error.Message;
+        }
+    }
+}

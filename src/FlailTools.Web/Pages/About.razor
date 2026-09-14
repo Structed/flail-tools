@@ -1,0 +1,72 @@
+@page "/about"
+
+<PageTitle>@Ui.Action("about") — @Ui.App.Title</PageTitle>
+
+<h1>@Ui.App.Title</h1>
+
+<p class="lede">@Ui.App.Description</p>
+
+<section class="prose">
+    <h2>Why the tables are ours</h2>
+    <p>@((MarkupString)Ui.Licence.ContentHtml)</p>
+</section>
+
+<section class="prose">
+    <h2>Licence</h2>
+    @foreach (string notice in Data.Notices)
+    {
+        <p class="notice-line">@notice</p>
+    }
+</section>
+
+<section class="prose">
+    <h2>Where the data comes from</h2>
+
+    <table class="provenance">
+        <thead>
+            <tr>
+                <th scope="col">File</th>
+                <th scope="col">Describes</th>
+                <th scope="col">Status</th>
+                <th scope="col">Source</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataFileProvenance file in Data.Provenance)
+            {
+                <tr>
+                    <td><code>@file.Path</code></td>
+                    <td>@file.Source.Describes</td>
+                    <td>@(file.Source.Status ?? "—")</td>
+                    <td>
+                        @if (file.Source.IsDerived)
+                        {
+                            <span>@file.Source.Work</span>
+                        }
+                        else
+                        {
+                            <span>Written for this tool</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
+
+<section class="prose">
+    <h2>Seeds and links</h2>
+    <p>
+        Every site is a pure function of its seed, so the same link always rebuilds the same place.
+        Locking a field records which row it landed on, and that travels in the link too — which
+        means a link you paste to somebody else shows them exactly what you were looking at,
+        including everything you had held in place.
+    </p>
+</section>
+
+@code {
+    [CascadingParameter]
+    public GameData Data { get; set; } = default!;
+
+    private UiText Ui => Data.Ui;
+}

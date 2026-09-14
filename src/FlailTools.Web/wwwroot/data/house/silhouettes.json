@@ -1,0 +1,26 @@
+{
+  "_source": {
+    "describes": "Which of the map engine's abstract silhouettes each kind of site may be drawn inside.",
+    "status": "Unofficial. Not affiliated with Games Omnivorous.",
+    "rationale": "Layout instruction only. A row carries an id, a shape, the kinds it admits, whether it has water and how often it comes up — and no prose at all, which is why this file can ship complete while the tables that hold words are still empty.",
+    "licence": "Games Omnivorous Third Party Licence",
+    "licenceUrl": "https://gamesomnivorous.com/pages/flail-license",
+    "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third Party Licence.",
+    "notices": [
+      "FLAIL is copyright of Games Omnivorous."
+    ]
+  },
+
+  "silhouettes": [
+    { "id": "warren-dry", "shape": "warren", "kinds": ["dungeon", "cave"], "hasWater": false, "weight": 3 },
+    { "id": "warren-flooded", "shape": "warren", "kinds": ["dungeon", "cave"], "hasWater": true, "weight": 1 },
+    { "id": "boxy-compact", "shape": "boxy", "kinds": ["dungeon", "tower", "location"], "hasWater": false, "weight": 2 },
+    { "id": "linear-run", "shape": "linear", "kinds": ["dungeon", "cave", "landmark"], "hasWater": false, "weight": 2 },
+    { "id": "linear-channel", "shape": "linear", "kinds": ["cave", "location", "landmark"], "hasWater": true, "weight": 1 },
+    { "id": "vessel-tall", "shape": "vessel", "kinds": ["tower", "landmark"], "hasWater": false, "weight": 3 },
+    { "id": "vessel-moated", "shape": "vessel", "kinds": ["tower"], "hasWater": true, "weight": 1 },
+    { "id": "sprawl-open", "shape": "sprawl", "kinds": ["cave", "location", "landmark"], "hasWater": false, "weight": 2 },
+    { "id": "sprawl-shore", "shape": "sprawl", "kinds": ["location"], "hasWater": true, "weight": 1 },
+    { "id": "hollow-round", "shape": "hollow", "kinds": ["cave", "location", "landmark"], "hasWater": false, "weight": 2 }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "_source": {
+    "describes": "The hexcrawl Landmarks generator: its five d20 axes.",
+    "status": "Unofficial. Not affiliated with Games Omnivorous.",
+    "rationale": "A landmark is the thing you see from the next hex; a location is the thing you walk into. They share four axis names and nothing else — separate tables, separate field paths — so that either can be rewritten without disturbing a lock saved against the other. Every entry is original to this project.",
+    "licence": "Games Omnivorous Third Party Licence",
+    "licenceUrl": "https://gamesomnivorous.com/pages/flail-license",
+    "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third Party Licence.",
+    "notices": [
+      "FLAIL is copyright of Games Omnivorous."
+    ]
+  },
+
+  "landmarks": [],
+  "biomes": [],
+  "conditions": [],
+  "keyFeatures": [],
+  "occupants": []
+}

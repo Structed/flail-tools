@@ -1,7 +1,192 @@
-﻿@page "/"
+@page "/"
+@inject NavigationManager Nav
+@inject IJSRuntime Js
 
-<PageTitle>Home</PageTitle>
+<PageTitle>@Ui.App.Title</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1 class="visually-hidden">@Ui.App.Title — @Ui.App.Tagline</h1>
 
-Welcome to your new app.
+@if (_workspace.IsAwaitingContent)
+{
+    <div class="notice notice-empty" role="status">
+        <h2>@Ui.Message("noContentTitle")</h2>
+        <p>@Ui.Message("noContentBody")</p>
+    </div>
+}
+
+<section class="controls">
+    <label class="kind-picker">
+        <span class="kind-picker-label">@_workspace.LabelFor(FieldPaths.Kind)</span>
+        <select value="@(_workspace.Plan.Kind ?? "")" @onchange="OnKindChanged">
+            <option value="">@Ui.Action("anyKind")</option>
+            @foreach (string kind in SiteKinds.All)
+            {
+                <option value="@kind" selected="@(kind == _workspace.Plan.Kind)">@Ui.KindName(kind)</option>
+            }
+        </select>
+    </label>
+
+    <button type="button" class="button button-primary" @onclick="RollAgain">
+        @Ui.Action("generate")
+    </button>
+
+    <button type="button" class="button" @onclick="CopyLink">
+        @(_copied ? Ui.Action("copied") : Ui.Action("copyLink"))
+    </button>
+
+    <button type="button" class="button" @onclick="Download">
+        @Ui.Action("download")
+    </button>
+
+    <span class="seed">@Ui.Message("seed") @_workspace.SeedCode</span>
+</section>
+
+<section class="site">
+    <div class="site-detail">
+        <FieldRow Label="@_workspace.LabelFor(FieldPaths.NameStem)"
+                  Value="@_workspace.Site.Name"
+                  IsPinned="_workspace.IsPinned(FieldPaths.NameStem)"
+                  Empty="@Ui.Message("emptyField")"
+                  Lock="@Ui.Action("lock")"
+                  Unlock="@Ui.Action("unlock")"
+                  RerollTitle="@Ui.Action("rerollField")"
+                  OnTogglePin="@(() => Change(() => _workspace.TogglePin(FieldPaths.NameStem)))"
+                  OnReroll="@(() => Change(() => _workspace.Reroll(FieldPaths.NameStem)))" />
+
+        <FieldRow Label="@_workspace.LabelFor(FieldPaths.Kind)"
+                  Value="@Ui.KindName(_workspace.Site.Kind)"
+                  IsPinned="@(_workspace.Plan.Kind is not null)"
+                  Empty="@Ui.Message("emptyField")"
+                  Lock="@Ui.Action("lock")"
+                  Unlock="@Ui.Action("unlock")"
+                  RerollTitle="@Ui.Action("rerollField")"
+                  OnTogglePin="@(() => Change(ToggleKind))"
+                  OnReroll="@(() => Change(_workspace.RerollKind))" />
+
+        <FieldRow Label="@_workspace.LabelFor(FieldPaths.Silhouette)"
+                  Value="@_workspace.Site.Silhouette"
+                  IsPinned="_workspace.IsPinned(FieldPaths.Silhouette)"
+                  Empty="@Ui.Message("emptyField")"
+                  Lock="@Ui.Action("lock")"
+                  Unlock="@Ui.Action("unlock")"
+                  RerollTitle="@Ui.Action("rerollField")"
+                  OnTogglePin="@(() => Change(() => _workspace.TogglePin(FieldPaths.Silhouette)))"
+                  OnReroll="@(() => Change(() => _workspace.Reroll(FieldPaths.Silhouette)))" />
+
+        <h2>@Ui.Message("fieldsHeading")</h2>
+
+        @foreach (SiteField field in _workspace.Site.Fields)
+        {
+            string path = field.Path;
+
+            <FieldRow Label="@_workspace.LabelFor(path)"
+                      Value="@field.Value"
+                      IsPinned="_workspace.IsPinned(path)"
+                      Empty="@Ui.Message("emptyField")"
+                      Lock="@Ui.Action("lock")"
+                      Unlock="@Ui.Action("unlock")"
+                      RerollTitle="@Ui.Action("rerollField")"
+                      OnTogglePin="@(() => Change(() => _workspace.TogglePin(path)))"
+                      OnReroll="@(() => Change(() => _workspace.Reroll(path)))" />
+        }
+    </div>
+
+    <div class="site-map">
+        @((MarkupString)_workspace.MapSvg)
+    </div>
+</section>
+
+@if (_workspace.Site.Areas.Count > 0)
+{
+    <section class="areas">
+        <h2>@Ui.Message("areasHeading")</h2>
+
+        <div class="area-grid">
+            @foreach (SiteArea area in _workspace.Site.Areas)
+            {
+                string path = area.Path;
+
+                <FieldRow Label="@($"{area.Number}. {_workspace.AreaName(area)}")"
+                          Value="@area.Value"
+                          IsPinned="_workspace.IsPinned(path)"
+                          Empty="@Ui.Message("emptyField")"
+                          Lock="@Ui.Action("lock")"
+                          Unlock="@Ui.Action("unlock")"
+                          RerollTitle="@Ui.Action("rerollField")"
+                          OnTogglePin="@(() => Change(() => _workspace.TogglePin(path)))"
+                          OnReroll="@(() => Change(() => _workspace.Reroll(path)))" />
+            }
+        </div>
+    </section>
+}
+
+@code {
+    [CascadingParameter]
+    public GameData Data { get; set; } = default!;
+
+    private SiteWorkspace _workspace = default!;
+    private bool _copied;
+
+    private UiText Ui => Data.Ui;
+
+    protected override void OnInitialized() =>
+        _workspace = new SiteWorkspace(Data, SiteUrl.FromQuery(new Uri(Nav.Uri).Query));
+
+    private Task RollAgain() => Change(_workspace.RollAgain);
+
+    private Task OnKindChanged(ChangeEventArgs args) =>
+        Change(() => _workspace.SetKind(args.Value as string));
+
+    /// <summary>Holds the kind at whatever was rolled, or hands it back to the dice.</summary>
+    private void ToggleKind() =>
+        _workspace.SetKind(_workspace.Plan.Kind is null ? _workspace.Site.Kind : null);
+
+    /// <summary>Runs one change, then makes the address bar agree with it.</summary>
+    private async Task Change(Action change)
+    {
+        change();
+        _copied = false;
+
+        await SyncUrl();
+    }
+
+    private async Task SyncUrl()
+    {
+        try
+        {
+            await Js.InvokeVoidAsync("flailTools.setUrl", Nav.BaseUri + _workspace.Query);
+        }
+        catch (JSException)
+        {
+            // An address bar that has stopped agreeing is not worth breaking the page over.
+        }
+    }
+
+    private async Task CopyLink()
+    {
+        try
+        {
+            _copied = await Js.InvokeAsync<bool>("flailTools.copyText", Nav.BaseUri + _workspace.Query);
+        }
+        catch (JSException)
+        {
+            _copied = false;
+        }
+    }
+
+    private async Task Download()
+    {
+        try
+        {
+            await Js.InvokeVoidAsync(
+                "flailTools.download",
+                _workspace.FileName,
+                _workspace.ToDocument(),
+                "application/json");
+        }
+        catch (JSException)
+        {
+            // Nothing useful to say: the browser refused to save a file it was handed.
+        }
+    }
+}
