@@ -81,6 +81,36 @@ the diff.
 
 CI runs the suite on Linux *and* Windows for the same reason.
 
+### Icon artwork
+
+`src/FlailTools.Web/wwwroot/icon.svg` is the editable, original folded-map drawing. It is not the
+game's logo; see [NOTICE.md](NOTICE.md#icon-artwork) for provenance. Export the full square canvas
+with its opaque paper background to PNG when changing it:
+
+| File (in `wwwroot`) | Size | Use |
+| --- | --- | --- |
+| `favicon.png` | 32 x 32 | Browser tabs and bookmarks |
+| `icon-192.png` | 192 x 192 | High-resolution browser icon |
+| `apple-touch-icon.png` | 180 x 180 | Apple home screens |
+
+Review the favicon at **16 x 16** as well as native size. Keep the broad ink strokes and simple
+folds readable without relying on colour, lettering or details from the game's artwork.
+
+### Sharing card
+
+`src/FlailTools.Web/wwwroot/open-graph.png` is the **1200 x 630** Open Graph and Twitter large-image
+card. Its editable source is `open-graph.svg`, which references `icon.svg`; keep both SVG files
+together when editing or exporting. Export the full canvas with its opaque paper background and
+review at a reduced sharing-preview size. Keep the prominent **UNOFFICIAL TOOL** label and
+non-affiliation notice in the image, not just in surrounding page text.
+
+Sharing metadata lives in the static `wwwroot/index.html` so crawlers do not need to run Blazor.
+It uses absolute URLs under **https://flail-tools.pages.dev/**. If the public host changes, update
+those URLs, the address printed in the card, and the expectations in `ArtworkTests`. Every shared
+site uses this generic card; it does not depict the particular seed encoded in a link. There is
+deliberately no fixed `og:url` or canonical link: a crawler should use the shared URL, including
+its seed, locks and re-roll counters, rather than treating every generated site as the home page.
+
 ## Layout
 
 ```

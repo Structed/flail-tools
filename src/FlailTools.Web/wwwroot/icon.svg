@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 64 64">
+  <title>Folded map - unofficial FLAIL! Tools icon</title>
+  <desc>Original artwork by the flail-tools contributors. An ink-drawn folded map on paper, not derived from the game artwork or logo.</desc>
+  <path fill="#f4efe4" d="M0 0H64V64H0Z"/>
+  <g fill="none" stroke="#1c1a17" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke-width="4.5" d="M8 15Q15 13 23 10L41 16Q48 13 56 12L55 49Q48 50 41 54L23 48Q15 49 8 53Z"/>
+    <path stroke-width="3.5" d="M23 11Q22 29 23 47M41 17Q42 34 41 53"/>
+  </g>
+  <path fill="none" stroke="#7c2d12" stroke-width="4" stroke-linecap="round" d="M30 40Q36 34 30 25"/>
+</svg>

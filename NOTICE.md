@@ -34,6 +34,19 @@ The dungeon room-stocking checklist FLAIL! uses is credited in the book to the G
 is therefore not Games Omnivorous's to license onward either, which is a second reason the wording
 of every stocking outcome here is written from scratch.
 
+## Icon artwork
+
+The folded-map icon in `src/FlailTools.Web/wwwroot/icon.svg` is original artwork by the
+flail-tools contributors, released under the MIT licence. The favicon, 192px icon and Apple touch
+icon are PNG exports of that drawing. It uses the site's ink-and-paper palette and is not copied,
+traced or adapted from the FLAIL! logo, book artwork or trade dress. It identifies this unofficial
+tool, not the game or its publisher.
+
+`src/FlailTools.Web/wwwroot/open-graph.svg` is an original sharing-card layout under the same MIT
+licence, reusing that folded-map drawing. `open-graph.png` is its raster export. Both the card and
+its sharing metadata identify the tool as unofficial; the card also carries a non-affiliation
+notice. Its title is ordinary typeset text, not the FLAIL! logo.
+
 ## Code
 
 The code in this repository is MIT licensed.
