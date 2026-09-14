@@ -1,11 +1,18 @@
+using FlailTools.Core.Data;
+using FlailTools.Web;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using FlailTools.Web;
+using Structed.Inkwell.Data;
 
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
+WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
+
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+HttpClient http = new() { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
+
+builder.Services.AddScoped(_ => http);
+builder.Services.AddScoped<IDataFileReader>(_ => new HttpDataFileReader(http));
+builder.Services.AddScoped<GameDataSource>();
 
 await builder.Build().RunAsync();

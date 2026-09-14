@@ -1,0 +1,26 @@
+@*
+    The licence's two notices, verbatim, on every page.
+
+    They are required to appear on the tool itself and not only in the repository, so they live in
+    the layout rather than on the about page. The markup comes from ui.json but the words are
+    checked against Attribution in a test, so a future translation cannot quietly replace them.
+*@
+
+<footer class="colophon">
+    @if (Data is null)
+    {
+        <p class="notice-line">@Attribution.PlainText(Attribution.IndependentNotice)</p>
+        <p class="notice-line">@Attribution.PlainText(Attribution.CopyrightNotice)</p>
+    }
+    else
+    {
+        <p class="notice-line">@((MarkupString)Data.Ui.Licence.IndependentHtml)</p>
+        <p class="notice-line">@((MarkupString)Data.Ui.Licence.CopyrightHtml)</p>
+    }
+</footer>
+
+@code {
+    /// <summary><c>null</c> until the files load, which must not delay the notices.</summary>
+    [Parameter]
+    public GameData? Data { get; set; }
+}

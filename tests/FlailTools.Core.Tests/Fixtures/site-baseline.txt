@@ -1,0 +1,365 @@
+== dungeon 1
+name	
+silhouette	warren-dry	warren	dry	4
+field	dungeon/flavour		
+field	dungeon/type		
+field	dungeon/location		
+field	dungeon/key-feature		
+field	dungeon/creatures		
+area	1	entrance	dungeon/room/0/stocking	#0	
+area	2	plain	dungeon/room/1/stocking	#2	
+area	3	plain	dungeon/room/2/stocking	#0	
+area	4	plain	dungeon/room/3/stocking	#4	
+area	5	plain	dungeon/room/4/stocking	#2	
+area	6	plain	dungeon/room/5/stocking	#5	
+area	7	plain	dungeon/room/6/stocking	#5	
+area	8	plain	dungeon/room/7/stocking	#3	
+area	9	finale	dungeon/room/8/stocking	#0	
+== dungeon 7
+name	
+silhouette	warren-flooded	warren	water	4
+field	dungeon/flavour		
+field	dungeon/type		
+field	dungeon/location		
+field	dungeon/key-feature		
+field	dungeon/creatures		
+area	1	entrance	dungeon/room/0/stocking	#2	
+area	2	plain	dungeon/room/1/stocking	#1	
+area	3	plain	dungeon/room/2/stocking	#0	
+area	4	plain	dungeon/room/3/stocking	#1	
+area	5	plain	dungeon/room/4/stocking	#2	
+area	6	plain	dungeon/room/5/stocking	#2	
+area	7	plain	dungeon/room/6/stocking	#2	
+area	8	plain	dungeon/room/7/stocking	#0	
+area	9	plain	dungeon/room/8/stocking	#0	
+area	10	finale	dungeon/room/9/stocking	#1	
+area	11	plain	dungeon/room/10/stocking	#5	
+== dungeon 42
+name	
+silhouette	linear-run	linear	dry	5
+field	dungeon/flavour		
+field	dungeon/type		
+field	dungeon/location		
+field	dungeon/key-feature		
+field	dungeon/creatures		
+area	1	entrance	dungeon/room/0/stocking	#0	
+area	2	plain	dungeon/room/1/stocking	#5	
+area	3	plain	dungeon/room/2/stocking	#0	
+area	4	plain	dungeon/room/3/stocking	#2	
+area	5	plain	dungeon/room/4/stocking	#5	
+area	6	plain	dungeon/room/5/stocking	#3	
+area	7	plain	dungeon/room/6/stocking	#1	
+area	8	plain	dungeon/room/7/stocking	#4	
+area	9	plain	dungeon/room/8/stocking	#3	
+area	10	finale	dungeon/room/9/stocking	#3	
+area	11	plain	dungeon/room/10/stocking	#0	
+area	12	plain	dungeon/room/11/stocking	#4	
+== dungeon 1337
+name	
+silhouette	warren-flooded	warren	water	4
+field	dungeon/flavour		
+field	dungeon/type		
+field	dungeon/location		
+field	dungeon/key-feature		
+field	dungeon/creatures		
+area	1	entrance	dungeon/room/0/stocking	#4	
+area	2	plain	dungeon/room/1/stocking	#5	
+area	3	plain	dungeon/room/2/stocking	#3	
+area	4	plain	dungeon/room/3/stocking	#0	
+area	5	plain	dungeon/room/4/stocking	#0	
+area	6	plain	dungeon/room/5/stocking	#3	
+area	7	plain	dungeon/room/6/stocking	#4	
+area	8	plain	dungeon/room/7/stocking	#0	
+area	9	finale	dungeon/room/8/stocking	#4	
+== dungeon 65535
+name	
+silhouette	linear-run	linear	dry	3
+field	dungeon/flavour		
+field	dungeon/type		
+field	dungeon/location		
+field	dungeon/key-feature		
+field	dungeon/creatures		
+area	1	entrance	dungeon/room/0/stocking	#1	
+area	2	plain	dungeon/room/1/stocking	#2	
+area	3	plain	dungeon/room/2/stocking	#2	
+area	4	plain	dungeon/room/3/stocking	#2	
+area	5	plain	dungeon/room/4/stocking	#0	
+area	6	plain	dungeon/room/5/stocking	#3	
+area	7	plain	dungeon/room/6/stocking	#5	
+area	8	finale	dungeon/room/7/stocking	#4	
+== dungeon 2147483647
+name	
+silhouette	warren-dry	warren	dry	5
+field	dungeon/flavour		
+field	dungeon/type		
+field	dungeon/location		
+field	dungeon/key-feature		
+field	dungeon/creatures		
+area	1	entrance	dungeon/room/0/stocking	#4	
+area	2	plain	dungeon/room/1/stocking	#4	
+area	3	plain	dungeon/room/2/stocking	#1	
+area	4	plain	dungeon/room/3/stocking	#2	
+area	5	plain	dungeon/room/4/stocking	#2	
+area	6	plain	dungeon/room/5/stocking	#3	
+area	7	plain	dungeon/room/6/stocking	#0	
+area	8	plain	dungeon/room/7/stocking	#4	
+area	9	plain	dungeon/room/8/stocking	#4	
+area	10	finale	dungeon/room/9/stocking	#2	
+area	11	plain	dungeon/room/10/stocking	#4	
+area	12	plain	dungeon/room/11/stocking	#2	
+== cave 1
+name	
+silhouette	linear-channel	linear	water	5
+field	cave/flavour		
+field	cave/type		
+field	cave/location		
+field	cave/key-feature		
+field	cave/creatures		
+area	1	hidden	cave/chamber/0/chamber	#3	
+area	2	hidden	cave/chamber/1/chamber	#3	
+area	3	hidden	cave/chamber/2/chamber	#2	
+area	4	cluster	cave/chamber/3/chamber	#2	
+area	5	core	cave/chamber/4/chamber	#5	
+area	6	cluster	cave/chamber/5/chamber	#2	
+area	7	entry	cave/chamber/6/chamber	#1	
+area	8	cluster	cave/chamber/7/chamber	#2	
+== cave 7
+name	
+silhouette	warren-dry	warren	dry	4
+field	cave/flavour		
+field	cave/type		
+field	cave/location		
+field	cave/key-feature		
+field	cave/creatures		
+area	1	hidden	cave/chamber/0/chamber	#2	
+area	2	plain	cave/chamber/1/chamber	#3	
+area	3	core	cave/chamber/2/chamber	#1	
+area	4	entry	cave/chamber/3/chamber	#0	
+area	5	hidden	cave/chamber/4/chamber	#2	
+area	6	hidden	cave/chamber/5/chamber	#5	
+== cave 42
+name	
+silhouette	linear-run	linear	dry	4
+field	cave/flavour		
+field	cave/type		
+field	cave/location		
+field	cave/key-feature		
+field	cave/creatures		
+area	1	core	cave/chamber/0/chamber	#5	
+area	2	plain	cave/chamber/1/chamber	#5	
+area	3	plain	cave/chamber/2/chamber	#0	
+area	4	hidden	cave/chamber/3/chamber	#3	
+area	5	entry	cave/chamber/4/chamber	#3	
+area	6	hidden	cave/chamber/5/chamber	#5	
+area	7	plain	cave/chamber/6/chamber	#3	
+== cave 1337
+name	
+silhouette	sprawl-open	sprawl	dry	4
+field	cave/flavour		
+field	cave/type		
+field	cave/location		
+field	cave/key-feature		
+field	cave/creatures		
+area	1	entry	cave/chamber/0/chamber	#3	
+area	2	core	cave/chamber/1/chamber	#4	
+area	3	cluster	cave/chamber/2/chamber	#4	
+area	4	plain	cave/chamber/3/chamber	#5	
+area	5	hidden	cave/chamber/4/chamber	#0	
+area	6	plain	cave/chamber/5/chamber	#1	
+area	7	plain	cave/chamber/6/chamber	#3	
+== cave 65535
+name	
+silhouette	warren-dry	warren	dry	4
+field	cave/flavour		
+field	cave/type		
+field	cave/location		
+field	cave/key-feature		
+field	cave/creatures		
+area	1	core	cave/chamber/0/chamber	#3	
+area	2	hidden	cave/chamber/1/chamber	#4	
+area	3	cluster	cave/chamber/2/chamber	#5	
+area	4	entry	cave/chamber/3/chamber	#5	
+area	5	cluster	cave/chamber/4/chamber	#5	
+area	6	hidden	cave/chamber/5/chamber	#5	
+== cave 2147483647
+name	
+silhouette	sprawl-open	sprawl	dry	5
+field	cave/flavour		
+field	cave/type		
+field	cave/location		
+field	cave/key-feature		
+field	cave/creatures		
+area	1	hidden	cave/chamber/0/chamber	#1	
+area	2	core	cave/chamber/1/chamber	#1	
+area	3	plain	cave/chamber/2/chamber	#4	
+area	4	plain	cave/chamber/3/chamber	#3	
+area	5	plain	cave/chamber/4/chamber	#2	
+area	6	hidden	cave/chamber/5/chamber	#4	
+area	7	entry	cave/chamber/6/chamber	#2	
+area	8	plain	cave/chamber/7/chamber	#0	
+== tower 1
+name	
+silhouette	boxy-compact	boxy	dry	3
+field	tower/shape		
+field	tower/occupant		
+field	tower/reaction		
+field	tower/goal		
+area	1	plain	tower/floor/0/type	#2	
+area	2	plain	tower/floor/1/type	#0	
+area	3	top	tower/floor/2/type	#1	
+== tower 7
+name	
+silhouette	vessel-tall	vessel	dry	6
+field	tower/shape		
+field	tower/occupant		
+field	tower/reaction		
+field	tower/goal		
+area	1	plain	tower/floor/0/type	#3	
+area	2	plain	tower/floor/1/type	#5	
+area	3	plain	tower/floor/2/type	#5	
+area	4	plain	tower/floor/3/type	#1	
+area	5	plain	tower/floor/4/type	#2	
+area	6	top	tower/floor/5/type	#0	
+== tower 42
+name	
+silhouette	vessel-tall	vessel	dry	3
+field	tower/shape		
+field	tower/occupant		
+field	tower/reaction		
+field	tower/goal		
+area	1	plain	tower/floor/0/type	#2	
+area	2	plain	tower/floor/1/type	#5	
+area	3	top	tower/floor/2/type	#3	
+== tower 1337
+name	
+silhouette	vessel-moated	vessel	water	5
+field	tower/shape		
+field	tower/occupant		
+field	tower/reaction		
+field	tower/goal		
+area	1	plain	tower/floor/0/type	#3	
+area	2	plain	tower/floor/1/type	#5	
+area	3	plain	tower/floor/2/type	#4	
+area	4	plain	tower/floor/3/type	#2	
+area	5	top	tower/floor/4/type	#0	
+== tower 65535
+name	
+silhouette	boxy-compact	boxy	dry	6
+field	tower/shape		
+field	tower/occupant		
+field	tower/reaction		
+field	tower/goal		
+area	1	plain	tower/floor/0/type	#3	
+area	2	plain	tower/floor/1/type	#3	
+area	3	plain	tower/floor/2/type	#5	
+area	4	plain	tower/floor/3/type	#5	
+area	5	plain	tower/floor/4/type	#1	
+area	6	top	tower/floor/5/type	#3	
+== tower 2147483647
+name	
+silhouette	vessel-tall	vessel	dry	5
+field	tower/shape		
+field	tower/occupant		
+field	tower/reaction		
+field	tower/goal		
+area	1	plain	tower/floor/0/type	#3	
+area	2	plain	tower/floor/1/type	#3	
+area	3	plain	tower/floor/2/type	#2	
+area	4	plain	tower/floor/3/type	#0	
+area	5	top	tower/floor/4/type	#3	
+== location 1
+name	
+silhouette	linear-channel	linear	water	3
+field	location/location		
+field	location/biome		
+field	location/condition		
+field	location/key-feature		
+field	location/occupant		
+== location 7
+name	
+silhouette	sprawl-open	sprawl	dry	3
+field	location/location		
+field	location/biome		
+field	location/condition		
+field	location/key-feature		
+field	location/occupant		
+== location 42
+name	
+silhouette	hollow-round	hollow	dry	3
+field	location/location		
+field	location/biome		
+field	location/condition		
+field	location/key-feature		
+field	location/occupant		
+== location 1337
+name	
+silhouette	sprawl-open	sprawl	dry	3
+field	location/location		
+field	location/biome		
+field	location/condition		
+field	location/key-feature		
+field	location/occupant		
+== location 65535
+name	
+silhouette	hollow-round	hollow	dry	3
+field	location/location		
+field	location/biome		
+field	location/condition		
+field	location/key-feature		
+field	location/occupant		
+== location 2147483647
+name	
+silhouette	linear-channel	linear	water	3
+field	location/location		
+field	location/biome		
+field	location/condition		
+field	location/key-feature		
+field	location/occupant		
+== landmark 1
+name	
+silhouette	hollow-round	hollow	dry	2
+field	landmark/landmark		
+field	landmark/biome		
+field	landmark/condition		
+field	landmark/key-feature		
+field	landmark/occupant		
+== landmark 7
+name	
+silhouette	vessel-tall	vessel	dry	2
+field	landmark/landmark		
+field	landmark/biome		
+field	landmark/condition		
+field	landmark/key-feature		
+field	landmark/occupant		
+== landmark 42
+name	
+silhouette	vessel-tall	vessel	dry	2
+field	landmark/landmark		
+field	landmark/biome		
+field	landmark/condition		
+field	landmark/key-feature		
+field	landmark/occupant		
+== landmark 1337
+name	
+silhouette	vessel-tall	vessel	dry	2
+field	landmark/landmark		
+field	landmark/biome		
+field	landmark/condition		
+field	landmark/key-feature		
+field	landmark/occupant		
+== landmark 65535
+name	
+silhouette	hollow-round	hollow	dry	2
+field	landmark/landmark		
+field	landmark/biome		
+field	landmark/condition		
+field	landmark/key-feature		
+field	landmark/occupant		
+== landmark 2147483647
+name	
+silhouette	hollow-round	hollow	dry	2
+field	landmark/landmark		
+field	landmark/biome		
+field	landmark/condition		
+field	landmark/key-feature		
+field	landmark/occupant		

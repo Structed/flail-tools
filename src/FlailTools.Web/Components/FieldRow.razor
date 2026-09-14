@@ -1,0 +1,57 @@
+@*
+    One rolled field: what it says, a lock, and a re-roll.
+
+    The lock and the re-roll are the whole point of the interface — they are what turns a random
+    result into one somebody chose — so they sit on every field without exception, including the
+    name and the numbered areas.
+*@
+
+<div class="field @(IsPinned ? "is-pinned" : null)">
+    <div class="field-head">
+        <span class="field-label">@Label</span>
+        <span class="field-actions">
+            <button type="button"
+                    class="chip @(IsPinned ? "chip-on" : null)"
+                    aria-pressed="@IsPinned"
+                    title="@(IsPinned ? Unlock : Lock)"
+                    @onclick="OnTogglePin">@(IsPinned ? "🔒" : "🔓")</button>
+            <button type="button"
+                    class="chip"
+                    title="@RerollTitle"
+                    @onclick="OnReroll">↻</button>
+        </span>
+    </div>
+    <p class="field-value @(HasValue ? null : "is-empty")">@(HasValue ? Value : Empty)</p>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Label { get; set; } = "";
+
+    [Parameter]
+    public string Value { get; set; } = "";
+
+    [Parameter]
+    public bool IsPinned { get; set; }
+
+    /// <summary>Shown in place of a value while the tables are still empty.</summary>
+    [Parameter]
+    public string Empty { get; set; } = "—";
+
+    [Parameter]
+    public string Lock { get; set; } = "Lock";
+
+    [Parameter]
+    public string Unlock { get; set; } = "Unlock";
+
+    [Parameter]
+    public string RerollTitle { get; set; } = "Re-roll this";
+
+    [Parameter]
+    public EventCallback OnTogglePin { get; set; }
+
+    [Parameter]
+    public EventCallback OnReroll { get; set; }
+
+    private bool HasValue => !string.IsNullOrWhiteSpace(Value);
+}

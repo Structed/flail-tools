@@ -1,0 +1,19 @@
+{
+  "_source": {
+    "describes": "The hexcrawl Locations generator: its five d20 axes.",
+    "status": "Unofficial. Not affiliated with Games Omnivorous.",
+    "rationale": "Kept on its own tables and its own field paths rather than sharing Biome, Condition, Key Feature and Occupant with the Landmarks generator. Sharing would be convenient and is irreversible: once a path is published, finding that the two generators want different rows cannot be fixed without orphaning every lock already saved against it. Every entry is original to this project.",
+    "licence": "Games Omnivorous Third Party Licence",
+    "licenceUrl": "https://gamesomnivorous.com/pages/flail-license",
+    "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third Party Licence.",
+    "notices": [
+      "FLAIL is copyright of Games Omnivorous."
+    ]
+  },
+
+  "locations": [],
+  "biomes": [],
+  "conditions": [],
+  "keyFeatures": [],
+  "occupants": []
+}
