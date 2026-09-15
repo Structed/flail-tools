@@ -1,0 +1,23 @@
+# Repository configuration for the GitHub Copilot app.
+# Reference: https://docs.github.com/copilot/reference/github-copilot-app-reference/repository-configuration
+
+scripts:
+  - name: Setup
+    command: dotnet restore FlailTools.slnx
+    triggers:
+      - session.create
+
+  # Port 0 so Kestrel takes any free port: the http launch profile pins 5206, and this repo is
+  # worked on in several worktree sessions at once, where the second one to start would otherwise
+  # fail to bind. Everything after `--` is passed to the app, outranking the profile's
+  # ASPNETCORE_URLS, and the resolved port is what gets logged and picked up below.
+  # It has to be 127.0.0.1 rather than localhost; Kestrel refuses to bind a dynamic port to a
+  # hostname that resolves to more than one address.
+  - name: Run
+    command: dotnet run --project src/FlailTools.Web --launch-profile http -- --urls http://127.0.0.1:0
+
+  - name: Test
+    command: dotnet test FlailTools.slnx
+
+server_ready_pattern: 'Now listening on:\s+(https?://\S+)'
+auto_open_in_browser: true
