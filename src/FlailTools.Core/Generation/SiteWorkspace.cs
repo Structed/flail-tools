@@ -134,9 +134,7 @@ public sealed class SiteWorkspace
     {
         ArgumentNullException.ThrowIfNull(area);
 
-        string role = _data.Ui.RoleName(area.Role);
-
-        return role.Length > 0 ? role : _data.Ui.AreaName(Site.Kind);
+        return _data.Ui.AreaName(Site.Kind, area.Role);
     }
 
     /// <summary>The name is two rolls but one field, so both halves move together.</summary>

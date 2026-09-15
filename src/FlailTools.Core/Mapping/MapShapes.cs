@@ -4,10 +4,10 @@ namespace FlailTools.Core.Mapping;
 /// The silhouettes the engine knows how to draw.
 /// </summary>
 /// <remarks>
-/// These are the engine's abstract archetypes, not FLAIL!'s vocabulary — a wizard's tower is drawn
-/// as a <see cref="Vessel"/> because that is the shape it wants, and the engine has never heard of
-/// wizards. Listed here so that a typo in a data file is caught when the files load rather than
-/// quietly drawn as a <see cref="Hollow"/>, which is what the engine falls back to.
+/// These are the engine's abstract archetypes, not FLAIL!'s vocabulary. Tower floor plans use a
+/// square footprint for <see cref="Boxy"/> and a round one for <see cref="Vessel"/> instead of the
+/// overview generator. Listed here so that a typo in a data file is caught when the files load
+/// rather than quietly drawn as a <see cref="Hollow"/>, which is the overview engine's fallback.
 /// </remarks>
 public static class MapShapes
 {

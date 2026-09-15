@@ -7,13 +7,12 @@ using Structed.Inkwell.Rendering;
 namespace FlailTools.Core.Mapping;
 
 /// <summary>
-/// Turns a generated site into something the map engine can draw.
+/// Turns a generated site into an overview or a stack of tower floor plans.
 /// </summary>
 /// <remarks>
-/// The engine draws abstract silhouettes and has never heard of a dungeon. Everything that knows a
-/// wizard's tower should be tall and contained is either in <c>silhouettes.json</c> or here, and
-/// nothing about it is in the engine — which is what lets the engine be shared with generators for
-/// other games.
+/// Overview maps use the engine's abstract silhouettes. Towers need one plan per floor rather than
+/// roads and buildings inside a silhouette; their layout lives here and reuses the engine's seeded
+/// pen without teaching the engine anything about FLAIL!.
 /// </remarks>
 public static class SiteMapper
 {
@@ -26,10 +25,7 @@ public static class SiteMapper
 
         foreach (SiteArea area in site.Areas)
         {
-            string role = ui.RoleName(area.Role);
-            string name = role.Length > 0 ? role : ui.AreaName(site.Kind);
-
-            keys.Add(new MapKeySubject(name, area.Value));
+            keys.Add(new MapKeySubject(ui.AreaName(site.Kind, area.Role), area.Value));
         }
 
         return new MapBrief
@@ -42,9 +38,17 @@ public static class SiteMapper
         };
     }
 
-    /// <summary>Lays out the map for a site.</summary>
-    public static PlaceMap Draw(AdventureSite site, SitePlan plan, UiText ui) =>
-        MapGenerator.Generate(BriefFor(site, ui), MapGenerator.SeedFor(plan));
+    /// <summary>Lays out an overview, or separate tower floors ordered from ground to top.</summary>
+    public static SiteMap Draw(AdventureSite site, SitePlan plan, UiText ui)
+    {
+        ArgumentNullException.ThrowIfNull(site);
+        ArgumentNullException.ThrowIfNull(plan);
+        ArgumentNullException.ThrowIfNull(ui);
+
+        return site.Kind == SiteKinds.Tower
+            ? TowerFloorPlans.Draw(site)
+            : new OverviewSiteMap(MapGenerator.Generate(BriefFor(site, ui), MapGenerator.SeedFor(plan)));
+    }
 
     /// <summary>
     /// Draws the map and inks it as SVG.
@@ -61,13 +65,16 @@ public static class SiteMapper
         ArgumentNullException.ThrowIfNull(ui);
 
         uint seed = MapGenerator.SeedFor(plan);
-        PlaceMap map = MapGenerator.Generate(BriefFor(site, ui), seed);
-
-        return SvgMapRenderer.Render(map, seed, new MapRenderOptions
+        return Draw(site, plan, ui) switch
         {
-            AriaLabel = ui.Message("mapAlt"),
-            CssClass = "site-map",
-            IntrinsicSize = true
-        });
+            TowerSiteMap tower => TowerFloorPlans.Render(tower, seed, ui),
+            OverviewSiteMap overview => SvgMapRenderer.Render(overview.Layout, seed, new MapRenderOptions
+            {
+                AriaLabel = ui.Message("mapAlt"),
+                CssClass = "site-map",
+                IntrinsicSize = true
+            }),
+            _ => throw new InvalidOperationException("The site map has no supported rendering.")
+        };
     }
 }

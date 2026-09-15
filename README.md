@@ -30,6 +30,11 @@ a stack of d6s with a d4 balanced on top, each die a floor. Caves are a handful 
 a page: the one nearest the edge is the way in, the one nearest the middle is the heart of it, and
 anything that bounces off the paper has to be reached some other way.
 
+Tower maps show separate, schematic top-down floor plans, stacked from the ground floor to the
+top. Their numbers match the floor list, stairwells line up between adjacent floors, and a moat
+appears only at ground level. The layout choice supplies a shared square or round footprint;
+the Shape text describes the tower's exterior rather than an exact architectural drawing.
+
 ## Using it
 
 Every field has a lock and a re-roll. Lock the ones you like and press **Roll a site** again: the
@@ -56,6 +61,17 @@ concatenates the parts, so each tail deliberately starts with one space. Keep at
 nonblank entries in each table and every joined name within 32 characters. Do not reorder existing
 entries: locks store their positions. Changes to these tables also require deliberate
 [golden-baseline regeneration and diff review](#golden-baselines).
+
+The Wizard Towers tables in `src/FlailTools.Web/wwwroot/data/house/tower.json` contain 24 original
+entries for each of shape, occupant, reaction and goal. Entries stay compact and on one line;
+occupants work with any reaction or goal. The floor descriptions are deliberately neutral:
+rolling the same room type twice in one stack should be usable, not a repeated set piece.
+
+**Table-length policy for every content slice:** axis tables are independent of the site's nominal
+die size. Aim for 18-24 entries per axis; `RollContext.Text` already samples the full table, not just
+the die's first few faces. Face-read tables keep exactly one entry per face: tower `floorTypes`
+has 6 and `topFloorTypes` has 4. Preserve existing entry order for saved locks, and include a
+deliberately regenerated, reviewed golden baseline with table changes.
 
 This is a tool for people who already own the game. If you do not, [buy
 it](https://gamesomnivorous.com) — it is very good, and none of this works without it.
