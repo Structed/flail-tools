@@ -24,6 +24,8 @@ public sealed class GenerationTests
             AdventureSite site = SiteGenerator.Generate(data, new SitePlan { Seed = seed, Kind = kind });
 
             Assert.Equal(kind, site.Kind);
+            Assert.False(string.IsNullOrWhiteSpace(site.Name));
+            Assert.False(site.IsBlank);
             Assert.NotEmpty(site.Fields);
             Assert.InRange(site.Scale, 1, 6);
             Assert.False(string.IsNullOrEmpty(site.Shape));
@@ -240,25 +242,17 @@ public sealed class GenerationTests
     }
 
     /// <summary>
-    /// With the tables still empty the generator runs, and is honest about the result.
+    /// Empty tables still produce an honest blank result after the shipped tables gain content.
     /// </summary>
-    /// <remarks>
-    /// This is the state the project ships in first. It is worth a test rather than a note, because
-    /// the whole point of building the machinery before the words is that the machinery has to work
-    /// without them.
-    /// </remarks>
     [Fact]
     public async Task AnEmptyTableProducesABlankFieldRatherThanAFailure()
     {
-        GameData data = await TestData.LoadAsync();
-
-        if (data.HasContent)
-        {
-            return;
-        }
+        GameData data = await TestData.LoadEmptyAsync();
 
         AdventureSite site = SiteGenerator.Generate(data, new SitePlan { Seed = 1 });
 
+        Assert.False(data.HasContent);
+        Assert.Equal("", site.Name);
         Assert.True(site.IsBlank);
         Assert.All(site.Fields, field => Assert.Equal("", field.Value));
     }

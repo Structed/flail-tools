@@ -50,6 +50,13 @@ anyway — and fills them with tables written from scratch. **Nothing here is tr
 paraphrased from FLAIL!**, and every data file records that claim in its own `_source` header, with
 a test that fails if any file ever declares an upstream work.
 
+The shared name tables in `src/FlailTools.Web/wwwroot/data/house/site.json` contain 60 original stems
+and 60 tails, making 3,600 short, kind-neutral names for all five generators. `NameAssembler.Join`
+concatenates the parts, so each tail deliberately starts with one space. Keep at least 40 distinct,
+nonblank entries in each table and every joined name within 32 characters. Do not reorder existing
+entries: locks store their positions. Changes to these tables also require deliberate
+[golden-baseline regeneration and diff review](#golden-baselines).
+
 This is a tool for people who already own the game. If you do not, [buy
 it](https://gamesomnivorous.com) — it is very good, and none of this works without it.
 
