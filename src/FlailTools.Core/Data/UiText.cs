@@ -62,6 +62,9 @@ public sealed record UiText
         ? name
         : "";
 
+    public string AreaName(string kind, string role) =>
+        RoleName(role) is { Length: > 0 } name ? name : AreaName(kind);
+
     public string RoleName(string role) => Roles.TryGetValue(role, out string? name) && name.Length > 0
         ? name
         : "";

@@ -228,6 +228,36 @@ select:hover {
     background: var(--paper-raised);
 }
 
+.site > .areas {
+    grid-column: 1 / -1;
+    margin-top: 0.25rem;
+}
+
+.site--tower {
+    grid-template-areas: "detail map" "areas map";
+    grid-template-rows: auto 1fr;
+}
+
+.site--tower > .site-detail {
+    grid-area: detail;
+}
+
+.site--tower > .site-map {
+    grid-area: map;
+    width: 100%;
+    max-width: 20rem;
+    justify-self: center;
+}
+
+.site--tower > .areas {
+    grid-area: areas;
+    margin-top: 0;
+}
+
+.site--tower .area-grid {
+    grid-template-columns: minmax(0, 1fr);
+}
+
 .field {
     border-bottom: 1px solid var(--rule);
     padding: 0.5rem 0;
@@ -343,6 +373,11 @@ select:hover {
 @media (max-width: 52rem) {
     .site {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    .site--tower {
+        grid-template-areas: "detail" "map" "areas";
+        grid-template-rows: auto;
     }
 
     .seed {

@@ -30,6 +30,11 @@ a stack of d6s with a d4 balanced on top, each die a floor. Caves are a handful 
 a page: the one nearest the edge is the way in, the one nearest the middle is the heart of it, and
 anything that bounces off the paper has to be reached some other way.
 
+Tower maps show separate, schematic top-down floor plans, stacked from the ground floor to the
+top. Their numbers match the floor list, stairwells line up between adjacent floors, and a moat
+appears only at ground level. The layout choice supplies a shared square or round footprint;
+the Shape text describes the tower's exterior rather than an exact architectural drawing.
+
 ## Using it
 
 Every field has a lock and a re-roll. Lock the ones you like and press **Roll a site** again: the

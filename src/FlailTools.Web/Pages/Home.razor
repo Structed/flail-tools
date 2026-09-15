@@ -41,7 +41,7 @@
     <span class="seed">@Ui.Message("seed") @_workspace.SeedCode</span>
 </section>
 
-<section class="site">
+<section class="@(_workspace.Site.Kind == SiteKinds.Tower ? "site site--tower" : "site")">
     <div class="site-detail">
         <FieldRow Label="@_workspace.LabelFor(FieldPaths.NameStem)"
                   Value="@_workspace.Site.Name"
@@ -94,31 +94,31 @@
     <div class="site-map">
         @((MarkupString)_workspace.MapSvg)
     </div>
+
+    @if (_workspace.Site.Areas.Count > 0)
+    {
+        <section class="areas">
+            <h2>@Ui.Message("areasHeading")</h2>
+
+            <div class="area-grid">
+                @foreach (SiteArea area in _workspace.Site.Areas)
+                {
+                    string path = area.Path;
+
+                    <FieldRow Label="@($"{area.Number}. {_workspace.AreaName(area)}")"
+                              Value="@area.Value"
+                              IsPinned="_workspace.IsPinned(path)"
+                              Empty="@Ui.Message("emptyField")"
+                              Lock="@Ui.Action("lock")"
+                              Unlock="@Ui.Action("unlock")"
+                              RerollTitle="@Ui.Action("rerollField")"
+                              OnTogglePin="@(() => Change(() => _workspace.TogglePin(path)))"
+                              OnReroll="@(() => Change(() => _workspace.Reroll(path)))" />
+                }
+            </div>
+        </section>
+    }
 </section>
-
-@if (_workspace.Site.Areas.Count > 0)
-{
-    <section class="areas">
-        <h2>@Ui.Message("areasHeading")</h2>
-
-        <div class="area-grid">
-            @foreach (SiteArea area in _workspace.Site.Areas)
-            {
-                string path = area.Path;
-
-                <FieldRow Label="@($"{area.Number}. {_workspace.AreaName(area)}")"
-                          Value="@area.Value"
-                          IsPinned="_workspace.IsPinned(path)"
-                          Empty="@Ui.Message("emptyField")"
-                          Lock="@Ui.Action("lock")"
-                          Unlock="@Ui.Action("unlock")"
-                          RerollTitle="@Ui.Action("rerollField")"
-                          OnTogglePin="@(() => Change(() => _workspace.TogglePin(path)))"
-                          OnReroll="@(() => Change(() => _workspace.Reroll(path)))" />
-            }
-        </div>
-    </section>
-}
 
 @code {
     [CascadingParameter]

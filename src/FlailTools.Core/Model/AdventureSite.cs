@@ -98,7 +98,7 @@ public sealed record AdventureSite
     /// <summary>The id of the silhouette row that was chosen.</summary>
     public string Silhouette { get => field ?? ""; init; } = "";
 
-    /// <summary>The engine archetype the map is laid out inside.</summary>
+    /// <summary>The overview archetype, or the footprint style for a tower's floor plans.</summary>
     public string Shape { get => field ?? ""; init; } = "";
 
     public bool HasWater { get; init; }
