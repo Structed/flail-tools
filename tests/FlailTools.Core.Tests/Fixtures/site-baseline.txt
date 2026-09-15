@@ -1,5 +1,5 @@
 == dungeon 1
-name	
+name	Hungry Wake
 silhouette	warren-dry	warren	dry	4
 field	dungeon/flavour		
 field	dungeon/type		
@@ -16,7 +16,7 @@ area	7	plain	dungeon/room/6/stocking	#5
 area	8	plain	dungeon/room/7/stocking	#3	
 area	9	finale	dungeon/room/8/stocking	#0	
 == dungeon 7
-name	
+name	Ashen Lull
 silhouette	warren-flooded	warren	water	4
 field	dungeon/flavour		
 field	dungeon/type		
@@ -35,7 +35,7 @@ area	9	plain	dungeon/room/8/stocking	#0
 area	10	finale	dungeon/room/9/stocking	#1	
 area	11	plain	dungeon/room/10/stocking	#5	
 == dungeon 42
-name	
+name	Amber Heart
 silhouette	linear-run	linear	dry	5
 field	dungeon/flavour		
 field	dungeon/type		
@@ -55,7 +55,7 @@ area	10	finale	dungeon/room/9/stocking	#3
 area	11	plain	dungeon/room/10/stocking	#0	
 area	12	plain	dungeon/room/11/stocking	#4	
 == dungeon 1337
-name	
+name	Ivory Shiver
 silhouette	warren-flooded	warren	water	4
 field	dungeon/flavour		
 field	dungeon/type		
@@ -72,7 +72,7 @@ area	7	plain	dungeon/room/6/stocking	#4
 area	8	plain	dungeon/room/7/stocking	#0	
 area	9	finale	dungeon/room/8/stocking	#4	
 == dungeon 65535
-name	
+name	Hollow Mark
 silhouette	linear-run	linear	dry	3
 field	dungeon/flavour		
 field	dungeon/type		
@@ -88,7 +88,7 @@ area	6	plain	dungeon/room/5/stocking	#3
 area	7	plain	dungeon/room/6/stocking	#5	
 area	8	finale	dungeon/room/7/stocking	#4	
 == dungeon 2147483647
-name	
+name	Blind Eye
 silhouette	warren-dry	warren	dry	5
 field	dungeon/flavour		
 field	dungeon/type		
@@ -108,7 +108,7 @@ area	10	finale	dungeon/room/9/stocking	#2
 area	11	plain	dungeon/room/10/stocking	#4	
 area	12	plain	dungeon/room/11/stocking	#2	
 == cave 1
-name	
+name	Hungry Wake
 silhouette	linear-channel	linear	water	5
 field	cave/flavour		
 field	cave/type		
@@ -124,7 +124,7 @@ area	6	cluster	cave/chamber/5/chamber	#2
 area	7	entry	cave/chamber/6/chamber	#1	
 area	8	cluster	cave/chamber/7/chamber	#2	
 == cave 7
-name	
+name	Ashen Lull
 silhouette	warren-dry	warren	dry	4
 field	cave/flavour		
 field	cave/type		
@@ -138,7 +138,7 @@ area	4	entry	cave/chamber/3/chamber	#0
 area	5	hidden	cave/chamber/4/chamber	#2	
 area	6	hidden	cave/chamber/5/chamber	#5	
 == cave 42
-name	
+name	Amber Heart
 silhouette	linear-run	linear	dry	4
 field	cave/flavour		
 field	cave/type		
@@ -153,7 +153,7 @@ area	5	entry	cave/chamber/4/chamber	#3
 area	6	hidden	cave/chamber/5/chamber	#5	
 area	7	plain	cave/chamber/6/chamber	#3	
 == cave 1337
-name	
+name	Ivory Shiver
 silhouette	sprawl-open	sprawl	dry	4
 field	cave/flavour		
 field	cave/type		
@@ -168,7 +168,7 @@ area	5	hidden	cave/chamber/4/chamber	#0
 area	6	plain	cave/chamber/5/chamber	#1	
 area	7	plain	cave/chamber/6/chamber	#3	
 == cave 65535
-name	
+name	Hollow Mark
 silhouette	warren-dry	warren	dry	4
 field	cave/flavour		
 field	cave/type		
@@ -182,7 +182,7 @@ area	4	entry	cave/chamber/3/chamber	#5
 area	5	cluster	cave/chamber/4/chamber	#5	
 area	6	hidden	cave/chamber/5/chamber	#5	
 == cave 2147483647
-name	
+name	Blind Eye
 silhouette	sprawl-open	sprawl	dry	5
 field	cave/flavour		
 field	cave/type		
@@ -198,7 +198,7 @@ area	6	hidden	cave/chamber/5/chamber	#4
 area	7	entry	cave/chamber/6/chamber	#2	
 area	8	plain	cave/chamber/7/chamber	#0	
 == tower 1
-name	
+name	Hungry Wake
 silhouette	boxy-compact	boxy	dry	3
 field	tower/shape		
 field	tower/occupant		
@@ -208,7 +208,7 @@ area	1	plain	tower/floor/0/type	#2
 area	2	plain	tower/floor/1/type	#0	
 area	3	top	tower/floor/2/type	#1	
 == tower 7
-name	
+name	Ashen Lull
 silhouette	vessel-tall	vessel	dry	6
 field	tower/shape		
 field	tower/occupant		
@@ -221,7 +221,7 @@ area	4	plain	tower/floor/3/type	#1
 area	5	plain	tower/floor/4/type	#2	
 area	6	top	tower/floor/5/type	#0	
 == tower 42
-name	
+name	Amber Heart
 silhouette	vessel-tall	vessel	dry	3
 field	tower/shape		
 field	tower/occupant		
@@ -231,7 +231,7 @@ area	1	plain	tower/floor/0/type	#2
 area	2	plain	tower/floor/1/type	#5	
 area	3	top	tower/floor/2/type	#3	
 == tower 1337
-name	
+name	Ivory Shiver
 silhouette	vessel-moated	vessel	water	5
 field	tower/shape		
 field	tower/occupant		
@@ -243,7 +243,7 @@ area	3	plain	tower/floor/2/type	#4
 area	4	plain	tower/floor/3/type	#2	
 area	5	top	tower/floor/4/type	#0	
 == tower 65535
-name	
+name	Hollow Mark
 silhouette	boxy-compact	boxy	dry	6
 field	tower/shape		
 field	tower/occupant		
@@ -256,7 +256,7 @@ area	4	plain	tower/floor/3/type	#5
 area	5	plain	tower/floor/4/type	#1	
 area	6	top	tower/floor/5/type	#3	
 == tower 2147483647
-name	
+name	Blind Eye
 silhouette	vessel-tall	vessel	dry	5
 field	tower/shape		
 field	tower/occupant		
@@ -268,7 +268,7 @@ area	3	plain	tower/floor/2/type	#2
 area	4	plain	tower/floor/3/type	#0	
 area	5	top	tower/floor/4/type	#3	
 == location 1
-name	
+name	Hungry Wake
 silhouette	linear-channel	linear	water	3
 field	location/location		
 field	location/biome		
@@ -276,7 +276,7 @@ field	location/condition
 field	location/key-feature		
 field	location/occupant		
 == location 7
-name	
+name	Ashen Lull
 silhouette	sprawl-open	sprawl	dry	3
 field	location/location		
 field	location/biome		
@@ -284,7 +284,7 @@ field	location/condition
 field	location/key-feature		
 field	location/occupant		
 == location 42
-name	
+name	Amber Heart
 silhouette	hollow-round	hollow	dry	3
 field	location/location		
 field	location/biome		
@@ -292,7 +292,7 @@ field	location/condition
 field	location/key-feature		
 field	location/occupant		
 == location 1337
-name	
+name	Ivory Shiver
 silhouette	sprawl-open	sprawl	dry	3
 field	location/location		
 field	location/biome		
@@ -300,7 +300,7 @@ field	location/condition
 field	location/key-feature		
 field	location/occupant		
 == location 65535
-name	
+name	Hollow Mark
 silhouette	hollow-round	hollow	dry	3
 field	location/location		
 field	location/biome		
@@ -308,7 +308,7 @@ field	location/condition
 field	location/key-feature		
 field	location/occupant		
 == location 2147483647
-name	
+name	Blind Eye
 silhouette	linear-channel	linear	water	3
 field	location/location		
 field	location/biome		
@@ -316,7 +316,7 @@ field	location/condition
 field	location/key-feature		
 field	location/occupant		
 == landmark 1
-name	
+name	Hungry Wake
 silhouette	hollow-round	hollow	dry	2
 field	landmark/landmark		
 field	landmark/biome		
@@ -324,7 +324,7 @@ field	landmark/condition
 field	landmark/key-feature		
 field	landmark/occupant		
 == landmark 7
-name	
+name	Ashen Lull
 silhouette	vessel-tall	vessel	dry	2
 field	landmark/landmark		
 field	landmark/biome		
@@ -332,7 +332,7 @@ field	landmark/condition
 field	landmark/key-feature		
 field	landmark/occupant		
 == landmark 42
-name	
+name	Amber Heart
 silhouette	vessel-tall	vessel	dry	2
 field	landmark/landmark		
 field	landmark/biome		
@@ -340,7 +340,7 @@ field	landmark/condition
 field	landmark/key-feature		
 field	landmark/occupant		
 == landmark 1337
-name	
+name	Ivory Shiver
 silhouette	vessel-tall	vessel	dry	2
 field	landmark/landmark		
 field	landmark/biome		
@@ -348,7 +348,7 @@ field	landmark/condition
 field	landmark/key-feature		
 field	landmark/occupant		
 == landmark 65535
-name	
+name	Hollow Mark
 silhouette	hollow-round	hollow	dry	2
 field	landmark/landmark		
 field	landmark/biome		
@@ -356,7 +356,7 @@ field	landmark/condition
 field	landmark/key-feature		
 field	landmark/occupant		
 == landmark 2147483647
-name	
+name	Blind Eye
 silhouette	hollow-round	hollow	dry	2
 field	landmark/landmark		
 field	landmark/biome		

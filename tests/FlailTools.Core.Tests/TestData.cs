@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using FlailTools.Core.Data;
 using Structed.Inkwell.Data;
 
@@ -22,6 +24,9 @@ internal static class TestData
 
     public static Task<GameData> LoadAsync() => Loaded.Value;
 
+    public static Task<GameData> LoadEmptyAsync() =>
+        GameData.LoadAsync(new EmptyTablesReader(new FileSystemDataFileReader(DataRoot)));
+
     private static readonly Lazy<Task<GameData>> Loaded =
         new(() => GameData.LoadAsync(new FileSystemDataFileReader(DataRoot)));
 
@@ -41,5 +46,32 @@ internal static class TestData
 
         throw new InvalidOperationException(
             $"Could not find 'FlailTools.slnx' above '{AppContext.BaseDirectory}'.");
+    }
+
+    private sealed class EmptyTablesReader(IDataFileReader inner) : IDataFileReader
+    {
+        public async Task<Stream> OpenAsync(string relativePath, CancellationToken cancellationToken = default)
+        {
+            if (relativePath == DataPaths.Ui || relativePath == DataPaths.Silhouettes)
+            {
+                return await inner.OpenAsync(relativePath, cancellationToken);
+            }
+
+            await using Stream stream = await inner.OpenAsync(relativePath, cancellationToken);
+            JsonObject file = Assert.IsType<JsonObject>(await JsonNode.ParseAsync(
+                stream,
+                documentOptions: LocalisingDataFileReader.DocumentOptions,
+                cancellationToken: cancellationToken));
+
+            foreach ((string key, JsonNode? value) in file.ToArray())
+            {
+                if (value is JsonArray && key != "kinds")
+                {
+                    file[key] = new JsonArray();
+                }
+            }
+
+            return new MemoryStream(JsonSerializer.SerializeToUtf8Bytes(file));
+        }
     }
 }
