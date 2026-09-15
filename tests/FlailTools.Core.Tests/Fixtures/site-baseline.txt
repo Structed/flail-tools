@@ -200,73 +200,73 @@ area	8	plain	cave/chamber/7/chamber	#0
 == tower 1
 name	Hungry Wake
 silhouette	boxy-compact	boxy	dry	3
-field	tower/shape		
-field	tower/occupant		
-field	tower/reaction		
-field	tower/goal		
-area	1	plain	tower/floor/0/type	#2	
-area	2	plain	tower/floor/1/type	#0	
-area	3	top	tower/floor/2/type	#1	
+field	tower/shape	#23	A tapering tower with an enormous horizontal wheel around its middle
+field	tower/occupant	#9	A gardener who labels every weed with a title
+field	tower/reaction	#22	Trying to make the visit feel accidental rather than eagerly expected
+field	tower/goal	#10	Obtain permission to move a boundary stone by one handspan
+area	1	plain	tower/floor/0/type	#2	Living quarters with curtained alcoves
+area	2	plain	tower/floor/1/type	#0	Workroom with clear benches and movable screens
+area	3	top	tower/floor/2/type	#1	Roof garden with deep planters and a covered seat
 == tower 7
 name	Ashen Lull
 silhouette	vessel-tall	vessel	dry	6
-field	tower/shape		
-field	tower/occupant		
-field	tower/reaction		
-field	tower/goal		
-area	1	plain	tower/floor/0/type	#3	
-area	2	plain	tower/floor/1/type	#5	
-area	3	plain	tower/floor/2/type	#5	
-area	4	plain	tower/floor/3/type	#1	
-area	5	plain	tower/floor/4/type	#2	
-area	6	top	tower/floor/5/type	#0	
+field	tower/shape	#6	A copper needle with a broad, patched skirt at its base
+field	tower/occupant	#11	A troupe of miniature stagehands in a single tall coat
+field	tower/reaction	#5	Treating every remark as a proposal that needs negotiating
+field	tower/goal	#6	Recover a loaned tool without admitting it ever left the tower
+area	1	plain	tower/floor/0/type	#3	Reading room with sloped desks and open shelving
+area	2	plain	tower/floor/1/type	#5	Receiving room with stools and a broad table
+area	3	plain	tower/floor/2/type	#5	Receiving room with stools and a broad table
+area	4	plain	tower/floor/3/type	#1	Stores arranged on shelves and in shallow drawers
+area	5	plain	tower/floor/4/type	#2	Living quarters with curtained alcoves
+area	6	top	tower/floor/5/type	#0	Observation room with shuttered openings on every side
 == tower 42
 name	Amber Heart
 silhouette	vessel-tall	vessel	dry	3
-field	tower/shape		
-field	tower/occupant		
-field	tower/reaction		
-field	tower/goal		
-area	1	plain	tower/floor/0/type	#2	
-area	2	plain	tower/floor/1/type	#5	
-area	3	top	tower/floor/2/type	#3	
+field	tower/shape	#14	A many-sided column wrapped in a spiral rain gutter
+field	tower/occupant	#19	A young spellwright wearing a much older person's medals
+field	tower/reaction	#8	Warmly hospitable, with frequent glances at a covered clock
+field	tower/goal	#21	Find out why a household spell keeps turning up in distant songs
+area	1	plain	tower/floor/0/type	#2	Living quarters with curtained alcoves
+area	2	plain	tower/floor/1/type	#5	Receiving room with stools and a broad table
+area	3	top	tower/floor/2/type	#3	Open terrace with a sheltered corner and a waist-high parapet
 == tower 1337
 name	Ivory Shiver
 silhouette	vessel-moated	vessel	water	5
-field	tower/shape		
-field	tower/occupant		
-field	tower/reaction		
-field	tower/goal		
-area	1	plain	tower/floor/0/type	#3	
-area	2	plain	tower/floor/1/type	#5	
-area	3	plain	tower/floor/2/type	#4	
-area	4	plain	tower/floor/3/type	#2	
-area	5	top	tower/floor/4/type	#0	
+field	tower/shape	#14	A many-sided column wrapped in a spiral rain gutter
+field	tower/occupant	#6	An alchemist with a permanent ink-stained collar
+field	tower/reaction	#9	Refusing to discuss business until introductions are written down
+field	tower/goal	#10	Obtain permission to move a boundary stone by one handspan
+area	1	plain	tower/floor/0/type	#3	Reading room with sloped desks and open shelving
+area	2	plain	tower/floor/1/type	#5	Receiving room with stools and a broad table
+area	3	plain	tower/floor/2/type	#4	Practice room with a marked floor and bare walls
+area	4	plain	tower/floor/3/type	#2	Living quarters with curtained alcoves
+area	5	top	tower/floor/4/type	#0	Observation room with shuttered openings on every side
 == tower 65535
 name	Hollow Mark
 silhouette	boxy-compact	boxy	dry	6
-field	tower/shape		
-field	tower/occupant		
-field	tower/reaction		
-field	tower/goal		
-area	1	plain	tower/floor/0/type	#3	
-area	2	plain	tower/floor/1/type	#3	
-area	3	plain	tower/floor/2/type	#5	
-area	4	plain	tower/floor/3/type	#5	
-area	5	plain	tower/floor/4/type	#1	
-area	6	top	tower/floor/5/type	#3	
+field	tower/shape	#13	A hollow arch with floors bridging its two legs
+field	tower/occupant	#6	An alchemist with a permanent ink-stained collar
+field	tower/reaction	#10	Suspicious of compliments and relieved by plain speaking
+field	tower/goal	#4	Get a disputed footnote corrected in the next edition of a handbook
+area	1	plain	tower/floor/0/type	#3	Reading room with sloped desks and open shelving
+area	2	plain	tower/floor/1/type	#3	Reading room with sloped desks and open shelving
+area	3	plain	tower/floor/2/type	#5	Receiving room with stools and a broad table
+area	4	plain	tower/floor/3/type	#5	Receiving room with stools and a broad table
+area	5	plain	tower/floor/4/type	#1	Stores arranged on shelves and in shallow drawers
+area	6	top	tower/floor/5/type	#3	Open terrace with a sheltered corner and a waist-high parapet
 == tower 2147483647
 name	Blind Eye
 silhouette	vessel-tall	vessel	dry	5
-field	tower/shape		
-field	tower/occupant		
-field	tower/reaction		
-field	tower/goal		
-area	1	plain	tower/floor/0/type	#3	
-area	2	plain	tower/floor/1/type	#3	
-area	3	plain	tower/floor/2/type	#2	
-area	4	plain	tower/floor/3/type	#0	
-area	5	top	tower/floor/4/type	#3	
+field	tower/shape	#7	A stack of squat cylinders, each slightly off-centre
+field	tower/occupant	#10	An elderly locksmith attended by a hovering ring of keys
+field	tower/reaction	#15	Taking notes on the visitors' questions before attempting any answers
+field	tower/goal	#0	Recover the measuring rod used to mark out a room that no longer fits
+area	1	plain	tower/floor/0/type	#3	Reading room with sloped desks and open shelving
+area	2	plain	tower/floor/1/type	#3	Reading room with sloped desks and open shelving
+area	3	plain	tower/floor/2/type	#2	Living quarters with curtained alcoves
+area	4	plain	tower/floor/3/type	#0	Workroom with clear benches and movable screens
+area	5	top	tower/floor/4/type	#3	Open terrace with a sheltered corner and a waist-high parapet
 == location 1
 name	Hungry Wake
 silhouette	linear-channel	linear	water	3

@@ -57,6 +57,17 @@ nonblank entries in each table and every joined name within 32 characters. Do no
 entries: locks store their positions. Changes to these tables also require deliberate
 [golden-baseline regeneration and diff review](#golden-baselines).
 
+The Wizard Towers tables in `src/FlailTools.Web/wwwroot/data/house/tower.json` contain 24 original
+entries for each of shape, occupant, reaction and goal. Entries stay compact and on one line;
+occupants work with any reaction or goal. The floor descriptions are deliberately neutral:
+rolling the same room type twice in one stack should be usable, not a repeated set piece.
+
+**Table-length policy for every content slice:** axis tables are independent of the site's nominal
+die size. Aim for 18-24 entries per axis; `RollContext.Text` already samples the full table, not just
+the die's first few faces. Face-read tables keep exactly one entry per face: tower `floorTypes`
+has 6 and `topFloorTypes` has 4. Preserve existing entry order for saved locks, and include a
+deliberately regenerated, reviewed golden baseline with table changes.
+
 This is a tool for people who already own the game. If you do not, [buy
 it](https://gamesomnivorous.com) — it is very good, and none of this works without it.
 
