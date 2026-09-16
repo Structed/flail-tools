@@ -11,11 +11,53 @@
     ]
   },
 
-  "flavours": [],
-  "types": [],
-  "locations": [],
-  "keyFeatures": [],
-  "creatures": [],
+  "flavours": [
+    "Dry, dusty, and very old",
+    "Dripping, and loud with it",
+    "Warm air coming up from below",
+    "Cold enough to see your breath",
+    "Smells of animal and standing water",
+    "Silent in a way that feels wrong"
+  ],
+  "types": [
+    "Sea cave, flooded at high tide",
+    "Lava tube",
+    "Sinkhole system",
+    "Ice cave",
+    "Limestone galleries",
+    "A crack that simply keeps going"
+  ],
+  "locations": [
+    "Halfway up a sea cliff",
+    "In the floor of a quarry",
+    "Behind a rockfall on a pass",
+    "Under a frozen lake",
+    "At the head of a blind valley",
+    "Opening in the bed of a stream"
+  ],
+  "keyFeatures": [
+    "A chamber of standing columns",
+    "Handprints older than the roads",
+    "An underground river, fast and cold",
+    "A drop that echoes for a long time",
+    "Crystals that hold the light",
+    "A squeeze nobody large can pass"
+  ],
+  "creatures": [
+    "Bats in thousands, out at dusk",
+    "Blind fish in the pools",
+    "A bear, and it is home",
+    "Pale things that avoid the light",
+    "A colony that farms the fungus",
+    "Something that was sealed in here"
+  ],
 
-  "chambers": []
+  "chambers": [
+    "Bare rock, nothing else",
+    "Water: a pool, a stream, a seep",
+    "A squeeze or a climb to go on",
+    "Signs that somebody camped here",
+    "A nest, occupied",
+    "Something left behind on purpose"
+  ]
 }

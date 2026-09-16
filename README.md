@@ -57,6 +57,24 @@ nonblank entries in each table and every joined name within 32 characters. Do no
 entries: locks store their positions. Changes to these tables also require deliberate
 [golden-baseline regeneration and diff review](#golden-baselines).
 
+The five per-kind files hold 322 further entries, sized to the die each axis is read with:
+
+| File | Axes | Face tables |
+| --- | --- | --- |
+| `dungeon.json` | five @ d6 | `stocking` @ **exactly 6** |
+| `cave.json` | five @ d6 | `chambers` @ **exactly 6** |
+| `tower.json` | four @ d10 | `floorTypes` @ **exactly 6**, `topFloorTypes` @ **exactly 4** |
+| `location.json` | five @ d20 | — |
+| `landmark.json` | five @ d20 | — |
+
+The face tables are read by `Rolls.Face`, which rolls the die and indexes the row directly, so a
+table shorter than its die silently yields an empty string rather than an error. They must stay
+exactly as long as the die, in face order: index 0 is a 1. The axis tables go through
+`RollContext.Text`, which picks uniformly and does not care how long they are — but they are kept at
+the book's die sizes so the implemented procedure matches the one on the page. Dungeons and caves
+deliberately keep separate tables and separate field paths even where an axis name is shared. As
+with the name tables, append rather than reorder: a lock is a position, not a phrase.
+
 This is a tool for people who already own the game. If you do not, [buy
 it](https://gamesomnivorous.com) — it is very good, and none of this works without it.
 

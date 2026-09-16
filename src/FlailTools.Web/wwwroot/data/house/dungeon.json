@@ -11,11 +11,53 @@
     ]
   },
 
-  "flavours": [],
-  "types": [],
-  "locations": [],
-  "keyFeatures": [],
-  "creatures": [],
+  "flavours": [
+    "Damp, and everything grows",
+    "Picked clean a long time ago",
+    "Still warm, recently used",
+    "Sealed, and something wants out",
+    "Half-collapsed, shifting underfoot",
+    "Kept tidy by somebody"
+  ],
+  "types": [
+    "Tomb complex",
+    "Mine works",
+    "Cistern and drains",
+    "Prison",
+    "Temple undercroft",
+    "Cellars of a lost house"
+  ],
+  "locations": [
+    "Under a graveyard",
+    "Beneath a dry riverbed",
+    "Inside a cliff face",
+    "Below a working mill",
+    "Under the roots of one great tree",
+    "Behind a waterfall"
+  ],
+  "keyFeatures": [
+    "A shaft no torch reaches the bottom of",
+    "A door that has been bricked up twice",
+    "Water rising an inch a day",
+    "A stair that descends into itself",
+    "Bones sorted by size, in piles",
+    "One room kept clean and lit"
+  ],
+  "creatures": [
+    "Rats, in a single moving mass",
+    "Something blind that hunts by sound",
+    "Beetles the size of shields",
+    "The previous expedition, still here",
+    "A thing that wears the dead",
+    "Nothing living, and fresh footprints"
+  ],
 
-  "stocking": []
+  "stocking": [
+    "Empty, but not undisturbed",
+    "Something lives here",
+    "A hazard, sprung or waiting",
+    "Something worth carrying out",
+    "A lock, a puzzle, or a choice",
+    "A clue about what is deeper down"
+  ]
 }

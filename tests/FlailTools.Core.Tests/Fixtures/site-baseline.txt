@@ -1,365 +1,365 @@
 == dungeon 1
 name	Hungry Wake
 silhouette	warren-dry	warren	dry	4
-field	dungeon/flavour		
-field	dungeon/type		
-field	dungeon/location		
-field	dungeon/key-feature		
-field	dungeon/creatures		
-area	1	entrance	dungeon/room/0/stocking	#0	
-area	2	plain	dungeon/room/1/stocking	#2	
-area	3	plain	dungeon/room/2/stocking	#0	
-area	4	plain	dungeon/room/3/stocking	#4	
-area	5	plain	dungeon/room/4/stocking	#2	
-area	6	plain	dungeon/room/5/stocking	#5	
-area	7	plain	dungeon/room/6/stocking	#5	
-area	8	plain	dungeon/room/7/stocking	#3	
-area	9	finale	dungeon/room/8/stocking	#0	
+field	dungeon/flavour	#4	Half-collapsed, shifting underfoot
+field	dungeon/type	#4	Temple undercroft
+field	dungeon/location	#1	Beneath a dry riverbed
+field	dungeon/key-feature	#1	A door that has been bricked up twice
+field	dungeon/creatures	#3	The previous expedition, still here
+area	1	entrance	dungeon/room/0/stocking	#0	Empty, but not undisturbed
+area	2	plain	dungeon/room/1/stocking	#2	A hazard, sprung or waiting
+area	3	plain	dungeon/room/2/stocking	#0	Empty, but not undisturbed
+area	4	plain	dungeon/room/3/stocking	#4	A lock, a puzzle, or a choice
+area	5	plain	dungeon/room/4/stocking	#2	A hazard, sprung or waiting
+area	6	plain	dungeon/room/5/stocking	#5	A clue about what is deeper down
+area	7	plain	dungeon/room/6/stocking	#5	A clue about what is deeper down
+area	8	plain	dungeon/room/7/stocking	#3	Something worth carrying out
+area	9	finale	dungeon/room/8/stocking	#0	Empty, but not undisturbed
 == dungeon 7
 name	Ashen Lull
 silhouette	warren-flooded	warren	water	4
-field	dungeon/flavour		
-field	dungeon/type		
-field	dungeon/location		
-field	dungeon/key-feature		
-field	dungeon/creatures		
-area	1	entrance	dungeon/room/0/stocking	#2	
-area	2	plain	dungeon/room/1/stocking	#1	
-area	3	plain	dungeon/room/2/stocking	#0	
-area	4	plain	dungeon/room/3/stocking	#1	
-area	5	plain	dungeon/room/4/stocking	#2	
-area	6	plain	dungeon/room/5/stocking	#2	
-area	7	plain	dungeon/room/6/stocking	#2	
-area	8	plain	dungeon/room/7/stocking	#0	
-area	9	plain	dungeon/room/8/stocking	#0	
-area	10	finale	dungeon/room/9/stocking	#1	
-area	11	plain	dungeon/room/10/stocking	#5	
+field	dungeon/flavour	#2	Still warm, recently used
+field	dungeon/type	#2	Cistern and drains
+field	dungeon/location	#1	Beneath a dry riverbed
+field	dungeon/key-feature	#2	Water rising an inch a day
+field	dungeon/creatures	#4	A thing that wears the dead
+area	1	entrance	dungeon/room/0/stocking	#2	A hazard, sprung or waiting
+area	2	plain	dungeon/room/1/stocking	#1	Something lives here
+area	3	plain	dungeon/room/2/stocking	#0	Empty, but not undisturbed
+area	4	plain	dungeon/room/3/stocking	#1	Something lives here
+area	5	plain	dungeon/room/4/stocking	#2	A hazard, sprung or waiting
+area	6	plain	dungeon/room/5/stocking	#2	A hazard, sprung or waiting
+area	7	plain	dungeon/room/6/stocking	#2	A hazard, sprung or waiting
+area	8	plain	dungeon/room/7/stocking	#0	Empty, but not undisturbed
+area	9	plain	dungeon/room/8/stocking	#0	Empty, but not undisturbed
+area	10	finale	dungeon/room/9/stocking	#1	Something lives here
+area	11	plain	dungeon/room/10/stocking	#5	A clue about what is deeper down
 == dungeon 42
 name	Amber Heart
 silhouette	linear-run	linear	dry	5
-field	dungeon/flavour		
-field	dungeon/type		
-field	dungeon/location		
-field	dungeon/key-feature		
-field	dungeon/creatures		
-area	1	entrance	dungeon/room/0/stocking	#0	
-area	2	plain	dungeon/room/1/stocking	#5	
-area	3	plain	dungeon/room/2/stocking	#0	
-area	4	plain	dungeon/room/3/stocking	#2	
-area	5	plain	dungeon/room/4/stocking	#5	
-area	6	plain	dungeon/room/5/stocking	#3	
-area	7	plain	dungeon/room/6/stocking	#1	
-area	8	plain	dungeon/room/7/stocking	#4	
-area	9	plain	dungeon/room/8/stocking	#3	
-area	10	finale	dungeon/room/9/stocking	#3	
-area	11	plain	dungeon/room/10/stocking	#0	
-area	12	plain	dungeon/room/11/stocking	#4	
+field	dungeon/flavour	#0	Damp, and everything grows
+field	dungeon/type	#5	Cellars of a lost house
+field	dungeon/location	#2	Inside a cliff face
+field	dungeon/key-feature	#2	Water rising an inch a day
+field	dungeon/creatures	#5	Nothing living, and fresh footprints
+area	1	entrance	dungeon/room/0/stocking	#0	Empty, but not undisturbed
+area	2	plain	dungeon/room/1/stocking	#5	A clue about what is deeper down
+area	3	plain	dungeon/room/2/stocking	#0	Empty, but not undisturbed
+area	4	plain	dungeon/room/3/stocking	#2	A hazard, sprung or waiting
+area	5	plain	dungeon/room/4/stocking	#5	A clue about what is deeper down
+area	6	plain	dungeon/room/5/stocking	#3	Something worth carrying out
+area	7	plain	dungeon/room/6/stocking	#1	Something lives here
+area	8	plain	dungeon/room/7/stocking	#4	A lock, a puzzle, or a choice
+area	9	plain	dungeon/room/8/stocking	#3	Something worth carrying out
+area	10	finale	dungeon/room/9/stocking	#3	Something worth carrying out
+area	11	plain	dungeon/room/10/stocking	#0	Empty, but not undisturbed
+area	12	plain	dungeon/room/11/stocking	#4	A lock, a puzzle, or a choice
 == dungeon 1337
 name	Ivory Shiver
 silhouette	warren-flooded	warren	water	4
-field	dungeon/flavour		
-field	dungeon/type		
-field	dungeon/location		
-field	dungeon/key-feature		
-field	dungeon/creatures		
-area	1	entrance	dungeon/room/0/stocking	#4	
-area	2	plain	dungeon/room/1/stocking	#5	
-area	3	plain	dungeon/room/2/stocking	#3	
-area	4	plain	dungeon/room/3/stocking	#0	
-area	5	plain	dungeon/room/4/stocking	#0	
-area	6	plain	dungeon/room/5/stocking	#3	
-area	7	plain	dungeon/room/6/stocking	#4	
-area	8	plain	dungeon/room/7/stocking	#0	
-area	9	finale	dungeon/room/8/stocking	#4	
+field	dungeon/flavour	#2	Still warm, recently used
+field	dungeon/type	#4	Temple undercroft
+field	dungeon/location	#1	Beneath a dry riverbed
+field	dungeon/key-feature	#2	Water rising an inch a day
+field	dungeon/creatures	#5	Nothing living, and fresh footprints
+area	1	entrance	dungeon/room/0/stocking	#4	A lock, a puzzle, or a choice
+area	2	plain	dungeon/room/1/stocking	#5	A clue about what is deeper down
+area	3	plain	dungeon/room/2/stocking	#3	Something worth carrying out
+area	4	plain	dungeon/room/3/stocking	#0	Empty, but not undisturbed
+area	5	plain	dungeon/room/4/stocking	#0	Empty, but not undisturbed
+area	6	plain	dungeon/room/5/stocking	#3	Something worth carrying out
+area	7	plain	dungeon/room/6/stocking	#4	A lock, a puzzle, or a choice
+area	8	plain	dungeon/room/7/stocking	#0	Empty, but not undisturbed
+area	9	finale	dungeon/room/8/stocking	#4	A lock, a puzzle, or a choice
 == dungeon 65535
 name	Hollow Mark
 silhouette	linear-run	linear	dry	3
-field	dungeon/flavour		
-field	dungeon/type		
-field	dungeon/location		
-field	dungeon/key-feature		
-field	dungeon/creatures		
-area	1	entrance	dungeon/room/0/stocking	#1	
-area	2	plain	dungeon/room/1/stocking	#2	
-area	3	plain	dungeon/room/2/stocking	#2	
-area	4	plain	dungeon/room/3/stocking	#2	
-area	5	plain	dungeon/room/4/stocking	#0	
-area	6	plain	dungeon/room/5/stocking	#3	
-area	7	plain	dungeon/room/6/stocking	#5	
-area	8	finale	dungeon/room/7/stocking	#4	
+field	dungeon/flavour	#5	Kept tidy by somebody
+field	dungeon/type	#5	Cellars of a lost house
+field	dungeon/location	#0	Under a graveyard
+field	dungeon/key-feature	#5	One room kept clean and lit
+field	dungeon/creatures	#5	Nothing living, and fresh footprints
+area	1	entrance	dungeon/room/0/stocking	#1	Something lives here
+area	2	plain	dungeon/room/1/stocking	#2	A hazard, sprung or waiting
+area	3	plain	dungeon/room/2/stocking	#2	A hazard, sprung or waiting
+area	4	plain	dungeon/room/3/stocking	#2	A hazard, sprung or waiting
+area	5	plain	dungeon/room/4/stocking	#0	Empty, but not undisturbed
+area	6	plain	dungeon/room/5/stocking	#3	Something worth carrying out
+area	7	plain	dungeon/room/6/stocking	#5	A clue about what is deeper down
+area	8	finale	dungeon/room/7/stocking	#4	A lock, a puzzle, or a choice
 == dungeon 2147483647
 name	Blind Eye
 silhouette	warren-dry	warren	dry	5
-field	dungeon/flavour		
-field	dungeon/type		
-field	dungeon/location		
-field	dungeon/key-feature		
-field	dungeon/creatures		
-area	1	entrance	dungeon/room/0/stocking	#4	
-area	2	plain	dungeon/room/1/stocking	#4	
-area	3	plain	dungeon/room/2/stocking	#1	
-area	4	plain	dungeon/room/3/stocking	#2	
-area	5	plain	dungeon/room/4/stocking	#2	
-area	6	plain	dungeon/room/5/stocking	#3	
-area	7	plain	dungeon/room/6/stocking	#0	
-area	8	plain	dungeon/room/7/stocking	#4	
-area	9	plain	dungeon/room/8/stocking	#4	
-area	10	finale	dungeon/room/9/stocking	#2	
-area	11	plain	dungeon/room/10/stocking	#4	
-area	12	plain	dungeon/room/11/stocking	#2	
+field	dungeon/flavour	#4	Half-collapsed, shifting underfoot
+field	dungeon/type	#3	Prison
+field	dungeon/location	#5	Behind a waterfall
+field	dungeon/key-feature	#1	A door that has been bricked up twice
+field	dungeon/creatures	#1	Something blind that hunts by sound
+area	1	entrance	dungeon/room/0/stocking	#4	A lock, a puzzle, or a choice
+area	2	plain	dungeon/room/1/stocking	#4	A lock, a puzzle, or a choice
+area	3	plain	dungeon/room/2/stocking	#1	Something lives here
+area	4	plain	dungeon/room/3/stocking	#2	A hazard, sprung or waiting
+area	5	plain	dungeon/room/4/stocking	#2	A hazard, sprung or waiting
+area	6	plain	dungeon/room/5/stocking	#3	Something worth carrying out
+area	7	plain	dungeon/room/6/stocking	#0	Empty, but not undisturbed
+area	8	plain	dungeon/room/7/stocking	#4	A lock, a puzzle, or a choice
+area	9	plain	dungeon/room/8/stocking	#4	A lock, a puzzle, or a choice
+area	10	finale	dungeon/room/9/stocking	#2	A hazard, sprung or waiting
+area	11	plain	dungeon/room/10/stocking	#4	A lock, a puzzle, or a choice
+area	12	plain	dungeon/room/11/stocking	#2	A hazard, sprung or waiting
 == cave 1
 name	Hungry Wake
 silhouette	linear-channel	linear	water	5
-field	cave/flavour		
-field	cave/type		
-field	cave/location		
-field	cave/key-feature		
-field	cave/creatures		
-area	1	hidden	cave/chamber/0/chamber	#3	
-area	2	hidden	cave/chamber/1/chamber	#3	
-area	3	hidden	cave/chamber/2/chamber	#2	
-area	4	cluster	cave/chamber/3/chamber	#2	
-area	5	core	cave/chamber/4/chamber	#5	
-area	6	cluster	cave/chamber/5/chamber	#2	
-area	7	entry	cave/chamber/6/chamber	#1	
-area	8	cluster	cave/chamber/7/chamber	#2	
+field	cave/flavour	#0	Dry, dusty, and very old
+field	cave/type	#2	Sinkhole system
+field	cave/location	#2	Behind a rockfall on a pass
+field	cave/key-feature	#5	A squeeze nobody large can pass
+field	cave/creatures	#2	A bear, and it is home
+area	1	hidden	cave/chamber/0/chamber	#3	Signs that somebody camped here
+area	2	hidden	cave/chamber/1/chamber	#3	Signs that somebody camped here
+area	3	hidden	cave/chamber/2/chamber	#2	A squeeze or a climb to go on
+area	4	cluster	cave/chamber/3/chamber	#2	A squeeze or a climb to go on
+area	5	core	cave/chamber/4/chamber	#5	Something left behind on purpose
+area	6	cluster	cave/chamber/5/chamber	#2	A squeeze or a climb to go on
+area	7	entry	cave/chamber/6/chamber	#1	Water: a pool, a stream, a seep
+area	8	cluster	cave/chamber/7/chamber	#2	A squeeze or a climb to go on
 == cave 7
 name	Ashen Lull
 silhouette	warren-dry	warren	dry	4
-field	cave/flavour		
-field	cave/type		
-field	cave/location		
-field	cave/key-feature		
-field	cave/creatures		
-area	1	hidden	cave/chamber/0/chamber	#2	
-area	2	plain	cave/chamber/1/chamber	#3	
-area	3	core	cave/chamber/2/chamber	#1	
-area	4	entry	cave/chamber/3/chamber	#0	
-area	5	hidden	cave/chamber/4/chamber	#2	
-area	6	hidden	cave/chamber/5/chamber	#5	
+field	cave/flavour	#5	Silent in a way that feels wrong
+field	cave/type	#4	Limestone galleries
+field	cave/location	#1	In the floor of a quarry
+field	cave/key-feature	#2	An underground river, fast and cold
+field	cave/creatures	#2	A bear, and it is home
+area	1	hidden	cave/chamber/0/chamber	#2	A squeeze or a climb to go on
+area	2	plain	cave/chamber/1/chamber	#3	Signs that somebody camped here
+area	3	core	cave/chamber/2/chamber	#1	Water: a pool, a stream, a seep
+area	4	entry	cave/chamber/3/chamber	#0	Bare rock, nothing else
+area	5	hidden	cave/chamber/4/chamber	#2	A squeeze or a climb to go on
+area	6	hidden	cave/chamber/5/chamber	#5	Something left behind on purpose
 == cave 42
 name	Amber Heart
 silhouette	linear-run	linear	dry	4
-field	cave/flavour		
-field	cave/type		
-field	cave/location		
-field	cave/key-feature		
-field	cave/creatures		
-area	1	core	cave/chamber/0/chamber	#5	
-area	2	plain	cave/chamber/1/chamber	#5	
-area	3	plain	cave/chamber/2/chamber	#0	
-area	4	hidden	cave/chamber/3/chamber	#3	
-area	5	entry	cave/chamber/4/chamber	#3	
-area	6	hidden	cave/chamber/5/chamber	#5	
-area	7	plain	cave/chamber/6/chamber	#3	
+field	cave/flavour	#3	Cold enough to see your breath
+field	cave/type	#0	Sea cave, flooded at high tide
+field	cave/location	#2	Behind a rockfall on a pass
+field	cave/key-feature	#0	A chamber of standing columns
+field	cave/creatures	#4	A colony that farms the fungus
+area	1	core	cave/chamber/0/chamber	#5	Something left behind on purpose
+area	2	plain	cave/chamber/1/chamber	#5	Something left behind on purpose
+area	3	plain	cave/chamber/2/chamber	#0	Bare rock, nothing else
+area	4	hidden	cave/chamber/3/chamber	#3	Signs that somebody camped here
+area	5	entry	cave/chamber/4/chamber	#3	Signs that somebody camped here
+area	6	hidden	cave/chamber/5/chamber	#5	Something left behind on purpose
+area	7	plain	cave/chamber/6/chamber	#3	Signs that somebody camped here
 == cave 1337
 name	Ivory Shiver
 silhouette	sprawl-open	sprawl	dry	4
-field	cave/flavour		
-field	cave/type		
-field	cave/location		
-field	cave/key-feature		
-field	cave/creatures		
-area	1	entry	cave/chamber/0/chamber	#3	
-area	2	core	cave/chamber/1/chamber	#4	
-area	3	cluster	cave/chamber/2/chamber	#4	
-area	4	plain	cave/chamber/3/chamber	#5	
-area	5	hidden	cave/chamber/4/chamber	#0	
-area	6	plain	cave/chamber/5/chamber	#1	
-area	7	plain	cave/chamber/6/chamber	#3	
+field	cave/flavour	#2	Warm air coming up from below
+field	cave/type	#3	Ice cave
+field	cave/location	#5	Opening in the bed of a stream
+field	cave/key-feature	#5	A squeeze nobody large can pass
+field	cave/creatures	#2	A bear, and it is home
+area	1	entry	cave/chamber/0/chamber	#3	Signs that somebody camped here
+area	2	core	cave/chamber/1/chamber	#4	A nest, occupied
+area	3	cluster	cave/chamber/2/chamber	#4	A nest, occupied
+area	4	plain	cave/chamber/3/chamber	#5	Something left behind on purpose
+area	5	hidden	cave/chamber/4/chamber	#0	Bare rock, nothing else
+area	6	plain	cave/chamber/5/chamber	#1	Water: a pool, a stream, a seep
+area	7	plain	cave/chamber/6/chamber	#3	Signs that somebody camped here
 == cave 65535
 name	Hollow Mark
 silhouette	warren-dry	warren	dry	4
-field	cave/flavour		
-field	cave/type		
-field	cave/location		
-field	cave/key-feature		
-field	cave/creatures		
-area	1	core	cave/chamber/0/chamber	#3	
-area	2	hidden	cave/chamber/1/chamber	#4	
-area	3	cluster	cave/chamber/2/chamber	#5	
-area	4	entry	cave/chamber/3/chamber	#5	
-area	5	cluster	cave/chamber/4/chamber	#5	
-area	6	hidden	cave/chamber/5/chamber	#5	
+field	cave/flavour	#4	Smells of animal and standing water
+field	cave/type	#0	Sea cave, flooded at high tide
+field	cave/location	#0	Halfway up a sea cliff
+field	cave/key-feature	#4	Crystals that hold the light
+field	cave/creatures	#3	Pale things that avoid the light
+area	1	core	cave/chamber/0/chamber	#3	Signs that somebody camped here
+area	2	hidden	cave/chamber/1/chamber	#4	A nest, occupied
+area	3	cluster	cave/chamber/2/chamber	#5	Something left behind on purpose
+area	4	entry	cave/chamber/3/chamber	#5	Something left behind on purpose
+area	5	cluster	cave/chamber/4/chamber	#5	Something left behind on purpose
+area	6	hidden	cave/chamber/5/chamber	#5	Something left behind on purpose
 == cave 2147483647
 name	Blind Eye
 silhouette	sprawl-open	sprawl	dry	5
-field	cave/flavour		
-field	cave/type		
-field	cave/location		
-field	cave/key-feature		
-field	cave/creatures		
-area	1	hidden	cave/chamber/0/chamber	#1	
-area	2	core	cave/chamber/1/chamber	#1	
-area	3	plain	cave/chamber/2/chamber	#4	
-area	4	plain	cave/chamber/3/chamber	#3	
-area	5	plain	cave/chamber/4/chamber	#2	
-area	6	hidden	cave/chamber/5/chamber	#4	
-area	7	entry	cave/chamber/6/chamber	#2	
-area	8	plain	cave/chamber/7/chamber	#0	
+field	cave/flavour	#3	Cold enough to see your breath
+field	cave/type	#2	Sinkhole system
+field	cave/location	#0	Halfway up a sea cliff
+field	cave/key-feature	#5	A squeeze nobody large can pass
+field	cave/creatures	#0	Bats in thousands, out at dusk
+area	1	hidden	cave/chamber/0/chamber	#1	Water: a pool, a stream, a seep
+area	2	core	cave/chamber/1/chamber	#1	Water: a pool, a stream, a seep
+area	3	plain	cave/chamber/2/chamber	#4	A nest, occupied
+area	4	plain	cave/chamber/3/chamber	#3	Signs that somebody camped here
+area	5	plain	cave/chamber/4/chamber	#2	A squeeze or a climb to go on
+area	6	hidden	cave/chamber/5/chamber	#4	A nest, occupied
+area	7	entry	cave/chamber/6/chamber	#2	A squeeze or a climb to go on
+area	8	plain	cave/chamber/7/chamber	#0	Bare rock, nothing else
 == tower 1
 name	Hungry Wake
 silhouette	boxy-compact	boxy	dry	3
-field	tower/shape		
-field	tower/occupant		
-field	tower/reaction		
-field	tower/goal		
-area	1	plain	tower/floor/0/type	#2	
-area	2	plain	tower/floor/1/type	#0	
-area	3	top	tower/floor/2/type	#1	
+field	tower/shape	#3	Three towers braided together
+field	tower/occupant	#9	Squatters who do not know what they touch
+field	tower/reaction	#2	Hostile from the first word
+field	tower/goal	#2	To stop ageing
+area	1	plain	tower/floor/0/type	#2	A workshop, mid-experiment
+area	2	plain	tower/floor/1/type	#0	Stores, and the stairs
+area	3	top	tower/floor/2/type	#1	The working study, where it all happens
 == tower 7
 name	Ashen Lull
 silhouette	vessel-tall	vessel	dry	6
-field	tower/shape		
-field	tower/occupant		
-field	tower/reaction		
-field	tower/goal		
-area	1	plain	tower/floor/0/type	#3	
-area	2	plain	tower/floor/1/type	#5	
-area	3	plain	tower/floor/2/type	#5	
-area	4	plain	tower/floor/3/type	#1	
-area	5	plain	tower/floor/4/type	#2	
-area	6	top	tower/floor/5/type	#0	
+field	tower/shape	#8	Low and broad, more keep than tower
+field	tower/occupant	#9	Squatters who do not know what they touch
+field	tower/reaction	#9	Negotiates badly, out of fear
+field	tower/goal	#8	To prove a rival wrong, publicly
+area	1	plain	tower/floor/0/type	#3	A library, badly kept
+area	2	plain	tower/floor/1/type	#5	One large thing, and no room for more
+area	3	plain	tower/floor/2/type	#5	One large thing, and no room for more
+area	4	plain	tower/floor/3/type	#1	Living quarters
+area	5	plain	tower/floor/4/type	#2	A workshop, mid-experiment
+area	6	top	tower/floor/5/type	#0	An observatory, open to the sky
 == tower 42
 name	Amber Heart
 silhouette	vessel-tall	vessel	dry	3
-field	tower/shape		
-field	tower/occupant		
-field	tower/reaction		
-field	tower/goal		
-area	1	plain	tower/floor/0/type	#2	
-area	2	plain	tower/floor/1/type	#5	
-area	3	top	tower/floor/2/type	#3	
+field	tower/shape	#2	A spiral that narrows as it rises
+field	tower/occupant	#9	Squatters who do not know what they touch
+field	tower/reaction	#6	Asks for help, and does not
+field	tower/goal	#1	To undo a mistake that is still spreading
+area	1	plain	tower/floor/0/type	#2	A workshop, mid-experiment
+area	2	plain	tower/floor/1/type	#5	One large thing, and no room for more
+area	3	top	tower/floor/2/type	#3	A roof garden gone wild
 == tower 1337
 name	Ivory Shiver
 silhouette	vessel-moated	vessel	water	5
-field	tower/shape		
-field	tower/occupant		
-field	tower/reaction		
-field	tower/goal		
-area	1	plain	tower/floor/0/type	#3	
-area	2	plain	tower/floor/1/type	#5	
-area	3	plain	tower/floor/2/type	#4	
-area	4	plain	tower/floor/3/type	#2	
-area	5	top	tower/floor/4/type	#0	
+field	tower/shape	#4	Built into a standing rock
+field	tower/occupant	#2	The wizard's widow
+field	tower/reaction	#5	Asks for help, and means it
+field	tower/goal	#0	To finish a work begun by somebody else
+area	1	plain	tower/floor/0/type	#3	A library, badly kept
+area	2	plain	tower/floor/1/type	#5	One large thing, and no room for more
+area	3	plain	tower/floor/2/type	#4	Something caged or contained
+area	4	plain	tower/floor/3/type	#2	A workshop, mid-experiment
+area	5	top	tower/floor/4/type	#0	An observatory, open to the sky
 == tower 65535
 name	Hollow Mark
 silhouette	boxy-compact	boxy	dry	6
-field	tower/shape		
-field	tower/occupant		
-field	tower/reaction		
-field	tower/goal		
-area	1	plain	tower/floor/0/type	#3	
-area	2	plain	tower/floor/1/type	#3	
-area	3	plain	tower/floor/2/type	#5	
-area	4	plain	tower/floor/3/type	#5	
-area	5	plain	tower/floor/4/type	#1	
-area	6	top	tower/floor/5/type	#3	
+field	tower/shape	#5	Wider at the top than the bottom
+field	tower/occupant	#6	Two wizards who are not speaking
+field	tower/reaction	#4	Wants you gone before dark
+field	tower/goal	#8	To prove a rival wrong, publicly
+area	1	plain	tower/floor/0/type	#3	A library, badly kept
+area	2	plain	tower/floor/1/type	#3	A library, badly kept
+area	3	plain	tower/floor/2/type	#5	One large thing, and no room for more
+area	4	plain	tower/floor/3/type	#5	One large thing, and no room for more
+area	5	plain	tower/floor/4/type	#1	Living quarters
+area	6	top	tower/floor/5/type	#3	A roof garden gone wild
 == tower 2147483647
 name	Blind Eye
 silhouette	vessel-tall	vessel	dry	5
-field	tower/shape		
-field	tower/occupant		
-field	tower/reaction		
-field	tower/goal		
-area	1	plain	tower/floor/0/type	#3	
-area	2	plain	tower/floor/1/type	#3	
-area	3	plain	tower/floor/2/type	#2	
-area	4	plain	tower/floor/3/type	#0	
-area	5	top	tower/floor/4/type	#3	
+field	tower/shape	#9	Hexagonal, with too few windows
+field	tower/occupant	#2	The wizard's widow
+field	tower/reaction	#5	Asks for help, and means it
+field	tower/goal	#8	To prove a rival wrong, publicly
+area	1	plain	tower/floor/0/type	#3	A library, badly kept
+area	2	plain	tower/floor/1/type	#3	A library, badly kept
+area	3	plain	tower/floor/2/type	#2	A workshop, mid-experiment
+area	4	plain	tower/floor/3/type	#0	Stores, and the stairs
+area	5	top	tower/floor/4/type	#3	A roof garden gone wild
 == location 1
 name	Hungry Wake
 silhouette	linear-channel	linear	water	3
-field	location/location		
-field	location/biome		
-field	location/condition		
-field	location/key-feature		
-field	location/occupant		
+field	location/location	#1	A toll bridge, unmanned
+field	location/biome	#4	Salt marsh
+field	location/condition	#8	Kept up by one stubborn person
+field	location/key-feature	#19	A view of somewhere that is not there
+field	location/occupant	#3	Pilgrims, walking
 == location 7
 name	Ashen Lull
 silhouette	sprawl-open	sprawl	dry	3
-field	location/location		
-field	location/biome		
-field	location/condition		
-field	location/key-feature		
-field	location/occupant		
+field	location/location	#5	A charcoal burner's camp
+field	location/biome	#9	Reed beds
+field	location/condition	#1	Recently abandoned
+field	location/key-feature	#16	A path worn deep by something
+field	location/occupant	#9	Brothers who divided it badly
 == location 42
 name	Amber Heart
 silhouette	hollow-round	hollow	dry	3
-field	location/location		
-field	location/biome		
-field	location/condition		
-field	location/key-feature		
-field	location/occupant		
+field	location/location	#16	A waystation with no keeper
+field	location/biome	#0	Wet moorland
+field	location/condition	#5	Under quiet siege
+field	location/key-feature	#2	A stone nobody will move
+field	location/occupant	#11	Nobody, and the fires are lit
 == location 1337
 name	Ivory Shiver
 silhouette	sprawl-open	sprawl	dry	3
-field	location/location		
-field	location/biome		
-field	location/condition		
-field	location/key-feature		
-field	location/occupant		
+field	location/location	#12	A hamlet under quarantine
+field	location/biome	#15	Floodplain woodland
+field	location/condition	#18	Flooded to the first floor
+field	location/key-feature	#9	Scorch marks in a ring
+field	location/occupant	#11	Nobody, and the fires are lit
 == location 65535
 name	Hollow Mark
 silhouette	hollow-round	hollow	dry	3
-field	location/location		
-field	location/biome		
-field	location/condition		
-field	location/key-feature		
-field	location/occupant		
+field	location/location	#4	A watchtower, burnt out
+field	location/biome	#9	Reed beds
+field	location/condition	#3	Burnt within the month
+field	location/key-feature	#19	A view of somewhere that is not there
+field	location/occupant	#1	Soldiers between wars
 == location 2147483647
 name	Blind Eye
 silhouette	linear-channel	linear	water	3
-field	location/location		
-field	location/biome		
-field	location/condition		
-field	location/key-feature		
-field	location/occupant		
+field	location/location	#9	A hermit's cell
+field	location/biome	#6	River flats
+field	location/condition	#5	Under quiet siege
+field	location/key-feature	#12	Water that runs the wrong way
+field	location/occupant	#11	Nobody, and the fires are lit
 == landmark 1
 name	Hungry Wake
 silhouette	hollow-round	hollow	dry	2
-field	landmark/landmark		
-field	landmark/biome		
-field	landmark/condition		
-field	landmark/key-feature		
-field	landmark/occupant		
+field	landmark/landmark	#1	A waterfall that falls into a hole
+field	landmark/biome	#14	Bamboo stands
+field	landmark/condition	#8	Collapsing, visibly
+field	landmark/key-feature	#11	A hollow that holds still water
+field	landmark/occupant	#12	Herders moving stock through
 == landmark 7
 name	Ashen Lull
 silhouette	vessel-tall	vessel	dry	2
-field	landmark/landmark		
-field	landmark/biome		
-field	landmark/condition		
-field	landmark/key-feature		
-field	landmark/occupant		
+field	landmark/landmark	#13	A canyon of banded rock
+field	landmark/biome	#9	Shingle beach
+field	landmark/condition	#10	A boundary nobody crosses armed
+field	landmark/key-feature	#9	Footprints spaced too far apart
+field	landmark/occupant	#9	A scholar copying the carvings
 == landmark 42
 name	Amber Heart
 silhouette	vessel-tall	vessel	dry	2
-field	landmark/landmark		
-field	landmark/biome		
-field	landmark/condition		
-field	landmark/key-feature		
-field	landmark/occupant		
+field	landmark/landmark	#4	A natural arch
+field	landmark/biome	#11	Sagebrush plain
+field	landmark/condition	#17	Silent, and it should not be
+field	landmark/key-feature	#14	A path always clear of snow
+field	landmark/occupant	#2	A watchpost of three bored soldiers
 == landmark 1337
 name	Ivory Shiver
 silhouette	vessel-tall	vessel	dry	2
-field	landmark/landmark		
-field	landmark/biome		
-field	landmark/condition		
-field	landmark/key-feature		
-field	landmark/occupant		
+field	landmark/landmark	#0	A standing stone split by lightning
+field	landmark/biome	#15	Stony plateau
+field	landmark/condition	#0	Sacred, and the rules are strict
+field	landmark/key-feature	#7	A cairn added to by everyone
+field	landmark/occupant	#1	Goats, and whoever owns them
 == landmark 65535
 name	Hollow Mark
 silhouette	hollow-round	hollow	dry	2
-field	landmark/landmark		
-field	landmark/biome		
-field	landmark/condition		
-field	landmark/key-feature		
-field	landmark/occupant		
+field	landmark/landmark	#18	A cave mouth visible for miles
+field	landmark/biome	#5	Sand desert
+field	landmark/condition	#5	Unreachable most of the year
+field	landmark/key-feature	#8	A crack that breathes warm air
+field	landmark/occupant	#18	Something that only comes at night
 == landmark 2147483647
 name	Blind Eye
 silhouette	hollow-round	hollow	dry	2
-field	landmark/landmark		
-field	landmark/biome		
-field	landmark/condition		
-field	landmark/key-feature		
-field	landmark/occupant		
+field	landmark/landmark	#6	A gorge with a single crossing
+field	landmark/biome	#11	Sagebrush plain
+field	landmark/condition	#6	Claimed by two villages
+field	landmark/key-feature	#19	Something buried that keeps surfacing
+field	landmark/occupant	#17	A guide who knows the safe way

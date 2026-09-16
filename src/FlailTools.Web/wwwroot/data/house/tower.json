@@ -11,11 +11,67 @@
     ]
   },
 
-  "shapes": [],
-  "occupants": [],
-  "reactions": [],
-  "goals": [],
+  "shapes": [
+    "A plain round drum of grey stone",
+    "Square, and leaning",
+    "A spiral that narrows as it rises",
+    "Three towers braided together",
+    "Built into a standing rock",
+    "Wider at the top than the bottom",
+    "A shell of scaffolding, never finished",
+    "Black glass, seamless",
+    "Low and broad, more keep than tower",
+    "Hexagonal, with too few windows"
+  ],
+  "occupants": [
+    "A wizard who has not gone out in years",
+    "An apprentice, alone, out of their depth",
+    "The wizard's widow",
+    "A rival who took the place by force",
+    "Nobody, and the table is still set",
+    "A creature the wizard bound and lost to",
+    "Two wizards who are not speaking",
+    "A servant keeping it exactly as it was",
+    "A wizard slowly becoming something else",
+    "Squatters who do not know what they touch"
+  ],
+  "reactions": [
+    "Delighted; nobody ever visits",
+    "Wary, but willing to trade",
+    "Hostile from the first word",
+    "Mistakes you for somebody expected",
+    "Wants you gone before dark",
+    "Asks for help, and means it",
+    "Asks for help, and does not",
+    "Indifferent until you touch something",
+    "Tries to keep you there",
+    "Negotiates badly, out of fear"
+  ],
+  "goals": [
+    "To finish a work begun by somebody else",
+    "To undo a mistake that is still spreading",
+    "To stop ageing",
+    "To speak with something long dead",
+    "To be left entirely alone",
+    "To find an apprentice worth the name",
+    "To get back inside their own tower",
+    "To keep something from getting out",
+    "To prove a rival wrong, publicly",
+    "To remember what they came here for"
+  ],
 
-  "floorTypes": [],
-  "topFloorTypes": []
+  "floorTypes": [
+    "Stores, and the stairs",
+    "Living quarters",
+    "A workshop, mid-experiment",
+    "A library, badly kept",
+    "Something caged or contained",
+    "One large thing, and no room for more"
+  ],
+  "topFloorTypes": [
+    "An observatory, open to the sky",
+    "The working study, where it all happens",
+    "A sealed room, and the seal is recent",
+    "A roof garden gone wild"
+  ]
 }

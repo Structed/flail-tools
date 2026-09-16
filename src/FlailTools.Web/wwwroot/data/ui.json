@@ -98,8 +98,8 @@
     "areasHeading": "Areas",
     "mapAlt": "A hand-drawn map of the site",
     "loading": "Loading…",
-    "noContentTitle": "The tables are still empty",
-    "noContentBody": "Every entry this tool rolls has to be written from scratch rather than copied out of the book, and that writing has not been done yet. The generator, the maps and the seeds all work — the results are simply blank until the tables are filled.",
+    "noContentTitle": "No tables loaded",
+    "noContentBody": "The generator, the maps and the seeds are all working, but the tables came back with no rows in them, so every field is blank. This normally means the data files did not load rather than that anything was rolled badly.",
     "emptyField": "—"
   }
 }
