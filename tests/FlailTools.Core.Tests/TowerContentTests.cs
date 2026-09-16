@@ -5,16 +5,25 @@ using Structed.Inkwell.Generation;
 
 namespace FlailTools.Core.Tests;
 
+/// <summary>
+/// What the Wizard Towers tables have to look like, beyond what <see cref="GameData.Validate"/>
+/// already refuses to load.
+/// </summary>
+/// <remarks>
+/// The four theme axes are the book's d10 tables, so they are pinned at exactly ten entries rather
+/// than merely "enough": a table that grew an eleventh row would still roll, but it would no longer
+/// be the table on the page, and a pin shared from an older build would point at a different row.
+/// </remarks>
 public sealed class TowerContentTests
 {
     [Fact]
-    public async Task EveryAxisHasAtLeastEighteenDistinctSingleLineEntries()
+    public async Task EveryAxisHasExactlyTenDistinctSingleLineEntries()
     {
         GameData data = await TestData.LoadAsync();
 
         foreach ((string path, IReadOnlyList<string> entries) in AxisTables(data))
         {
-            Assert.True(entries.Count >= 18, $"'{path}' has only {entries.Count} entries; it needs at least 18.");
+            Assert.True(entries.Count == 10, $"'{path}' has {entries.Count} entries; the book's d10 needs exactly 10.");
             AssertDistinctSingleLineEntries(entries);
         }
     }
@@ -26,12 +35,19 @@ public sealed class TowerContentTests
 
         Assert.Equal(6, data.Tower.FloorTypes.Count);
         Assert.Equal(4, data.Tower.TopFloorTypes.Count);
+        Assert.Equal(6, data.Tower.FloorDetails.Count);
         AssertDistinctSingleLineEntries(data.Tower.FloorTypes);
         AssertDistinctSingleLineEntries(data.Tower.TopFloorTypes);
+
+        foreach (IReadOnlyList<string> details in data.Tower.FloorDetails)
+        {
+            Assert.Equal(4, details.Count);
+            AssertDistinctSingleLineEntries(details);
+        }
     }
 
     [Fact]
-    public async Task EveryAxisEntryCanBeRolledIncludingThoseBeyondTheTenth()
+    public async Task EveryAxisEntryCanBeRolled()
     {
         GameData data = await TestData.LoadAsync();
         (string Path, IReadOnlyList<string> Entries)[] axes = AxisTables(data);
@@ -56,14 +72,18 @@ public sealed class TowerContentTests
         }
     }
 
+    /// <summary>
+    /// A floor below the top is two rolls that have to agree: the d6 names the kind of room and the
+    /// d4 names which one of those, so the detail must come from that kind's own row.
+    /// </summary>
     [Fact]
-    public async Task EveryFloorEntryIsReachableAndResolvesItsRecordedDieFace()
+    public async Task EveryFloorEntryIsReachableAndResolvesItsRecordedDieFaces()
     {
         GameData data = await TestData.LoadAsync();
-        HashSet<string> ordinaryFloors = new(StringComparer.Ordinal);
-        HashSet<string> topFloors = new(StringComparer.Ordinal);
+        HashSet<(int Type, int Detail)> ordinaryFloors = [];
+        HashSet<int> topFloors = [];
 
-        for (uint seed = 1; seed <= 64; seed++)
+        for (uint seed = 1; seed <= 256; seed++)
         {
             AdventureSite site = SiteGenerator.Generate(data, new SitePlan { Seed = seed, Kind = SiteKinds.Tower });
 
@@ -71,18 +91,37 @@ public sealed class TowerContentTests
             {
                 SiteArea floor = site.Areas[index];
                 bool isTop = index == site.Areas.Count - 1;
-                IReadOnlyList<string> entries = isTop ? data.Tower.TopFloorTypes : data.Tower.FloorTypes;
 
                 Assert.True(PinReference.TryGetIndex(site.PinValues[floor.Path], out int face));
-                Assert.InRange(face, 0, (isTop ? 4 : 6) - 1);
-                Assert.Equal(entries[face], floor.Value);
-                (isTop ? topFloors : ordinaryFloors).Add(floor.Value);
+
+                if (isTop)
+                {
+                    Assert.InRange(face, 0, data.Tower.TopFloorTypes.Count - 1);
+                    Assert.Equal(data.Tower.TopFloorTypes[face], floor.Value);
+                    topFloors.Add(face);
+                    continue;
+                }
+
+                Assert.InRange(face, 0, data.Tower.FloorTypes.Count - 1);
+                Assert.True(
+                    PinReference.TryGetIndex(site.PinValues[FieldPaths.TowerFloorDetail(index)], out int detail),
+                    $"Floor {index} rolled a kind but recorded no d4 for which one it is.");
+                Assert.InRange(detail, 0, data.Tower.FloorDetails[face].Count - 1);
+                Assert.Equal($"{data.Tower.FloorTypes[face]}: {data.Tower.FloorDetails[face][detail]}", floor.Value);
+                ordinaryFloors.Add((face, detail));
             }
         }
 
-        Assert.Equal(data.Tower.FloorTypes.Order(StringComparer.Ordinal), ordinaryFloors.Order(StringComparer.Ordinal));
-        Assert.Equal(data.Tower.TopFloorTypes.Order(StringComparer.Ordinal), topFloors.Order(StringComparer.Ordinal));
+        Assert.Equal(
+            Enumerable.Range(0, data.Tower.TopFloorTypes.Count),
+            topFloors.Order());
+        Assert.Equal(
+            from type in Enumerable.Range(0, data.Tower.FloorTypes.Count)
+            from detail in Enumerable.Range(0, data.Tower.FloorDetails[type].Count)
+            select (type, detail),
+            ordinaryFloors.Order());
     }
+
 
     private static (string Path, IReadOnlyList<string> Entries)[] AxisTables(GameData data) =>
     [

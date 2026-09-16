@@ -1,19 +1,46 @@
 {
   "_source": {
-    "describes": "The hexcrawl Landmarks generator: its five d20 axes.",
+    "describes": "The hexcrawl Landmarks generator: FLAIL!'s five d20 axes.",
     "status": "Unofficial. Not affiliated with Games Omnivorous.",
-    "rationale": "A landmark is the thing you see from the next hex; a location is the thing you walk into. They share four axis names and nothing else — separate tables, separate field paths — so that either can be rewritten without disturbing a lock saved against the other. Every entry is original to this project.",
-    "licence": "Games Omnivorous Third Party Licence",
+    "rationale": "FLAIL!'s own Landmarks table, reproduced in face order, which the Third-Party Licence permits. A landmark is the thing you see from the next hex; a location is the thing you walk into. They share four axis names and nothing else — separate tables, separate field paths — because the book gives them different rows, and so either can be rewritten without disturbing a lock saved against the other. The Biome column repeats entries deliberately, exactly as the book prints it.",
+    "work": "FLAIL!",
+    "url": "https://gamesomnivorous.com/pages/flail",
+    "licence": "Games Omnivorous Third-Party Licence",
     "licenceUrl": "https://gamesomnivorous.com/pages/flail-license",
-    "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third Party Licence.",
+    "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third-Party Licence.",
     "notices": [
       "FLAIL is copyright of Games Omnivorous."
     ]
   },
 
-  "landmarks": [],
-  "biomes": [],
-  "conditions": [],
-  "keyFeatures": [],
-  "occupants": []
+  "landmarks": [
+    "Lake", "Volcano", "Lagoon", "Sinkhole", "Cave",
+    "Waterfalls", "Canyon", "Geyser", "Tree grove", "Crater",
+    "Fissure", "Stones", "Tar pit", "Butte", "Plateau",
+    "Quarry", "Oasis", "Farmland", "Lair", "Tunnel"
+  ],
+  "biomes": [
+    "Desert", "Desert", "Steppes", "Steppes", "Mountains",
+    "Mountains", "Pastoral", "Pastoral", "Pastoral", "Pastoral",
+    "Forest", "Forest", "Forest", "Forest", "Swamp",
+    "Swamp", "Jungle", "Jungle", "Tundra", "Tundra"
+  ],
+  "conditions": [
+    "Glowing", "Radioactive", "Freezing", "Smouldering", "Toxic",
+    "Infested", "Curative", "Magnetic", "Echoing", "Humming",
+    "Blighted", "Crystallised", "Petrified", "Enchanted", "Ethereal",
+    "Corrupted", "Fractured", "Charred", "Bleeding", "Prismatic"
+  ],
+  "keyFeatures": [
+    "Fumaroles", "Ancient glyphs", "Luminous fungi", "Giant footprints", "Dead dragon",
+    "Lava veins", "Boiling pools", "Sunken ruins", "Carved totems", "Primitive fossils",
+    "Valuable minerals", "Bone piles", "Spider webs", "Skeletal carcass", "Giant ant nests",
+    "Primeval altar", "Floating rocks", "Antique relics", "Broken columns", "Giant coprolites"
+  ],
+  "occupants": [
+    "Undead horde", "Dire animals", "Wandering spirits", "Dragon cult", "Flamingos",
+    "Troll twins", "Runaway witch", "Goblin tribe", "Necromancer", "Insane construct",
+    "Druid circle", "Dodo birds", "Hermit oracle", "Smuggling clique", "Mutant clan",
+    "Phantom knights", "Barbarian horde", "Fire imps", "Friendly dragon", "Random monster"
+  ]
 }

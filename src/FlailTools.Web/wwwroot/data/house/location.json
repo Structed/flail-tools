@@ -1,19 +1,46 @@
 {
   "_source": {
-    "describes": "The hexcrawl Locations generator: its five d20 axes.",
+    "describes": "The hexcrawl Locations generator: FLAIL!'s five d20 axes.",
     "status": "Unofficial. Not affiliated with Games Omnivorous.",
-    "rationale": "Kept on its own tables and its own field paths rather than sharing Biome, Condition, Key Feature and Occupant with the Landmarks generator. Sharing would be convenient and is irreversible: once a path is published, finding that the two generators want different rows cannot be fixed without orphaning every lock already saved against it. Every entry is original to this project.",
-    "licence": "Games Omnivorous Third Party Licence",
+    "rationale": "FLAIL!'s own Locations table, reproduced in face order, which the Third-Party Licence permits. Kept on its own field paths rather than sharing Biome, Condition, Key Feature and Occupant with the Landmarks generator: the two differ row for row in the book, and once a path is published, discovering that cannot be fixed without orphaning every lock already saved against it. The Biome column repeats entries deliberately — the book spans each biome across two or four rows, so a d20 is weighted towards the commoner ones.",
+    "work": "FLAIL!",
+    "url": "https://gamesomnivorous.com/pages/flail",
+    "licence": "Games Omnivorous Third-Party Licence",
     "licenceUrl": "https://gamesomnivorous.com/pages/flail-license",
-    "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third Party Licence.",
+    "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third-Party Licence.",
     "notices": [
       "FLAIL is copyright of Games Omnivorous."
     ]
   },
 
-  "locations": [],
-  "biomes": [],
-  "conditions": [],
-  "keyFeatures": [],
-  "occupants": []
+  "locations": [
+    "Tower", "Megalith", "Graveyard", "Tavern", "Temple",
+    "Pyramid", "Ruins", "Castle", "Shrine", "Obelisk",
+    "City", "Fort", "Village", "Tombs", "Observatory",
+    "Library", "Bazaar", "Mine", "Monastery", "Monument"
+  ],
+  "biomes": [
+    "Desert", "Desert", "Steppes", "Steppes", "Mountains",
+    "Mountains", "Pastoral", "Pastoral", "Pastoral", "Pastoral",
+    "Forest", "Forest", "Forest", "Forest", "Swamp",
+    "Swamp", "Jungle", "Jungle", "Tundra", "Tundra"
+  ],
+  "conditions": [
+    "Abandoned", "Blessed", "Ransacked", "Haunted", "Ancient",
+    "Twisted", "Desecrated", "Collapsed", "Levitating", "Overgrown",
+    "Decadent", "Doomed", "Forbidden", "Flooded", "Cursed",
+    "Forgotten", "Futuristic", "Enlarged", "Quarantined", "Burning"
+  ],
+  "keyFeatures": [
+    "Arcane runes", "Clockwork", "Magically sealed", "Golden tilework", "Cosmic portal",
+    "Flame beacon", "Lightning rod", "Archaic masonry", "Dark clouds", "Odd burrows",
+    "Hidden tunnels", "Windmills", "Pulsating orb", "Floating crystals", "Deep well",
+    "Warden sphinx", "Octopus statue", "Obsidian", "Colossal eye", "Warning flags"
+  ],
+  "occupants": [
+    "Death cult", "Thieves' guild", "Bandit troop", "Deserter clique", "Assassin guild",
+    "Bard society", "Royal army", "Merchant guild", "Religious order", "Pirate crew",
+    "Knights' circle", "Healing order", "Construct society", "Illegal fight club", "Mercenary band",
+    "Mad scientist", "Artefact dealers", "Mighty wizard", "Circus troupe", "Random monster"
+  ]
 }
