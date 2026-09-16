@@ -1,8 +1,10 @@
 {
   "_source": {
-    "describes": "The Caves generator: its five axes, and what a dropped d6 makes of a chamber.",
+    "describes": "The Caves generator: FLAIL!'s five d6 theme axes, and what a dropped d6 makes of a chamber.",
     "status": "Unofficial. Not affiliated with Games Omnivorous.",
-    "rationale": "The axes share their names with the Dungeons generator but deliberately not their tables or their field paths: a lock stores a row's position, so sharing a path between two different tables would let a lock taken on a dungeon resolve silently against a cave. Every entry is original to this project.",
+    "rationale": "FLAIL!'s own Caves tables, reproduced in face order, which the Third-Party Licence permits. The axes share their names with the Dungeons generator but deliberately not their field paths: a lock stores a row's position, so sharing a path between two different tables would let a lock taken on a dungeon resolve silently against a cave. 'chambers' is the d6 read off each dropped die, so the same number really does mean the same content the book says it does.",
+    "work": "FLAIL!",
+    "url": "https://gamesomnivorous.com/pages/flail",
     "licence": "Games Omnivorous Third-Party Licence",
     "licenceUrl": "https://gamesomnivorous.com/pages/flail-license",
     "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third-Party Licence.",
@@ -12,52 +14,52 @@
   },
 
   "flavours": [
-    "Dry, dusty, and very old",
-    "Dripping, and loud with it",
-    "Warm air coming up from below",
-    "Cold enough to see your breath",
-    "Smells of animal and standing water",
-    "Silent in a way that feels wrong"
+    "Dark",
+    "Hidden",
+    "Mystic",
+    "Forgotten",
+    "Infested",
+    "Haunted"
   ],
   "types": [
-    "Sea cave, flooded at high tide",
-    "Lava tube",
-    "Sinkhole system",
-    "Ice cave",
-    "Limestone galleries",
-    "A crack that simply keeps going"
+    "Lair",
+    "Cavern",
+    "Grotto",
+    "Hollows",
+    "Burrow",
+    "Mines"
   ],
   "locations": [
-    "Halfway up a sea cliff",
-    "In the floor of a quarry",
-    "Behind a rockfall on a pass",
-    "Under a frozen lake",
-    "At the head of a blind valley",
-    "Opening in the bed of a stream"
+    "Dormant volcano",
+    "Primeval mountain",
+    "Verdant sinkhole",
+    "Precarious cliffside",
+    "Rugged canyon",
+    "Abyssal chasm"
   ],
   "keyFeatures": [
-    "A chamber of standing columns",
-    "Handprints older than the roads",
-    "An underground river, fast and cold",
-    "A drop that echoes for a long time",
-    "Crystals that hold the light",
-    "A squeeze nobody large can pass"
+    "Freezing fog",
+    "Warm lava tubes",
+    "Flooded to the waist",
+    "Overgrown with roots",
+    "Crystallised veins",
+    "Stalactite-choked"
   ],
   "creatures": [
-    "Bats in thousands, out at dusk",
-    "Blind fish in the pools",
-    "A bear, and it is home",
-    "Pale things that avoid the light",
-    "A colony that farms the fungus",
-    "Something that was sealed in here"
+    "Reptiles",
+    "Amphibian",
+    "Birds",
+    "Insects",
+    "Giants",
+    "Dragons"
   ],
 
   "chambers": [
-    "Bare rock, nothing else",
-    "Water: a pool, a stream, a seep",
-    "A squeeze or a climb to go on",
-    "Signs that somebody camped here",
-    "A nest, occupied",
-    "Something left behind on purpose"
+    "Treasure: buried chest, weapons cache, spellbook or Unique Item",
+    "Vestiges: bone altar, makeshift shelter, burial mound or warding totem",
+    "Obstacle: roll or choose a fitting dungeon obstacle",
+    "Weak encounter: pick or create a weak creature matching the rolled theme",
+    "Average encounter: pick or create an average creature matching the rolled theme",
+    "Strong encounter: pick or create a powerful creature matching the rolled theme"
   ]
 }

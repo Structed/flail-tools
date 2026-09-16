@@ -4,8 +4,8 @@ namespace FlailTools.Core.Data;
 /// <remarks>
 /// <para>
 /// "Adventure Site" is FLAIL!'s own umbrella noun and is used here deliberately. The Games
-/// Omnivorous Third-Party Licence permits reusing its terminology and its random tables alike; the
-/// entries filling these axes are original to this repository regardless.
+/// Omnivorous Third-Party Licence permits reusing its terminology and its random tables alike, and
+/// the tables filling these axes are the book's own.
 /// </para>
 /// <para>
 /// The five ids are permanent. Each one is a field-path segment, so renaming one would change what
@@ -55,10 +55,9 @@ public sealed record SilhouettesFile : DataFile
 /// The Dungeons generator: five d6 axes, plus the room-stocking procedure.
 /// </summary>
 /// <remarks>
-/// The axis names are FLAIL!'s and are used as labels, which the licence permits. The rows are
-/// ours. The stocking checklist the book uses is credited in-book to the Goblin Punch blog, so it
-/// is not Games Omnivorous's to license onward either — the procedure is implemented here, and the
-/// wording of every outcome is original.
+/// The axes and their rows are FLAIL!'s, which the licence permits reusing. The stocking checklist
+/// the book uses is credited in-book to the Goblin Punch blog, so that credit is passed on here
+/// rather than stopping at Games Omnivorous.
 /// </remarks>
 public sealed record DungeonFile : DataFile
 {
@@ -72,7 +71,14 @@ public sealed record DungeonFile : DataFile
 
     public IReadOnlyList<string> Creatures { get => field ?? []; init; } = [];
 
-    /// <summary>The six d6 stocking outcomes, in face order: index 0 is a 1, index 5 is a 6.</summary>
+    /// <summary>
+    /// The keying concepts an area is stocked with.
+    /// </summary>
+    /// <remarks>
+    /// Not a die table. FLAIL! lists nine concepts and says to stock each area with one of them,
+    /// "repeating the one that feels more appropriate", so this is picked across rather than rolled
+    /// on — a d6 over nine rows would make the last three unreachable.
+    /// </remarks>
     public IReadOnlyList<string> Stocking { get => field ?? []; init; } = [];
 }
 
@@ -113,6 +119,16 @@ public sealed record TowerFile : DataFile
 
     /// <summary>The six d6 floor outcomes, in face order. One die per floor below the top.</summary>
     public IReadOnlyList<string> FloorTypes { get => field ?? []; init; } = [];
+
+    /// <summary>
+    /// The four d4 outcomes for each floor kind, in the same order as <see cref="FloorTypes"/>.
+    /// </summary>
+    /// <remarks>
+    /// A floor is two rolls in FLAIL!, not one: the d6 says what kind of floor it is and a d4 says
+    /// which one. Held as six rows of four so the pairing cannot drift — row <c>n</c> here belongs
+    /// to face <c>n</c> there.
+    /// </remarks>
+    public IReadOnlyList<IReadOnlyList<string>> FloorDetails { get => field ?? []; init; } = [];
 
     /// <summary>The four d4 outcomes for the top floor, in face order.</summary>
     public IReadOnlyList<string> TopFloorTypes { get => field ?? []; init; } = [];

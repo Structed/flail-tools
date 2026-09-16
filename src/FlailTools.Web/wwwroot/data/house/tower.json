@@ -1,8 +1,10 @@
 {
   "_source": {
-    "describes": "The Wizard Towers generator: its four axes, and what each die in the stack makes of a floor.",
+    "describes": "The Wizard Towers generator: FLAIL!'s four d10 theme axes, and what each die in the stack makes of a floor.",
     "status": "Unofficial. Not affiliated with Games Omnivorous.",
-    "rationale": "The stack of d6s with a d4 balanced on top is FLAIL!'s procedure and is implemented faithfully, which the Third-Party Licence permits. The words each face resolves to are original to this project. The top floor reads from its own four-row table because the d4 is a different die, not a shorter d6.",
+    "rationale": "FLAIL!'s own Wizard Towers tables, reproduced in face order, which the Third-Party Licence permits. The stack of d6s with a d4 balanced on top is the book's procedure and is implemented faithfully. A floor is two rolls, not one: the d6 gives the kind of floor and a d4 gives its exact nature, so 'floorDetails' holds the four options for each of the six kinds, in that order. The top floor reads from its own four-row table because the d4 that tops the stack is a different die, not a shorter d6.",
+    "work": "FLAIL!",
+    "url": "https://gamesomnivorous.com/pages/flail",
     "licence": "Games Omnivorous Third-Party Licence",
     "licenceUrl": "https://gamesomnivorous.com/pages/flail-license",
     "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third-Party Licence.",
@@ -12,66 +14,74 @@
   },
 
   "shapes": [
-    "A plain round drum of grey stone",
-    "Square, and leaning",
-    "A spiral that narrows as it rises",
-    "Three towers braided together",
-    "Built into a standing rock",
-    "Wider at the top than the bottom",
-    "A shell of scaffolding, never finished",
-    "Black glass, seamless",
-    "Low and broad, more keep than tower",
-    "Hexagonal, with too few windows"
+    "Giant Clocktower",
+    "Crystal Protrusion",
+    "Arcane Obelisk",
+    "Forsaken Lighthouse",
+    "Hollow Tree",
+    "Twisted Spire",
+    "Enchanted Windmill",
+    "Glass Turret",
+    "Stonework Tower",
+    "Bone Keep"
   ],
   "occupants": [
-    "A wizard who has not gone out in years",
-    "An apprentice, alone, out of their depth",
-    "The wizard's widow",
-    "A rival who took the place by force",
-    "Nobody, and the table is still set",
-    "A creature the wizard bound and lost to",
-    "Two wizards who are not speaking",
-    "A servant keeping it exactly as it was",
-    "A wizard slowly becoming something else",
-    "Squatters who do not know what they touch"
+    "Pyromancer",
+    "Cryomancer",
+    "Conjurer",
+    "Illusionist",
+    "Warlock",
+    "Necromancer",
+    "Sorcerer",
+    "Thaumaturge",
+    "Chronomancer",
+    "Geomancer"
   ],
   "reactions": [
-    "Delighted; nobody ever visits",
-    "Wary, but willing to trade",
-    "Hostile from the first word",
-    "Mistakes you for somebody expected",
-    "Wants you gone before dark",
-    "Asks for help, and means it",
-    "Asks for help, and does not",
-    "Indifferent until you touch something",
-    "Tries to keep you there",
-    "Negotiates badly, out of fear"
+    "Kill characters",
+    "Trick characters",
+    "Befriend characters",
+    "Hire characters",
+    "Help characters",
+    "Lure characters",
+    "Imprison characters",
+    "Teleport characters",
+    "Transform characters",
+    "Steal characters"
   ],
   "goals": [
-    "To finish a work begun by somebody else",
-    "To undo a mistake that is still spreading",
-    "To stop ageing",
-    "To speak with something long dead",
-    "To be left entirely alone",
-    "To find an apprentice worth the name",
-    "To get back inside their own tower",
-    "To keep something from getting out",
-    "To prove a rival wrong, publicly",
-    "To remember what they came here for"
+    "Rule the world",
+    "Raise army",
+    "Open portal",
+    "Spread curse",
+    "Invoke monster",
+    "Craft magic item",
+    "Unleash cataclysm",
+    "Raise disciples",
+    "Perform ritual",
+    "Be left alone"
   ],
 
   "floorTypes": [
-    "Stores, and the stairs",
-    "Living quarters",
-    "A workshop, mid-experiment",
-    "A library, badly kept",
-    "Something caged or contained",
-    "One large thing, and no room for more"
+    "Chamber",
+    "Hall",
+    "Lab",
+    "Library",
+    "Gallery",
+    "Leisure"
+  ],
+  "floorDetails": [
+    ["bedroom", "demon jail", "shrine", "games room"],
+    ["armoury", "treasury", "sepulchre", "dining hall"],
+    ["construct workshop", "medicine lab", "magic item studio", "potions brewery"],
+    ["spellbooks", "weird inventions", "cookbooks", "occult tomes"],
+    ["paintings", "statues", "trophies", "cabinet of curiosities"],
+    ["arboretum", "dream lounge", "music chamber", "reptilarium"]
   ],
   "topFloorTypes": [
-    "An observatory, open to the sky",
-    "The working study, where it all happens",
-    "A sealed room, and the seal is recent",
-    "A roof garden gone wild"
+    "Astronomical observatory",
+    "Meditation pod",
+    "Light-prism beacon",
+    "Eldritch lookout"
   ]
 }

@@ -36,18 +36,27 @@ endorsed. It cannot be drawn from scratch here; the published file has to be obt
 
 ## Content
 
-Every table in `src/FlailTools.Web/wwwroot/data/house/` is original to this project. The licence now
-permits reusing FLAIL!'s own random tables and their entries; these were written from scratch anyway,
-and the words filling them do not come from the book, in whole or in paraphrase.
+The five generator tables in `src/FlailTools.Web/wwwroot/data/house/` are FLAIL!'s own, reproduced
+in face order: the Dungeons, Caves and Wizard Towers themes from the Adventure Sites chapter, and
+the d20 Locations and Landmarks tables from the hexcrawl chapter. Section 1 of the licence permits
+this expressly — it covers rules text, random tables, table entries and terminology.
 
-Each data file carries a `_source` header stating this, and `ProvenanceTests` fails the build if any
-file ever names an upstream work. That test is stricter than the licence now requires. It stays
-because it is what keeps the `_source` headers honest: if book tables are ever used, the headers have
-to say so, and loosening the test should be a deliberate, reviewed act rather than a quiet one.
+Games Omnivorous publish the rulebook free at <https://gamesomnivorous.com/pages/flail>, which is
+where these were taken from.
 
-The dungeon room-stocking checklist FLAIL! uses is credited in the book to the Goblin Punch blog. It
-is therefore not Games Omnivorous's to license onward either, which is a second reason the wording
-of every stocking outcome here is written from scratch.
+No prose came with them. The book's introductions, descriptions, adventure text and setting text are
+not reproduced here, and neither is any artwork; section 2 still forbids both. Nor is this a
+replacement for the book — it generates the skeleton of a site and leaves every judgement the
+procedures ask for to the reader, who needs the rules to make anything of it.
+
+The site names and the map silhouettes are ours outright, because FLAIL! has no equivalent tables.
+
+Each data file carries a `_source` header naming the work its entries come from, or declaring that
+they were written for this tool. `ProvenanceTests` fails the build if a generator table stops naming
+FLAIL!, or if any other file starts to — so the split is a reviewed decision rather than a drift.
+
+The dungeon keying checklist FLAIL! uses is credited in the book to the Goblin Punch blog. That
+credit is passed on here rather than stopping at Games Omnivorous.
 
 ## Icon artwork
 

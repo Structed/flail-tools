@@ -40,19 +40,21 @@ The address bar always describes what is on screen — seed, kind, locks and all
 link is the whole of sharing. **Download** writes the same thing as a file, for when a link is not
 enough.
 
-## On content, and why the tables are ours
+## On content, and where the tables come from
 
 The Games Omnivorous Third-Party Licence permits reusing **rules, mechanics, terminology and random
 tables**, table entries included. It still forbids reproducing the **artwork** and the **written
 prose** — introductions, descriptions, adventure text, setting text — using official logos, implying
 official status, or reproducing a licensed product whole and building a replacement for one.
 
-So the book's own tables could be used here. They are not: this tool implements the book's
-procedures — the interesting part anyway — and fills them with tables written from scratch.
-**Nothing here is transcribed or paraphrased from FLAIL!**, and every data file records that claim in
-its own `_source` header, with a test that fails if any file ever declares an upstream work. Since
-the licence was widened that is a choice rather than an obligation, and the test is what keeps the
-claim honest: relax it deliberately, if ever, and never by accident.
+The five generator tables are FLAIL!'s own, reproduced in face order: the Dungeons, Caves and Wizard
+Towers themes from the Adventure Sites chapter, and the d20 Locations and Landmarks tables from the
+hexcrawl chapter. Each of those files names FLAIL! in its `_source` header, and `ProvenanceTests`
+fails the build if one of them stops naming it — or if any other file starts to. Games Omnivorous
+[publish the rulebook free](https://gamesomnivorous.com/pages/flail).
+
+Two things are still ours, because the book has no equivalent: the site names, and the silhouettes
+the maps are drawn from.
 
 The shared name tables in `src/FlailTools.Web/wwwroot/data/house/site.json` contain 60 original stems
 and 60 tails, making 3,600 short, kind-neutral names for all five generators. `NameAssembler.Join`
@@ -61,15 +63,21 @@ nonblank entries in each table and every joined name within 32 characters. Do no
 entries: locks store their positions. Changes to these tables also require deliberate
 [golden-baseline regeneration and diff review](#golden-baselines).
 
-The five per-kind files hold 322 further entries, sized to the die each axis is read with:
+The five per-kind files hold 349 further entries, sized to the die each axis is read with:
 
 | File | Axes | Face tables |
 | --- | --- | --- |
-| `dungeon.json` | five @ d6 | `stocking` @ **exactly 6** |
+| `dungeon.json` | five @ d6 | `stocking` is **not** a die table — see below |
 | `cave.json` | five @ d6 | `chambers` @ **exactly 6** |
-| `tower.json` | four @ d10 | `floorTypes` @ **exactly 6**, `topFloorTypes` @ **exactly 4** |
+| `tower.json` | four @ d10 | `floorTypes` @ **exactly 6**, `floorDetails` @ **6 rows of exactly 4**, `topFloorTypes` @ **exactly 4** |
 | `location.json` | five @ d20 | — |
 | `landmark.json` | five @ d20 | — |
+
+A tower floor is two rolls, as it is in the book: the d6 gives the kind of room and a d4 gives which
+one, so `floorDetails` row *n* belongs to `floorTypes` face *n* and the two must stay aligned.
+`dungeon.json`'s `stocking` is the odd one out — FLAIL! gives nine keying concepts to choose from
+rather than a table with one outcome per face, so the generator picks across all nine. Rolling a d6
+over it would leave the last three unreachable.
 
 The face tables are read by `Rolls.Face`, which rolls the die and indexes the row directly, so a
 table shorter than its die silently yields an empty string rather than an error. They must stay
@@ -79,8 +87,9 @@ the book's die sizes so the implemented procedure matches the one on the page. D
 deliberately keep separate tables and separate field paths even where an axis name is shared. As
 with the name tables, append rather than reorder: a lock is a position, not a phrase.
 
-This is a tool for people who already own the game. If you do not, [buy
-it](https://gamesomnivorous.com) — it is very good, and none of this works without it.
+This is a tool for people who are playing the game. Games Omnivorous [publish the rulebook
+free](https://gamesomnivorous.com/pages/flail), and sell it as a physical boxset — buy it, it is
+very good, and none of this works without it.
 
 ## Running it
 
@@ -145,7 +154,7 @@ its seed, locks and re-roll counters, rather than treating every generated site 
 ```
 src/FlailTools.Core/      generation, data, mapping, serialisation — all the logic
 src/FlailTools.Web/       Blazor WebAssembly, a thin layer over Core
-  wwwroot/data/house/     the tables, all original to this project
+  wwwroot/data/house/     the tables: FLAIL!'s for the five generators, ours for names and maps
   wwwroot/data/ui.json    every word the interface says that is not a table entry
 tests/FlailTools.Core.Tests/
 ```

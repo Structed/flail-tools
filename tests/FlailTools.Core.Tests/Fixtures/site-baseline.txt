@@ -1,365 +1,365 @@
 == dungeon 1
 name	Hungry Wake
 silhouette	warren-dry	warren	dry	4
-field	dungeon/flavour	#4	Half-collapsed, shifting underfoot
-field	dungeon/type	#4	Temple undercroft
-field	dungeon/location	#1	Beneath a dry riverbed
-field	dungeon/key-feature	#1	A door that has been bricked up twice
-field	dungeon/creatures	#3	The previous expedition, still here
-area	1	entrance	dungeon/room/0/stocking	#0	Empty, but not undisturbed
-area	2	plain	dungeon/room/1/stocking	#2	A hazard, sprung or waiting
-area	3	plain	dungeon/room/2/stocking	#0	Empty, but not undisturbed
-area	4	plain	dungeon/room/3/stocking	#4	A lock, a puzzle, or a choice
-area	5	plain	dungeon/room/4/stocking	#2	A hazard, sprung or waiting
-area	6	plain	dungeon/room/5/stocking	#5	A clue about what is deeper down
-area	7	plain	dungeon/room/6/stocking	#5	A clue about what is deeper down
-area	8	plain	dungeon/room/7/stocking	#3	Something worth carrying out
-area	9	finale	dungeon/room/8/stocking	#0	Empty, but not undisturbed
+field	dungeon/flavour	#4	Broken
+field	dungeon/type	#4	Sewers
+field	dungeon/location	#1	Hidden in old temple
+field	dungeon/key-feature	#1	Bone-coated walls
+field	dungeon/creatures	#3	Giants
+area	1	entrance	dungeon/room/0/stocking	#6	Obstacle to overcome
+area	2	plain	dungeon/room/1/stocking	#8	Odd anomaly
+area	3	plain	dungeon/room/2/stocking	#3	Something that can kill the characters
+area	4	plain	dungeon/room/3/stocking	#1	Something that probably won't be found
+area	5	plain	dungeon/room/4/stocking	#5	Puzzle to play with
+area	6	plain	dungeon/room/5/stocking	#2	Something the characters can kill
+area	7	plain	dungeon/room/6/stocking	#8	Odd anomaly
+area	8	plain	dungeon/room/7/stocking	#0	Something to steal
+area	9	finale	dungeon/room/8/stocking	#0	Something to steal
 == dungeon 7
 name	Ashen Lull
 silhouette	warren-flooded	warren	water	4
-field	dungeon/flavour	#2	Still warm, recently used
-field	dungeon/type	#2	Cistern and drains
-field	dungeon/location	#1	Beneath a dry riverbed
-field	dungeon/key-feature	#2	Water rising an inch a day
-field	dungeon/creatures	#4	A thing that wears the dead
-area	1	entrance	dungeon/room/0/stocking	#2	A hazard, sprung or waiting
-area	2	plain	dungeon/room/1/stocking	#1	Something lives here
-area	3	plain	dungeon/room/2/stocking	#0	Empty, but not undisturbed
-area	4	plain	dungeon/room/3/stocking	#1	Something lives here
-area	5	plain	dungeon/room/4/stocking	#2	A hazard, sprung or waiting
-area	6	plain	dungeon/room/5/stocking	#2	A hazard, sprung or waiting
-area	7	plain	dungeon/room/6/stocking	#2	A hazard, sprung or waiting
-area	8	plain	dungeon/room/7/stocking	#0	Empty, but not undisturbed
-area	9	plain	dungeon/room/8/stocking	#0	Empty, but not undisturbed
-area	10	finale	dungeon/room/9/stocking	#1	Something lives here
-area	11	plain	dungeon/room/10/stocking	#5	A clue about what is deeper down
+field	dungeon/flavour	#2	Haunted
+field	dungeon/type	#2	Tombs
+field	dungeon/location	#1	Hidden in old temple
+field	dungeon/key-feature	#2	Toxic vapours
+field	dungeon/creatures	#4	Insects
+area	1	entrance	dungeon/room/0/stocking	#5	Puzzle to play with
+area	2	plain	dungeon/room/1/stocking	#4	Someone to meet
+area	3	plain	dungeon/room/2/stocking	#6	Obstacle to overcome
+area	4	plain	dungeon/room/3/stocking	#4	Someone to meet
+area	5	plain	dungeon/room/4/stocking	#5	Puzzle to play with
+area	6	plain	dungeon/room/5/stocking	#8	Odd anomaly
+area	7	plain	dungeon/room/6/stocking	#2	Something the characters can kill
+area	8	plain	dungeon/room/7/stocking	#0	Something to steal
+area	9	plain	dungeon/room/8/stocking	#0	Something to steal
+area	10	finale	dungeon/room/9/stocking	#1	Something that probably won't be found
+area	11	plain	dungeon/room/10/stocking	#5	Puzzle to play with
 == dungeon 42
 name	Amber Heart
 silhouette	linear-run	linear	dry	5
-field	dungeon/flavour	#0	Damp, and everything grows
-field	dungeon/type	#5	Cellars of a lost house
-field	dungeon/location	#2	Inside a cliff face
-field	dungeon/key-feature	#2	Water rising an inch a day
-field	dungeon/creatures	#5	Nothing living, and fresh footprints
-area	1	entrance	dungeon/room/0/stocking	#0	Empty, but not undisturbed
-area	2	plain	dungeon/room/1/stocking	#5	A clue about what is deeper down
-area	3	plain	dungeon/room/2/stocking	#0	Empty, but not undisturbed
-area	4	plain	dungeon/room/3/stocking	#2	A hazard, sprung or waiting
-area	5	plain	dungeon/room/4/stocking	#5	A clue about what is deeper down
-area	6	plain	dungeon/room/5/stocking	#3	Something worth carrying out
-area	7	plain	dungeon/room/6/stocking	#1	Something lives here
-area	8	plain	dungeon/room/7/stocking	#4	A lock, a puzzle, or a choice
-area	9	plain	dungeon/room/8/stocking	#3	Something worth carrying out
-area	10	finale	dungeon/room/9/stocking	#3	Something worth carrying out
-area	11	plain	dungeon/room/10/stocking	#0	Empty, but not undisturbed
-area	12	plain	dungeon/room/11/stocking	#4	A lock, a puzzle, or a choice
+field	dungeon/flavour	#0	Enchanted
+field	dungeon/type	#5	Cellar
+field	dungeon/location	#2	Inside a deep well
+field	dungeon/key-feature	#2	Toxic vapours
+field	dungeon/creatures	#5	Demons
+area	1	entrance	dungeon/room/0/stocking	#0	Something to steal
+area	2	plain	dungeon/room/1/stocking	#2	Something the characters can kill
+area	3	plain	dungeon/room/2/stocking	#0	Something to steal
+area	4	plain	dungeon/room/3/stocking	#2	Something the characters can kill
+area	5	plain	dungeon/room/4/stocking	#2	Something the characters can kill
+area	6	plain	dungeon/room/5/stocking	#0	Something to steal
+area	7	plain	dungeon/room/6/stocking	#4	Someone to meet
+area	8	plain	dungeon/room/7/stocking	#4	Someone to meet
+area	9	plain	dungeon/room/8/stocking	#6	Obstacle to overcome
+area	10	finale	dungeon/room/9/stocking	#0	Something to steal
+area	11	plain	dungeon/room/10/stocking	#3	Something that can kill the characters
+area	12	plain	dungeon/room/11/stocking	#1	Something that probably won't be found
 == dungeon 1337
 name	Ivory Shiver
 silhouette	warren-flooded	warren	water	4
-field	dungeon/flavour	#2	Still warm, recently used
-field	dungeon/type	#4	Temple undercroft
-field	dungeon/location	#1	Beneath a dry riverbed
-field	dungeon/key-feature	#2	Water rising an inch a day
-field	dungeon/creatures	#5	Nothing living, and fresh footprints
-area	1	entrance	dungeon/room/0/stocking	#4	A lock, a puzzle, or a choice
-area	2	plain	dungeon/room/1/stocking	#5	A clue about what is deeper down
-area	3	plain	dungeon/room/2/stocking	#3	Something worth carrying out
-area	4	plain	dungeon/room/3/stocking	#0	Empty, but not undisturbed
-area	5	plain	dungeon/room/4/stocking	#0	Empty, but not undisturbed
-area	6	plain	dungeon/room/5/stocking	#3	Something worth carrying out
-area	7	plain	dungeon/room/6/stocking	#4	A lock, a puzzle, or a choice
-area	8	plain	dungeon/room/7/stocking	#0	Empty, but not undisturbed
-area	9	finale	dungeon/room/8/stocking	#4	A lock, a puzzle, or a choice
+field	dungeon/flavour	#2	Haunted
+field	dungeon/type	#4	Sewers
+field	dungeon/location	#1	Hidden in old temple
+field	dungeon/key-feature	#2	Toxic vapours
+field	dungeon/creatures	#5	Demons
+area	1	entrance	dungeon/room/0/stocking	#4	Someone to meet
+area	2	plain	dungeon/room/1/stocking	#2	Something the characters can kill
+area	3	plain	dungeon/room/2/stocking	#3	Something that can kill the characters
+area	4	plain	dungeon/room/3/stocking	#3	Something that can kill the characters
+area	5	plain	dungeon/room/4/stocking	#0	Something to steal
+area	6	plain	dungeon/room/5/stocking	#6	Obstacle to overcome
+area	7	plain	dungeon/room/6/stocking	#1	Something that probably won't be found
+area	8	plain	dungeon/room/7/stocking	#3	Something that can kill the characters
+area	9	finale	dungeon/room/8/stocking	#1	Something that probably won't be found
 == dungeon 65535
 name	Hollow Mark
 silhouette	linear-run	linear	dry	3
-field	dungeon/flavour	#5	Kept tidy by somebody
-field	dungeon/type	#5	Cellars of a lost house
-field	dungeon/location	#0	Under a graveyard
-field	dungeon/key-feature	#5	One room kept clean and lit
-field	dungeon/creatures	#5	Nothing living, and fresh footprints
-area	1	entrance	dungeon/room/0/stocking	#1	Something lives here
-area	2	plain	dungeon/room/1/stocking	#2	A hazard, sprung or waiting
-area	3	plain	dungeon/room/2/stocking	#2	A hazard, sprung or waiting
-area	4	plain	dungeon/room/3/stocking	#2	A hazard, sprung or waiting
-area	5	plain	dungeon/room/4/stocking	#0	Empty, but not undisturbed
-area	6	plain	dungeon/room/5/stocking	#3	Something worth carrying out
-area	7	plain	dungeon/room/6/stocking	#5	A clue about what is deeper down
-area	8	finale	dungeon/room/7/stocking	#4	A lock, a puzzle, or a choice
+field	dungeon/flavour	#5	Cursed
+field	dungeon/type	#5	Cellar
+field	dungeon/location	#0	Beneath a busy city
+field	dungeon/key-feature	#5	Hanging chains
+field	dungeon/creatures	#5	Demons
+area	1	entrance	dungeon/room/0/stocking	#7	Trap to avoid
+area	2	plain	dungeon/room/1/stocking	#8	Odd anomaly
+area	3	plain	dungeon/room/2/stocking	#5	Puzzle to play with
+area	4	plain	dungeon/room/3/stocking	#8	Odd anomaly
+area	5	plain	dungeon/room/4/stocking	#6	Obstacle to overcome
+area	6	plain	dungeon/room/5/stocking	#0	Something to steal
+area	7	plain	dungeon/room/6/stocking	#2	Something the characters can kill
+area	8	finale	dungeon/room/7/stocking	#4	Someone to meet
 == dungeon 2147483647
 name	Blind Eye
 silhouette	warren-dry	warren	dry	5
-field	dungeon/flavour	#4	Half-collapsed, shifting underfoot
-field	dungeon/type	#3	Prison
-field	dungeon/location	#5	Behind a waterfall
-field	dungeon/key-feature	#1	A door that has been bricked up twice
-field	dungeon/creatures	#1	Something blind that hunts by sound
-area	1	entrance	dungeon/room/0/stocking	#4	A lock, a puzzle, or a choice
-area	2	plain	dungeon/room/1/stocking	#4	A lock, a puzzle, or a choice
-area	3	plain	dungeon/room/2/stocking	#1	Something lives here
-area	4	plain	dungeon/room/3/stocking	#2	A hazard, sprung or waiting
-area	5	plain	dungeon/room/4/stocking	#2	A hazard, sprung or waiting
-area	6	plain	dungeon/room/5/stocking	#3	Something worth carrying out
-area	7	plain	dungeon/room/6/stocking	#0	Empty, but not undisturbed
-area	8	plain	dungeon/room/7/stocking	#4	A lock, a puzzle, or a choice
-area	9	plain	dungeon/room/8/stocking	#4	A lock, a puzzle, or a choice
-area	10	finale	dungeon/room/9/stocking	#2	A hazard, sprung or waiting
-area	11	plain	dungeon/room/10/stocking	#4	A lock, a puzzle, or a choice
-area	12	plain	dungeon/room/11/stocking	#2	A hazard, sprung or waiting
+field	dungeon/flavour	#4	Broken
+field	dungeon/type	#3	Catacombs
+field	dungeon/location	#5	Below an ancient ruin
+field	dungeon/key-feature	#1	Bone-coated walls
+field	dungeon/creatures	#1	Oozes
+area	1	entrance	dungeon/room/0/stocking	#7	Trap to avoid
+area	2	plain	dungeon/room/1/stocking	#4	Someone to meet
+area	3	plain	dungeon/room/2/stocking	#4	Someone to meet
+area	4	plain	dungeon/room/3/stocking	#8	Odd anomaly
+area	5	plain	dungeon/room/4/stocking	#5	Puzzle to play with
+area	6	plain	dungeon/room/5/stocking	#0	Something to steal
+area	7	plain	dungeon/room/6/stocking	#3	Something that can kill the characters
+area	8	plain	dungeon/room/7/stocking	#7	Trap to avoid
+area	9	plain	dungeon/room/8/stocking	#7	Trap to avoid
+area	10	finale	dungeon/room/9/stocking	#5	Puzzle to play with
+area	11	plain	dungeon/room/10/stocking	#7	Trap to avoid
+area	12	plain	dungeon/room/11/stocking	#5	Puzzle to play with
 == cave 1
 name	Hungry Wake
 silhouette	linear-channel	linear	water	5
-field	cave/flavour	#0	Dry, dusty, and very old
-field	cave/type	#2	Sinkhole system
-field	cave/location	#2	Behind a rockfall on a pass
-field	cave/key-feature	#5	A squeeze nobody large can pass
-field	cave/creatures	#2	A bear, and it is home
-area	1	hidden	cave/chamber/0/chamber	#3	Signs that somebody camped here
-area	2	hidden	cave/chamber/1/chamber	#3	Signs that somebody camped here
-area	3	hidden	cave/chamber/2/chamber	#2	A squeeze or a climb to go on
-area	4	cluster	cave/chamber/3/chamber	#2	A squeeze or a climb to go on
-area	5	core	cave/chamber/4/chamber	#5	Something left behind on purpose
-area	6	cluster	cave/chamber/5/chamber	#2	A squeeze or a climb to go on
-area	7	entry	cave/chamber/6/chamber	#1	Water: a pool, a stream, a seep
-area	8	cluster	cave/chamber/7/chamber	#2	A squeeze or a climb to go on
+field	cave/flavour	#0	Dark
+field	cave/type	#2	Grotto
+field	cave/location	#2	Verdant sinkhole
+field	cave/key-feature	#5	Stalactite-choked
+field	cave/creatures	#2	Birds
+area	1	hidden	cave/chamber/0/chamber	#3	Weak encounter: pick or create a weak creature matching the rolled theme
+area	2	hidden	cave/chamber/1/chamber	#3	Weak encounter: pick or create a weak creature matching the rolled theme
+area	3	hidden	cave/chamber/2/chamber	#2	Obstacle: roll or choose a fitting dungeon obstacle
+area	4	cluster	cave/chamber/3/chamber	#2	Obstacle: roll or choose a fitting dungeon obstacle
+area	5	core	cave/chamber/4/chamber	#5	Strong encounter: pick or create a powerful creature matching the rolled theme
+area	6	cluster	cave/chamber/5/chamber	#2	Obstacle: roll or choose a fitting dungeon obstacle
+area	7	entry	cave/chamber/6/chamber	#1	Vestiges: bone altar, makeshift shelter, burial mound or warding totem
+area	8	cluster	cave/chamber/7/chamber	#2	Obstacle: roll or choose a fitting dungeon obstacle
 == cave 7
 name	Ashen Lull
 silhouette	warren-dry	warren	dry	4
-field	cave/flavour	#5	Silent in a way that feels wrong
-field	cave/type	#4	Limestone galleries
-field	cave/location	#1	In the floor of a quarry
-field	cave/key-feature	#2	An underground river, fast and cold
-field	cave/creatures	#2	A bear, and it is home
-area	1	hidden	cave/chamber/0/chamber	#2	A squeeze or a climb to go on
-area	2	plain	cave/chamber/1/chamber	#3	Signs that somebody camped here
-area	3	core	cave/chamber/2/chamber	#1	Water: a pool, a stream, a seep
-area	4	entry	cave/chamber/3/chamber	#0	Bare rock, nothing else
-area	5	hidden	cave/chamber/4/chamber	#2	A squeeze or a climb to go on
-area	6	hidden	cave/chamber/5/chamber	#5	Something left behind on purpose
+field	cave/flavour	#5	Haunted
+field	cave/type	#4	Burrow
+field	cave/location	#1	Primeval mountain
+field	cave/key-feature	#2	Flooded to the waist
+field	cave/creatures	#2	Birds
+area	1	hidden	cave/chamber/0/chamber	#2	Obstacle: roll or choose a fitting dungeon obstacle
+area	2	plain	cave/chamber/1/chamber	#3	Weak encounter: pick or create a weak creature matching the rolled theme
+area	3	core	cave/chamber/2/chamber	#1	Vestiges: bone altar, makeshift shelter, burial mound or warding totem
+area	4	entry	cave/chamber/3/chamber	#0	Treasure: buried chest, weapons cache, spellbook or Unique Item
+area	5	hidden	cave/chamber/4/chamber	#2	Obstacle: roll or choose a fitting dungeon obstacle
+area	6	hidden	cave/chamber/5/chamber	#5	Strong encounter: pick or create a powerful creature matching the rolled theme
 == cave 42
 name	Amber Heart
 silhouette	linear-run	linear	dry	4
-field	cave/flavour	#3	Cold enough to see your breath
-field	cave/type	#0	Sea cave, flooded at high tide
-field	cave/location	#2	Behind a rockfall on a pass
-field	cave/key-feature	#0	A chamber of standing columns
-field	cave/creatures	#4	A colony that farms the fungus
-area	1	core	cave/chamber/0/chamber	#5	Something left behind on purpose
-area	2	plain	cave/chamber/1/chamber	#5	Something left behind on purpose
-area	3	plain	cave/chamber/2/chamber	#0	Bare rock, nothing else
-area	4	hidden	cave/chamber/3/chamber	#3	Signs that somebody camped here
-area	5	entry	cave/chamber/4/chamber	#3	Signs that somebody camped here
-area	6	hidden	cave/chamber/5/chamber	#5	Something left behind on purpose
-area	7	plain	cave/chamber/6/chamber	#3	Signs that somebody camped here
+field	cave/flavour	#3	Forgotten
+field	cave/type	#0	Lair
+field	cave/location	#2	Verdant sinkhole
+field	cave/key-feature	#0	Freezing fog
+field	cave/creatures	#4	Giants
+area	1	core	cave/chamber/0/chamber	#5	Strong encounter: pick or create a powerful creature matching the rolled theme
+area	2	plain	cave/chamber/1/chamber	#5	Strong encounter: pick or create a powerful creature matching the rolled theme
+area	3	plain	cave/chamber/2/chamber	#0	Treasure: buried chest, weapons cache, spellbook or Unique Item
+area	4	hidden	cave/chamber/3/chamber	#3	Weak encounter: pick or create a weak creature matching the rolled theme
+area	5	entry	cave/chamber/4/chamber	#3	Weak encounter: pick or create a weak creature matching the rolled theme
+area	6	hidden	cave/chamber/5/chamber	#5	Strong encounter: pick or create a powerful creature matching the rolled theme
+area	7	plain	cave/chamber/6/chamber	#3	Weak encounter: pick or create a weak creature matching the rolled theme
 == cave 1337
 name	Ivory Shiver
 silhouette	sprawl-open	sprawl	dry	4
-field	cave/flavour	#2	Warm air coming up from below
-field	cave/type	#3	Ice cave
-field	cave/location	#5	Opening in the bed of a stream
-field	cave/key-feature	#5	A squeeze nobody large can pass
-field	cave/creatures	#2	A bear, and it is home
-area	1	entry	cave/chamber/0/chamber	#3	Signs that somebody camped here
-area	2	core	cave/chamber/1/chamber	#4	A nest, occupied
-area	3	cluster	cave/chamber/2/chamber	#4	A nest, occupied
-area	4	plain	cave/chamber/3/chamber	#5	Something left behind on purpose
-area	5	hidden	cave/chamber/4/chamber	#0	Bare rock, nothing else
-area	6	plain	cave/chamber/5/chamber	#1	Water: a pool, a stream, a seep
-area	7	plain	cave/chamber/6/chamber	#3	Signs that somebody camped here
+field	cave/flavour	#2	Mystic
+field	cave/type	#3	Hollows
+field	cave/location	#5	Abyssal chasm
+field	cave/key-feature	#5	Stalactite-choked
+field	cave/creatures	#2	Birds
+area	1	entry	cave/chamber/0/chamber	#3	Weak encounter: pick or create a weak creature matching the rolled theme
+area	2	core	cave/chamber/1/chamber	#4	Average encounter: pick or create an average creature matching the rolled theme
+area	3	cluster	cave/chamber/2/chamber	#4	Average encounter: pick or create an average creature matching the rolled theme
+area	4	plain	cave/chamber/3/chamber	#5	Strong encounter: pick or create a powerful creature matching the rolled theme
+area	5	hidden	cave/chamber/4/chamber	#0	Treasure: buried chest, weapons cache, spellbook or Unique Item
+area	6	plain	cave/chamber/5/chamber	#1	Vestiges: bone altar, makeshift shelter, burial mound or warding totem
+area	7	plain	cave/chamber/6/chamber	#3	Weak encounter: pick or create a weak creature matching the rolled theme
 == cave 65535
 name	Hollow Mark
 silhouette	warren-dry	warren	dry	4
-field	cave/flavour	#4	Smells of animal and standing water
-field	cave/type	#0	Sea cave, flooded at high tide
-field	cave/location	#0	Halfway up a sea cliff
-field	cave/key-feature	#4	Crystals that hold the light
-field	cave/creatures	#3	Pale things that avoid the light
-area	1	core	cave/chamber/0/chamber	#3	Signs that somebody camped here
-area	2	hidden	cave/chamber/1/chamber	#4	A nest, occupied
-area	3	cluster	cave/chamber/2/chamber	#5	Something left behind on purpose
-area	4	entry	cave/chamber/3/chamber	#5	Something left behind on purpose
-area	5	cluster	cave/chamber/4/chamber	#5	Something left behind on purpose
-area	6	hidden	cave/chamber/5/chamber	#5	Something left behind on purpose
+field	cave/flavour	#4	Infested
+field	cave/type	#0	Lair
+field	cave/location	#0	Dormant volcano
+field	cave/key-feature	#4	Crystallised veins
+field	cave/creatures	#3	Insects
+area	1	core	cave/chamber/0/chamber	#3	Weak encounter: pick or create a weak creature matching the rolled theme
+area	2	hidden	cave/chamber/1/chamber	#4	Average encounter: pick or create an average creature matching the rolled theme
+area	3	cluster	cave/chamber/2/chamber	#5	Strong encounter: pick or create a powerful creature matching the rolled theme
+area	4	entry	cave/chamber/3/chamber	#5	Strong encounter: pick or create a powerful creature matching the rolled theme
+area	5	cluster	cave/chamber/4/chamber	#5	Strong encounter: pick or create a powerful creature matching the rolled theme
+area	6	hidden	cave/chamber/5/chamber	#5	Strong encounter: pick or create a powerful creature matching the rolled theme
 == cave 2147483647
 name	Blind Eye
 silhouette	sprawl-open	sprawl	dry	5
-field	cave/flavour	#3	Cold enough to see your breath
-field	cave/type	#2	Sinkhole system
-field	cave/location	#0	Halfway up a sea cliff
-field	cave/key-feature	#5	A squeeze nobody large can pass
-field	cave/creatures	#0	Bats in thousands, out at dusk
-area	1	hidden	cave/chamber/0/chamber	#1	Water: a pool, a stream, a seep
-area	2	core	cave/chamber/1/chamber	#1	Water: a pool, a stream, a seep
-area	3	plain	cave/chamber/2/chamber	#4	A nest, occupied
-area	4	plain	cave/chamber/3/chamber	#3	Signs that somebody camped here
-area	5	plain	cave/chamber/4/chamber	#2	A squeeze or a climb to go on
-area	6	hidden	cave/chamber/5/chamber	#4	A nest, occupied
-area	7	entry	cave/chamber/6/chamber	#2	A squeeze or a climb to go on
-area	8	plain	cave/chamber/7/chamber	#0	Bare rock, nothing else
+field	cave/flavour	#3	Forgotten
+field	cave/type	#2	Grotto
+field	cave/location	#0	Dormant volcano
+field	cave/key-feature	#5	Stalactite-choked
+field	cave/creatures	#0	Reptiles
+area	1	hidden	cave/chamber/0/chamber	#1	Vestiges: bone altar, makeshift shelter, burial mound or warding totem
+area	2	core	cave/chamber/1/chamber	#1	Vestiges: bone altar, makeshift shelter, burial mound or warding totem
+area	3	plain	cave/chamber/2/chamber	#4	Average encounter: pick or create an average creature matching the rolled theme
+area	4	plain	cave/chamber/3/chamber	#3	Weak encounter: pick or create a weak creature matching the rolled theme
+area	5	plain	cave/chamber/4/chamber	#2	Obstacle: roll or choose a fitting dungeon obstacle
+area	6	hidden	cave/chamber/5/chamber	#4	Average encounter: pick or create an average creature matching the rolled theme
+area	7	entry	cave/chamber/6/chamber	#2	Obstacle: roll or choose a fitting dungeon obstacle
+area	8	plain	cave/chamber/7/chamber	#0	Treasure: buried chest, weapons cache, spellbook or Unique Item
 == tower 1
 name	Hungry Wake
 silhouette	boxy-compact	boxy	dry	3
-field	tower/shape	#3	Three towers braided together
-field	tower/occupant	#9	Squatters who do not know what they touch
-field	tower/reaction	#2	Hostile from the first word
-field	tower/goal	#2	To stop ageing
-area	1	plain	tower/floor/0/type	#2	A workshop, mid-experiment
-area	2	plain	tower/floor/1/type	#0	Stores, and the stairs
-area	3	top	tower/floor/2/type	#1	The working study, where it all happens
+field	tower/shape	#3	Forsaken Lighthouse
+field	tower/occupant	#9	Geomancer
+field	tower/reaction	#2	Befriend characters
+field	tower/goal	#2	Open portal
+area	1	plain	tower/floor/0/type	#2	Lab: potions brewery
+area	2	plain	tower/floor/1/type	#0	Chamber: shrine
+area	3	top	tower/floor/2/type	#1	Meditation pod
 == tower 7
 name	Ashen Lull
 silhouette	vessel-tall	vessel	dry	6
-field	tower/shape	#8	Low and broad, more keep than tower
-field	tower/occupant	#9	Squatters who do not know what they touch
-field	tower/reaction	#9	Negotiates badly, out of fear
-field	tower/goal	#8	To prove a rival wrong, publicly
-area	1	plain	tower/floor/0/type	#3	A library, badly kept
-area	2	plain	tower/floor/1/type	#5	One large thing, and no room for more
-area	3	plain	tower/floor/2/type	#5	One large thing, and no room for more
-area	4	plain	tower/floor/3/type	#1	Living quarters
-area	5	plain	tower/floor/4/type	#2	A workshop, mid-experiment
-area	6	top	tower/floor/5/type	#0	An observatory, open to the sky
+field	tower/shape	#8	Stonework Tower
+field	tower/occupant	#9	Geomancer
+field	tower/reaction	#9	Steal characters
+field	tower/goal	#8	Perform ritual
+area	1	plain	tower/floor/0/type	#3	Library: spellbooks
+area	2	plain	tower/floor/1/type	#5	Leisure: music chamber
+area	3	plain	tower/floor/2/type	#5	Leisure: dream lounge
+area	4	plain	tower/floor/3/type	#1	Hall: treasury
+area	5	plain	tower/floor/4/type	#2	Lab: medicine lab
+area	6	top	tower/floor/5/type	#0	Astronomical observatory
 == tower 42
 name	Amber Heart
 silhouette	vessel-tall	vessel	dry	3
-field	tower/shape	#2	A spiral that narrows as it rises
-field	tower/occupant	#9	Squatters who do not know what they touch
-field	tower/reaction	#6	Asks for help, and does not
-field	tower/goal	#1	To undo a mistake that is still spreading
-area	1	plain	tower/floor/0/type	#2	A workshop, mid-experiment
-area	2	plain	tower/floor/1/type	#5	One large thing, and no room for more
-area	3	top	tower/floor/2/type	#3	A roof garden gone wild
+field	tower/shape	#2	Arcane Obelisk
+field	tower/occupant	#9	Geomancer
+field	tower/reaction	#6	Imprison characters
+field	tower/goal	#1	Raise army
+area	1	plain	tower/floor/0/type	#2	Lab: construct workshop
+area	2	plain	tower/floor/1/type	#5	Leisure: arboretum
+area	3	top	tower/floor/2/type	#3	Eldritch lookout
 == tower 1337
 name	Ivory Shiver
 silhouette	vessel-moated	vessel	water	5
-field	tower/shape	#4	Built into a standing rock
-field	tower/occupant	#2	The wizard's widow
-field	tower/reaction	#5	Asks for help, and means it
-field	tower/goal	#0	To finish a work begun by somebody else
-area	1	plain	tower/floor/0/type	#3	A library, badly kept
-area	2	plain	tower/floor/1/type	#5	One large thing, and no room for more
-area	3	plain	tower/floor/2/type	#4	Something caged or contained
-area	4	plain	tower/floor/3/type	#2	A workshop, mid-experiment
-area	5	top	tower/floor/4/type	#0	An observatory, open to the sky
+field	tower/shape	#4	Hollow Tree
+field	tower/occupant	#2	Conjurer
+field	tower/reaction	#5	Lure characters
+field	tower/goal	#0	Rule the world
+area	1	plain	tower/floor/0/type	#3	Library: weird inventions
+area	2	plain	tower/floor/1/type	#5	Leisure: reptilarium
+area	3	plain	tower/floor/2/type	#4	Gallery: cabinet of curiosities
+area	4	plain	tower/floor/3/type	#2	Lab: potions brewery
+area	5	top	tower/floor/4/type	#0	Astronomical observatory
 == tower 65535
 name	Hollow Mark
 silhouette	boxy-compact	boxy	dry	6
-field	tower/shape	#5	Wider at the top than the bottom
-field	tower/occupant	#6	Two wizards who are not speaking
-field	tower/reaction	#4	Wants you gone before dark
-field	tower/goal	#8	To prove a rival wrong, publicly
-area	1	plain	tower/floor/0/type	#3	A library, badly kept
-area	2	plain	tower/floor/1/type	#3	A library, badly kept
-area	3	plain	tower/floor/2/type	#5	One large thing, and no room for more
-area	4	plain	tower/floor/3/type	#5	One large thing, and no room for more
-area	5	plain	tower/floor/4/type	#1	Living quarters
-area	6	top	tower/floor/5/type	#3	A roof garden gone wild
+field	tower/shape	#5	Twisted Spire
+field	tower/occupant	#6	Sorcerer
+field	tower/reaction	#4	Help characters
+field	tower/goal	#8	Perform ritual
+area	1	plain	tower/floor/0/type	#3	Library: spellbooks
+area	2	plain	tower/floor/1/type	#3	Library: cookbooks
+area	3	plain	tower/floor/2/type	#5	Leisure: music chamber
+area	4	plain	tower/floor/3/type	#5	Leisure: reptilarium
+area	5	plain	tower/floor/4/type	#1	Hall: armoury
+area	6	top	tower/floor/5/type	#3	Eldritch lookout
 == tower 2147483647
 name	Blind Eye
 silhouette	vessel-tall	vessel	dry	5
-field	tower/shape	#9	Hexagonal, with too few windows
-field	tower/occupant	#2	The wizard's widow
-field	tower/reaction	#5	Asks for help, and means it
-field	tower/goal	#8	To prove a rival wrong, publicly
-area	1	plain	tower/floor/0/type	#3	A library, badly kept
-area	2	plain	tower/floor/1/type	#3	A library, badly kept
-area	3	plain	tower/floor/2/type	#2	A workshop, mid-experiment
-area	4	plain	tower/floor/3/type	#0	Stores, and the stairs
-area	5	top	tower/floor/4/type	#3	A roof garden gone wild
+field	tower/shape	#9	Bone Keep
+field	tower/occupant	#2	Conjurer
+field	tower/reaction	#5	Lure characters
+field	tower/goal	#8	Perform ritual
+area	1	plain	tower/floor/0/type	#3	Library: cookbooks
+area	2	plain	tower/floor/1/type	#3	Library: occult tomes
+area	3	plain	tower/floor/2/type	#2	Lab: potions brewery
+area	4	plain	tower/floor/3/type	#0	Chamber: shrine
+area	5	top	tower/floor/4/type	#3	Eldritch lookout
 == location 1
 name	Hungry Wake
 silhouette	linear-channel	linear	water	3
-field	location/location	#1	A toll bridge, unmanned
-field	location/biome	#4	Salt marsh
-field	location/condition	#8	Kept up by one stubborn person
-field	location/key-feature	#19	A view of somewhere that is not there
-field	location/occupant	#3	Pilgrims, walking
+field	location/location	#1	Megalith
+field	location/biome	#4	Mountains
+field	location/condition	#8	Levitating
+field	location/key-feature	#19	Warning flags
+field	location/occupant	#3	Deserter clique
 == location 7
 name	Ashen Lull
 silhouette	sprawl-open	sprawl	dry	3
-field	location/location	#5	A charcoal burner's camp
-field	location/biome	#9	Reed beds
-field	location/condition	#1	Recently abandoned
-field	location/key-feature	#16	A path worn deep by something
-field	location/occupant	#9	Brothers who divided it badly
+field	location/location	#5	Pyramid
+field	location/biome	#9	Pastoral
+field	location/condition	#1	Blessed
+field	location/key-feature	#16	Octopus statue
+field	location/occupant	#9	Pirate crew
 == location 42
 name	Amber Heart
 silhouette	hollow-round	hollow	dry	3
-field	location/location	#16	A waystation with no keeper
-field	location/biome	#0	Wet moorland
-field	location/condition	#5	Under quiet siege
-field	location/key-feature	#2	A stone nobody will move
-field	location/occupant	#11	Nobody, and the fires are lit
+field	location/location	#16	Bazaar
+field	location/biome	#0	Desert
+field	location/condition	#5	Twisted
+field	location/key-feature	#2	Magically sealed
+field	location/occupant	#11	Healing order
 == location 1337
 name	Ivory Shiver
 silhouette	sprawl-open	sprawl	dry	3
-field	location/location	#12	A hamlet under quarantine
-field	location/biome	#15	Floodplain woodland
-field	location/condition	#18	Flooded to the first floor
-field	location/key-feature	#9	Scorch marks in a ring
-field	location/occupant	#11	Nobody, and the fires are lit
+field	location/location	#12	Village
+field	location/biome	#15	Swamp
+field	location/condition	#18	Quarantined
+field	location/key-feature	#9	Odd burrows
+field	location/occupant	#11	Healing order
 == location 65535
 name	Hollow Mark
 silhouette	hollow-round	hollow	dry	3
-field	location/location	#4	A watchtower, burnt out
-field	location/biome	#9	Reed beds
-field	location/condition	#3	Burnt within the month
-field	location/key-feature	#19	A view of somewhere that is not there
-field	location/occupant	#1	Soldiers between wars
+field	location/location	#4	Temple
+field	location/biome	#9	Pastoral
+field	location/condition	#3	Haunted
+field	location/key-feature	#19	Warning flags
+field	location/occupant	#1	Thieves' guild
 == location 2147483647
 name	Blind Eye
 silhouette	linear-channel	linear	water	3
-field	location/location	#9	A hermit's cell
-field	location/biome	#6	River flats
-field	location/condition	#5	Under quiet siege
-field	location/key-feature	#12	Water that runs the wrong way
-field	location/occupant	#11	Nobody, and the fires are lit
+field	location/location	#9	Obelisk
+field	location/biome	#6	Pastoral
+field	location/condition	#5	Twisted
+field	location/key-feature	#12	Pulsating orb
+field	location/occupant	#11	Healing order
 == landmark 1
 name	Hungry Wake
 silhouette	hollow-round	hollow	dry	2
-field	landmark/landmark	#1	A waterfall that falls into a hole
-field	landmark/biome	#14	Bamboo stands
-field	landmark/condition	#8	Collapsing, visibly
-field	landmark/key-feature	#11	A hollow that holds still water
-field	landmark/occupant	#12	Herders moving stock through
+field	landmark/landmark	#1	Volcano
+field	landmark/biome	#14	Swamp
+field	landmark/condition	#8	Echoing
+field	landmark/key-feature	#11	Bone piles
+field	landmark/occupant	#12	Hermit oracle
 == landmark 7
 name	Ashen Lull
 silhouette	vessel-tall	vessel	dry	2
-field	landmark/landmark	#13	A canyon of banded rock
-field	landmark/biome	#9	Shingle beach
-field	landmark/condition	#10	A boundary nobody crosses armed
-field	landmark/key-feature	#9	Footprints spaced too far apart
-field	landmark/occupant	#9	A scholar copying the carvings
+field	landmark/landmark	#13	Butte
+field	landmark/biome	#9	Pastoral
+field	landmark/condition	#10	Blighted
+field	landmark/key-feature	#9	Primitive fossils
+field	landmark/occupant	#9	Insane construct
 == landmark 42
 name	Amber Heart
 silhouette	vessel-tall	vessel	dry	2
-field	landmark/landmark	#4	A natural arch
-field	landmark/biome	#11	Sagebrush plain
-field	landmark/condition	#17	Silent, and it should not be
-field	landmark/key-feature	#14	A path always clear of snow
-field	landmark/occupant	#2	A watchpost of three bored soldiers
+field	landmark/landmark	#4	Cave
+field	landmark/biome	#11	Forest
+field	landmark/condition	#17	Charred
+field	landmark/key-feature	#14	Giant ant nests
+field	landmark/occupant	#2	Wandering spirits
 == landmark 1337
 name	Ivory Shiver
 silhouette	vessel-tall	vessel	dry	2
-field	landmark/landmark	#0	A standing stone split by lightning
-field	landmark/biome	#15	Stony plateau
-field	landmark/condition	#0	Sacred, and the rules are strict
-field	landmark/key-feature	#7	A cairn added to by everyone
-field	landmark/occupant	#1	Goats, and whoever owns them
+field	landmark/landmark	#0	Lake
+field	landmark/biome	#15	Swamp
+field	landmark/condition	#0	Glowing
+field	landmark/key-feature	#7	Sunken ruins
+field	landmark/occupant	#1	Dire animals
 == landmark 65535
 name	Hollow Mark
 silhouette	hollow-round	hollow	dry	2
-field	landmark/landmark	#18	A cave mouth visible for miles
-field	landmark/biome	#5	Sand desert
-field	landmark/condition	#5	Unreachable most of the year
-field	landmark/key-feature	#8	A crack that breathes warm air
-field	landmark/occupant	#18	Something that only comes at night
+field	landmark/landmark	#18	Lair
+field	landmark/biome	#5	Mountains
+field	landmark/condition	#5	Infested
+field	landmark/key-feature	#8	Carved totems
+field	landmark/occupant	#18	Friendly dragon
 == landmark 2147483647
 name	Blind Eye
 silhouette	hollow-round	hollow	dry	2
-field	landmark/landmark	#6	A gorge with a single crossing
-field	landmark/biome	#11	Sagebrush plain
-field	landmark/condition	#6	Claimed by two villages
-field	landmark/key-feature	#19	Something buried that keeps surfacing
-field	landmark/occupant	#17	A guide who knows the safe way
+field	landmark/landmark	#6	Canyon
+field	landmark/biome	#11	Forest
+field	landmark/condition	#6	Curative
+field	landmark/key-feature	#19	Giant coprolites
+field	landmark/occupant	#17	Fire imps
