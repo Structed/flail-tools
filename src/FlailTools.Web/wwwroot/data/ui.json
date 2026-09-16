@@ -6,11 +6,11 @@
   },
 
   "licence": {
-    "independentHtml": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the <a href=\"https://gamesomnivorous.com/pages/flail-license\" target=\"_blank\" rel=\"noopener noreferrer\">Games Omnivorous Third Party Licence</a>.",
+    "independentHtml": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the <a href=\"https://gamesomnivorous.com/pages/flail-license\" target=\"_blank\" rel=\"noopener noreferrer\">Games Omnivorous Third-Party Licence</a>.",
     "copyrightHtml": "FLAIL is copyright of <a href=\"https://gamesomnivorous.com\" target=\"_blank\" rel=\"noopener noreferrer\">Games Omnivorous</a>.",
     "unofficial": "Unofficial",
-    "contentHtml": "FLAIL! has no SRD and is not openly licensed. Its licence permits reusing rules and mechanics, and forbids copying or translating text, so this tool implements the procedures from the book and fills them with tables written from scratch. Nothing here is transcribed or paraphrased from FLAIL!. If you want the game itself, buy it — this is a tool for people who already own it.",
-    "licenceLinkText": "Games Omnivorous Third Party Licence"
+    "contentHtml": "The Games Omnivorous Third-Party Licence permits reusing FLAIL!'s rules, mechanics, terminology and random tables, table entries included, and still forbids reproducing its artwork or its written prose. The five generator tables here are the book's own, reproduced in face order. Its prose and its artwork are not, and this is no substitute for the rules: it builds the bones of a site and leaves every judgement the procedures ask for to you. Games Omnivorous publish the rulebook free and sell it as a physical boxset. You will want it.",
+    "licenceLinkText": "Games Omnivorous Third-Party Licence"
   },
 
   "kinds": {
@@ -98,8 +98,8 @@
     "areasHeading": "Areas",
     "mapAlt": "A hand-drawn map of the site",
     "loading": "Loading…",
-    "noContentTitle": "The tables are still empty",
-    "noContentBody": "Every entry this tool rolls has to be written from scratch rather than copied out of the book, and that writing has not been done yet. The generator, the maps and the seeds all work — the results are simply blank until the tables are filled.",
+    "noContentTitle": "No tables loaded",
+    "noContentBody": "The generator, the maps and the seeds are all working, but the tables came back with no rows in them, so every field is blank. This normally means the data files did not load rather than that anything was rolled badly.",
     "emptyField": "—"
   }
 }

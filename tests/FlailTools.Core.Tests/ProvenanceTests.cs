@@ -4,29 +4,54 @@ using Structed.Inkwell.Data;
 namespace FlailTools.Core.Tests;
 
 /// <summary>
-/// The licence constraint, made executable.
+/// The provenance claim, made executable.
 /// </summary>
 /// <remarks>
-/// FLAIL! has no SRD and no open licence. The Games Omnivorous Third Party Licence lets this tool
-/// reuse rules and mechanics; it does not let it copy or translate text. So no table entry this tool
-/// ships may come from the book, and the way that is kept true over time is a test that fails if any
-/// data file ever claims an upstream work.
+/// The Games Omnivorous Third-Party Licence lets this tool reuse rules, mechanics, terminology and
+/// random tables, table entries included; it does not let it reproduce the book's artwork or its
+/// prose. The five generator tables are FLAIL!'s own and say so. Everything else — the name halves,
+/// the silhouettes, the interface copy — is written for this tool and says that instead. This test
+/// is what keeps the split honest: a file cannot quietly change sides.
 /// </remarks>
 public sealed class ProvenanceTests
 {
+    /// <summary>The files whose entries are reproduced from FLAIL!, and may therefore name it.</summary>
+    private static readonly string[] DerivedFromFlail =
+    [
+        DataPaths.Dungeon,
+        DataPaths.Cave,
+        DataPaths.Tower,
+        DataPaths.Location,
+        DataPaths.Landmark
+    ];
+
     [Fact]
-    public async Task NoDataFileIsDerivedFromAnUpstreamWork()
+    public async Task OnlyTheGeneratorTablesAreDerivedFromAnUpstreamWork()
     {
         GameData data = await TestData.LoadAsync();
 
         foreach (DataFileProvenance file in data.Provenance)
         {
+            bool mayBeDerived = DerivedFromFlail.Contains(file.Path, StringComparer.Ordinal);
+
+            if (mayBeDerived)
+            {
+                Assert.True(
+                    file.Source.IsDerived,
+                    $"'{file.Path}' holds FLAIL!'s own table entries but does not name the work they " +
+                    "come from. Set _source.work so the About page and this test both say where it " +
+                    "came from.");
+
+                continue;
+            }
+
             Assert.False(
                 file.Source.IsDerived,
-                $"'{file.Path}' names '{file.Source.Work}' as the work its content comes from. FLAIL! " +
-                "is not openly licensed and its licence forbids copying or translating text, so every " +
-                "entry this tool ships has to be original. If content really was taken from somewhere, " +
-                "the answer is to remove it, not to relax this test.");
+                $"'{file.Path}' names '{file.Source.Work}' as the work its content comes from, but it " +
+                "is not one of the generator tables. The licence does permit reusing FLAIL!'s random " +
+                "tables, so this is a claim about what is actually in the file rather than about what " +
+                "is allowed: if content really was taken from somewhere, add the file to " +
+                $"{nameof(DerivedFromFlail)} deliberately and update the notices to match.");
         }
     }
 

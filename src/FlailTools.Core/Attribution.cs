@@ -3,7 +3,7 @@ using System.Text;
 namespace FlailTools.Core;
 
 /// <summary>
-/// The notices the Games Omnivorous Third Party Licence requires, held as code rather than data.
+/// The notices the Games Omnivorous Third-Party Licence requires, held as code rather than data.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -32,7 +32,7 @@ public static class Attribution
     /// <summary>The independence notice, verbatim and mandatory.</summary>
     public const string IndependentNotice =
         $"FLAIL! Tools is an independent production by {Attributor} and is not affiliated with " +
-        $"{Publisher}. It is published under the {Publisher} Third Party Licence.";
+        $"{Publisher}. It is published under the {Publisher} Third-Party Licence.";
 
     /// <summary>The copyright notice, verbatim and mandatory.</summary>
     public const string CopyrightNotice = $"FLAIL is copyright of {Publisher}.";

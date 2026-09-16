@@ -91,7 +91,7 @@ public static class FieldPaths
     /// <summary>The name's two halves, which are locked and re-rolled as one field.</summary>
     public static IReadOnlyList<string> NameParts { get; } = [NameStem, NameTail];
 
-    /// <summary>The stream a dungeon room's stocking roll is drawn from.</summary>
+    /// <summary>The stream a dungeon room's keying concept is picked from.</summary>
     public static string DungeonRoom(int index) => $"dungeon/room/{index}/stocking";
 
     /// <summary>The stream a cave chamber's contents are rolled from.</summary>
@@ -110,6 +110,16 @@ public static class FieldPaths
 
     /// <summary>The stream a tower floor's die is drawn from.</summary>
     public static string TowerFloor(int index) => $"tower/floor/{index}/type";
+
+    /// <summary>
+    /// The stream a tower floor's d4 detail is drawn from.
+    /// </summary>
+    /// <remarks>
+    /// Kept apart from <see cref="TowerFloor"/> because the book rolls it separately: locking a
+    /// floor to be a library should not also decide which library it is, and re-rolling the detail
+    /// should not be able to turn the library into a laboratory.
+    /// </remarks>
+    public static string TowerFloorDetail(int index) => $"tower/floor/{index}/detail";
 
     /// <summary>The branch prefix a kind's fields live under.</summary>
     public static string PrefixFor(string kind) => kind switch
