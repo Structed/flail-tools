@@ -4,13 +4,14 @@ using Structed.Inkwell.Data;
 namespace FlailTools.Core.Tests;
 
 /// <summary>
-/// The licence constraint, made executable.
+/// The provenance claim, made executable.
 /// </summary>
 /// <remarks>
-/// FLAIL! has no SRD and no open licence. The Games Omnivorous Third Party Licence lets this tool
-/// reuse rules and mechanics; it does not let it copy or translate text. So no table entry this tool
-/// ships may come from the book, and the way that is kept true over time is a test that fails if any
-/// data file ever claims an upstream work.
+/// The Games Omnivorous Third-Party Licence lets this tool reuse rules, mechanics, terminology and
+/// random tables, table entries included; it does not let it reproduce the book's artwork or prose.
+/// Every table shipped here is original anyway, which is now a choice rather than a requirement.
+/// This test is what keeps that claim honest over time: it fails if any data file ever declares an
+/// upstream work without that being a deliberate, reviewed decision.
 /// </remarks>
 public sealed class ProvenanceTests
 {
@@ -23,10 +24,11 @@ public sealed class ProvenanceTests
         {
             Assert.False(
                 file.Source.IsDerived,
-                $"'{file.Path}' names '{file.Source.Work}' as the work its content comes from. FLAIL! " +
-                "is not openly licensed and its licence forbids copying or translating text, so every " +
-                "entry this tool ships has to be original. If content really was taken from somewhere, " +
-                "the answer is to remove it, not to relax this test.");
+                $"'{file.Path}' names '{file.Source.Work}' as the work its content comes from. Every " +
+                "entry this tool ships is original, and the _source headers say so. The licence does " +
+                "now permit reusing FLAIL!'s random tables, so this is a claim about what is actually " +
+                "in the file rather than about what is allowed: if content really was taken from " +
+                "somewhere, say so here deliberately and update the notices to match.");
         }
     }
 

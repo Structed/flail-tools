@@ -7,7 +7,7 @@ that rebuilds exactly what you saw.
 Free, no account, no tracking, no server — it is a static site and everything happens on your
 machine.
 
-> FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third Party Licence.
+> FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third-Party Licence.
 >
 > FLAIL is copyright of Games Omnivorous.
 
@@ -42,13 +42,17 @@ enough.
 
 ## On content, and why the tables are ours
 
-FLAIL! has no SRD and is not openly licensed. The Games Omnivorous Third Party Licence permits
-reusing **rules and mechanics** and forbids **copying or translating art or text**.
+The Games Omnivorous Third-Party Licence permits reusing **rules, mechanics, terminology and random
+tables**, table entries included. It still forbids reproducing the **artwork** and the **written
+prose** — introductions, descriptions, adventure text, setting text — using official logos, implying
+official status, or reproducing a licensed product whole and building a replacement for one.
 
-So this tool implements the book's procedures — which is allowed, and is the interesting part
-anyway — and fills them with tables written from scratch. **Nothing here is transcribed or
-paraphrased from FLAIL!**, and every data file records that claim in its own `_source` header, with
-a test that fails if any file ever declares an upstream work.
+So the book's own tables could be used here. They are not: this tool implements the book's
+procedures — the interesting part anyway — and fills them with tables written from scratch.
+**Nothing here is transcribed or paraphrased from FLAIL!**, and every data file records that claim in
+its own `_source` header, with a test that fails if any file ever declares an upstream work. Since
+the licence was widened that is a choice rather than an obligation, and the test is what keeps the
+claim honest: relax it deliberately, if ever, and never by accident.
 
 The shared name tables in `src/FlailTools.Web/wwwroot/data/house/site.json` contain 60 original stems
 and 60 tails, making 3,600 short, kind-neutral names for all five generators. `NameAssembler.Join`
@@ -154,5 +158,5 @@ rather than being bent around a FLAIL! problem.
 
 ## Licence
 
-The code is MIT. See [NOTICE.md](NOTICE.md) for the attribution the Games Omnivorous Third Party
+The code is MIT. See [NOTICE.md](NOTICE.md) for the attribution the Games Omnivorous Third-Party
 Licence requires.

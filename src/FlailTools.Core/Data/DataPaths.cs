@@ -4,12 +4,11 @@ namespace FlailTools.Core.Data;
 /// Where each data file lives, relative to the data root.
 /// </summary>
 /// <remarks>
-/// There is no <c>srd/</c> directory here, and its absence is the design. FLAIL! publishes no SRD
-/// and is not openly licensed: the Games Omnivorous Third Party Licence permits reuse of rules and
-/// mechanics but forbids copying or translating text, and nothing anywhere grants a right to
-/// reproduce a table's entries. So every table this tool rolls on is original and all of them live
-/// under <c>house/</c>. A data file appearing anywhere else would be a visible, reviewable event
-/// rather than a judgement call buried in a diff.
+/// There is no <c>srd/</c> directory here, and its absence is the design. The Games Omnivorous
+/// Third-Party Licence permits reusing random tables and their entries, so a directory of
+/// book-derived tables would now be allowed; this tool still does not have one. Every table it rolls
+/// on is original and all of them live under <c>house/</c>. A data file appearing anywhere else
+/// would be a visible, reviewable event rather than a judgement call buried in a diff.
 /// </remarks>
 public static class DataPaths
 {

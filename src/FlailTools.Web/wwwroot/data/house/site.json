@@ -2,10 +2,10 @@
   "_source": {
     "describes": "The kinds of adventure site this tool generates, and the two halves its names are built from.",
     "status": "Unofficial. Not affiliated with Games Omnivorous.",
-    "rationale": "FLAIL! publishes no SRD and is not openly licensed. The Games Omnivorous Third Party Licence permits reuse of rules and mechanics but forbids copying or translating text, so the structure here follows the book and every entry is original to this project.",
-    "licence": "Games Omnivorous Third Party Licence",
+    "rationale": "The Games Omnivorous Third-Party Licence permits reusing FLAIL!'s rules, mechanics, terminology and random tables, and forbids reproducing its artwork or its written prose. The structure here follows the book and every entry is original to this project, which the widened licence makes a choice rather than a requirement. FLAIL! supplies no name tables in any case, so those two are ours outright.",
+    "licence": "Games Omnivorous Third-Party Licence",
     "licenceUrl": "https://gamesomnivorous.com/pages/flail-license",
-    "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third Party Licence.",
+    "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third-Party Licence.",
     "notices": [
       "FLAIL is copyright of Games Omnivorous."
     ]

@@ -3,9 +3,9 @@ namespace FlailTools.Core.Data;
 /// <summary>The kinds of adventure site this tool generates.</summary>
 /// <remarks>
 /// <para>
-/// "Adventure Site" is FLAIL!'s own umbrella noun and is used here deliberately. Structural and
-/// mechanical vocabulary is what the Games Omnivorous Third Party Licence permits us to reuse; the
-/// entries that fill these axes are not, and every one of them in this repository is original.
+/// "Adventure Site" is FLAIL!'s own umbrella noun and is used here deliberately. The Games
+/// Omnivorous Third-Party Licence permits reusing its terminology and its random tables alike; the
+/// entries filling these axes are original to this repository regardless.
 /// </para>
 /// <para>
 /// The five ids are permanent. Each one is a field-path segment, so renaming one would change what

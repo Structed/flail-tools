@@ -85,7 +85,7 @@ public static class AreaRoles
 /// </summary>
 /// <remarks>
 /// "Adventure Site" is FLAIL!'s umbrella noun for the five things this generates. Its structure and
-/// its procedures are the game's, which the Third Party Licence permits us to implement; every word
+/// its procedures are the game's, which the Third-Party Licence permits us to implement; every word
 /// that fills them is ours.
 /// </remarks>
 public sealed record AdventureSite

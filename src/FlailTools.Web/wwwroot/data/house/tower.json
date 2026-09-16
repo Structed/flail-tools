@@ -2,10 +2,10 @@
   "_source": {
     "describes": "The Wizard Towers generator: its four axes, and what each die in the stack makes of a floor.",
     "status": "Unofficial. Not affiliated with Games Omnivorous.",
-    "rationale": "The stack of d6s with a d4 balanced on top is FLAIL!'s procedure and is implemented faithfully, which the Third Party Licence permits. The words each face resolves to are original to this project. The top floor reads from its own four-row table because the d4 is a different die, not a shorter d6.",
-    "licence": "Games Omnivorous Third Party Licence",
+    "rationale": "The stack of d6s with a d4 balanced on top is FLAIL!'s procedure and is implemented faithfully, which the Third-Party Licence permits. The words each face resolves to are original to this project. The top floor reads from its own four-row table because the d4 is a different die, not a shorter d6.",
+    "licence": "Games Omnivorous Third-Party Licence",
     "licenceUrl": "https://gamesomnivorous.com/pages/flail-license",
-    "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third Party Licence.",
+    "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third-Party Licence.",
     "notices": [
       "FLAIL is copyright of Games Omnivorous."
     ]

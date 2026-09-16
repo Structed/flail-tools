@@ -2,10 +2,10 @@
   "_source": {
     "describes": "The Dungeons generator: its five axes, and the outcomes a d6 stocks a room with.",
     "status": "Unofficial. Not affiliated with Games Omnivorous.",
-    "rationale": "The axes and the room-stocking procedure are FLAIL!'s mechanics, which the Third Party Licence permits this tool to implement. The entries are not, and none are copied or paraphrased from the book: every row here is original to this project. The stocking checklist FLAIL! uses is itself credited in-book to the Goblin Punch blog, so it is not Games Omnivorous's to license onward either — one more reason the wording of each outcome is written from scratch.",
-    "licence": "Games Omnivorous Third Party Licence",
+    "rationale": "The axes and the room-stocking procedure are FLAIL!'s mechanics, which the Third-Party Licence permits this tool to implement. The licence now permits reusing its tables and their entries too; every row here is original to this project regardless, and none are copied or paraphrased from the book. The stocking checklist FLAIL! uses is itself credited in-book to the Goblin Punch blog, so it is not Games Omnivorous's to license onward either — one more reason the wording of each outcome is written from scratch.",
+    "licence": "Games Omnivorous Third-Party Licence",
     "licenceUrl": "https://gamesomnivorous.com/pages/flail-license",
-    "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third Party Licence.",
+    "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third-Party Licence.",
     "notices": [
       "FLAIL is copyright of Games Omnivorous."
     ]
