@@ -35,6 +35,12 @@ top. Their numbers match the floor list, stairwells line up between adjacent flo
 appears only at ground level. The layout choice supplies a shared square or round footprint;
 the Shape text describes the tower's exterior rather than an exact architectural drawing.
 
+Each plan is furnished to suit the room: a library gets shelves along the walls, a laboratory
+its benches and a vat, the top floor a telescope or an oculus. The fixtures follow the die face
+rather than the words, so translating a table or rewording an entry cannot silently change the
+drawing, and the rolled text is captioned under the floor's heading. A floor you have typed your
+own words into has no face to draw from, so it is left bare for you to fill in.
+
 ## Using it
 
 Every field has a lock and a re-roll. Lock the ones you like and press **Roll a site** again: the

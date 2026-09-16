@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using FlailTools.Core.Data;
 using FlailTools.Core.Generation;
@@ -11,7 +12,7 @@ using Structed.Inkwell.Rendering;
 
 namespace FlailTools.Core.Tests;
 
-public sealed class TowerMapTests
+public sealed partial class TowerMapTests
 {
     private static readonly XNamespace Svg = "http://www.w3.org/2000/svg";
 
@@ -97,6 +98,7 @@ public sealed class TowerMapTests
             Assert.Equal(
                 $"{site.Areas[index].Number}. {data.Ui.AreaName(SiteKinds.Tower, site.Areas[index].Role)}",
                 floor.Element(Svg + "text")!.Value);
+            Assert.Equal(site.Areas[index].Value, floor.Elements(Svg + "text").ElementAt(1).Value);
             Assert.Contains(site.Areas[index].Value, floor.Element(Svg + "title")!.Value, StringComparison.Ordinal);
             Assert.Single(floor.Elements(Svg + "path"), path => (string?)path.Attribute("class") == "floor-outline");
             Assert.Equal(index == 0 ? 1 : 0, Groups(floor, "tower-entrance").Count());
@@ -124,6 +126,114 @@ public sealed class TowerMapTests
         Assert.Empty(Groups(floors[^1], "stairs-up"));
         Assert.Equal(site.Areas.Count - 1, Groups(root, "stairs-up").Count());
         Assert.Equal(site.Areas.Count - 1, Groups(root, "stairs-down").Count());
+    }
+
+    [Theory]
+    [InlineData("boxy-compact")]
+    [InlineData("vessel-moated")]
+    public async Task EachFloorIsFurnishedFromItsDieFaceAndCaptionedWithWhatWasRolled(string silhouette)
+    {
+        GameData data = await TestData.LoadAsync();
+        Dictionary<(string Role, int Face), string> furnishings = [];
+
+        for (uint seed = 1; seed <= 60; seed++)
+        {
+            SitePlan plan = PlanFor(data, silhouette, seed);
+            AdventureSite site = SiteGenerator.Generate(data, plan);
+            XElement root = XElement.Parse(SiteMapper.RenderSvg(site, plan, data.Ui));
+            XElement[] floors = [.. Groups(root, "tower-floor-plan")];
+
+            for (int index = 0; index < floors.Length; index++)
+            {
+                SiteArea area = site.Areas[index];
+                Assert.Equal(area.Value, floors[index].Elements(Svg + "text").ElementAt(1).Value);
+                Assert.True(PinReference.TryGetIndex(site.PinValues[area.Path], out int face));
+
+                string name = (string)Assert.Single(Groups(floors[index], "floor-fixtures"))
+                    .Attribute("data-fixtures")!;
+
+                if (furnishings.TryGetValue((area.Role, face), out string? drawnEarlier))
+                {
+                    Assert.Equal(drawnEarlier, name);
+                }
+
+                furnishings[(area.Role, face)] = name;
+            }
+        }
+
+        // The words may be retranslated or reworded; the face is what the drawing follows.
+        Assert.Equal(furnishings.Count, furnishings.Values.Distinct(StringComparer.Ordinal).Count());
+        Assert.Contains(furnishings, entry => entry.Key.Role == AreaRoles.Top);
+        Assert.Contains(furnishings, entry => entry.Key.Role != AreaRoles.Top);
+    }
+
+    [Fact]
+    public async Task EveryFloorKindHasItsOwnFixtures()
+    {
+        GameData data = await TestData.LoadAsync();
+        HashSet<string> drawn = [];
+
+        for (uint seed = 1; seed <= 400 && drawn.Count < 10; seed++)
+        {
+            SitePlan plan = new() { Seed = seed, Kind = SiteKinds.Tower };
+            AdventureSite site = SiteGenerator.Generate(data, plan);
+
+            foreach (XElement set in Groups(XElement.Parse(SiteMapper.RenderSvg(site, plan, data.Ui)), "floor-fixtures"))
+            {
+                drawn.Add((string)set.Attribute("data-fixtures")!);
+            }
+        }
+
+        Assert.Equal(data.Tower.FloorTypes.Count + data.Tower.TopFloorTypes.Count, drawn.Count);
+    }
+
+    [Theory]
+    [InlineData("boxy-compact")]
+    [InlineData("vessel-moated")]
+    public async Task FixturesStayInsideTheWallsAndLetTheStairsCoverThem(string silhouette)
+    {
+        GameData data = await TestData.LoadAsync();
+
+        for (uint seed = 1; seed <= 25; seed++)
+        {
+            SitePlan plan = PlanFor(data, silhouette, seed);
+            AdventureSite site = SiteGenerator.Generate(data, plan);
+            TowerSiteMap map = Assert.IsType<TowerSiteMap>(SiteMapper.Draw(site, plan, data.Ui));
+            XElement[] floors =
+                [.. Groups(XElement.Parse(SiteMapper.RenderSvg(site, plan, data.Ui)), "tower-floor-plan")];
+
+            for (int index = 0; index < floors.Length; index++)
+            {
+                List<XElement> layers = [.. floors[index].Elements(Svg + "g")];
+                int fixtures = layers.FindIndex(layer => (string?)layer.Attribute("class") == "floor-fixtures");
+                int stairs = layers.FindIndex(layer =>
+                    ((string?)layer.Attribute("class"))?.StartsWith("stairs-", StringComparison.Ordinal) == true);
+
+                Assert.True(fixtures >= 0, $"Floor {index + 1} of seed {seed} was left unfurnished.");
+                Assert.True(
+                    stairs < 0 || fixtures < stairs,
+                    $"Floor {index + 1} draws its fixtures over the stairs, hiding a way out.");
+
+                Assert.All(Corners(layers[fixtures]), point => Assert.True(
+                    map.Floors[index].Boundary.ContainsWithMargin(point, 1),
+                    FormattableString.Invariant(
+                        $"A fixture reaches {point.X},{point.Y}, outside floor {index + 1} of seed {seed}.")));
+            }
+        }
+    }
+
+    [Fact]
+    public async Task AFloorGivenSomebodysOwnWordsIsDrawnBare()
+    {
+        GameData data = await TestData.LoadAsync();
+        SiteWorkspace workspace = new(data, PlanFor(data, "vessel-tall", 3));
+        const string typed = "A room the referee made up";
+        workspace.SetText(FieldPaths.TowerFloor(0), typed);
+        XElement[] floors = [.. Groups(XElement.Parse(workspace.MapSvg), "tower-floor-plan")];
+
+        Assert.Empty(Groups(floors[0], "floor-fixtures"));
+        Assert.Equal(typed, floors[0].Elements(Svg + "text").ElementAt(1).Value);
+        Assert.All(floors.Skip(1), floor => Assert.Single(Groups(floor, "floor-fixtures")));
     }
 
     [Theory]
@@ -177,6 +287,7 @@ public sealed class TowerMapTests
         Assert.DoesNotContain(root.Descendants(), element => element.Name.LocalName == "script");
         Assert.Equal(ui.Message("towerMapAlt"), (string?)root.Attribute("aria-label"));
         Assert.Contains(typed, root.Element(Svg + "title")!.Value, StringComparison.Ordinal);
+        Assert.Equal(typed, Groups(root, "tower-floor-plan").First().Elements(Svg + "text").ElementAt(1).Value);
         Assert.Contains("Plans & levels", root.Value, StringComparison.Ordinal);
         Assert.Contains("Lower < upper", root.Value, StringComparison.Ordinal);
         Assert.Contains("1. Level & room", root.Value, StringComparison.Ordinal);
@@ -246,6 +357,25 @@ public sealed class TowerMapTests
 
     private static IEnumerable<XElement> Groups(XElement parent, string cssClass) =>
         parent.Descendants(Svg + "g").Where(group => (string?)group.Attribute("class") == cssClass);
+
+    // Every number in an SVG path is half of a coordinate pair, whichever command it belongs to.
+    private static IEnumerable<MapPoint> Corners(XElement group)
+    {
+        foreach (XElement path in group.Descendants(Svg + "path"))
+        {
+            double[] numbers =
+                [.. Numbers().Matches((string)path.Attribute("d")!)
+                    .Select(match => double.Parse(match.Value, CultureInfo.InvariantCulture))];
+
+            for (int index = 0; index + 1 < numbers.Length; index += 2)
+            {
+                yield return new MapPoint(numbers[index], numbers[index + 1]);
+            }
+        }
+    }
+
+    [GeneratedRegex(@"-?\d+(?:\.\d+)?")]
+    private static partial Regex Numbers();
 
     private static void AssertStairsInside(MapPolygon boundary, MapPoint centre)
     {
