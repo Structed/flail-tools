@@ -12,6 +12,9 @@ public sealed record TowerSiteMap(string Subject, IReadOnlyList<TowerFloorPlan> 
 /// <summary>
 /// One floor, drawn as a plan.
 /// </summary>
+/// <param name="Footprint">
+/// The name of the outline the floor is drawn inside, which comes from the tower's rolled Shape.
+/// </param>
 /// <param name="Furnishing">
 /// The die face the floor's kind was read from, or <c>null</c> when it was pinned to words of
 /// somebody's own. It is the face rather than the words so that a translated table still furnishes
@@ -19,6 +22,7 @@ public sealed record TowerSiteMap(string Subject, IReadOnlyList<TowerFloorPlan> 
 /// </param>
 public sealed record TowerFloorPlan(
     SiteArea Area,
+    string Footprint,
     MapPolygon Boundary,
     MapPoint? StairsUp,
     MapPoint? StairsDown,

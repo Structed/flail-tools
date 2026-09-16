@@ -33,13 +33,23 @@ public sealed partial class TowerMapTests
             counts.Add(map.Floors.Count);
 
             Assert.Equal(site.Areas, map.Floors.Select(floor => floor.Area));
-            Assert.Equal(site.Shape == MapShapes.Boxy ? 4 : 32, map.Floors[0].Boundary.Points.Count);
 
             for (int index = 0; index < map.Floors.Count; index++)
             {
                 TowerFloorPlan floor = map.Floors[index];
 
-                Assert.Equal(map.Floors[0].Boundary.Points, floor.Boundary.Points);
+                // A spire twists as it rises, so the outline is shared by name rather than by point.
+                Assert.Equal(map.Floors[0].Footprint, floor.Footprint);
+
+                if (floor.Footprint == "spire")
+                {
+                    Assert.Equal(index == 0, map.Floors[0].Boundary.Points.SequenceEqual(floor.Boundary.Points));
+                }
+                else
+                {
+                    Assert.Equal(map.Floors[0].Boundary.Points, floor.Boundary.Points);
+                }
+
                 Assert.Equal(index == 0 && site.HasWater, floor.HasMoat);
                 Assert.Equal(index > 0, floor.StairsDown.HasValue);
                 Assert.Equal(index < map.Floors.Count - 1, floor.StairsUp.HasValue);
@@ -196,7 +206,9 @@ public sealed partial class TowerMapTests
 
         for (uint seed = 1; seed <= 25; seed++)
         {
-            SitePlan plan = PlanFor(data, silhouette, seed);
+            // Cycle the shapes too: one set of fixtures has to sit inside all ten of them.
+            SitePlan plan = PlanFor(data, silhouette, seed)
+                .WithPin(FieldPaths.TowerShape, PinReference.ForIndex((int)(seed % 10)));
             AdventureSite site = SiteGenerator.Generate(data, plan);
             TowerSiteMap map = Assert.IsType<TowerSiteMap>(SiteMapper.Draw(site, plan, data.Ui));
             XElement[] floors =
@@ -234,6 +246,66 @@ public sealed partial class TowerMapTests
         Assert.Empty(Groups(floors[0], "floor-fixtures"));
         Assert.Equal(typed, floors[0].Elements(Svg + "text").ElementAt(1).Value);
         Assert.All(floors.Skip(1), floor => Assert.Single(Groups(floor, "floor-fixtures")));
+    }
+
+    [Fact]
+    public async Task ThePlanIsDrawnInTheShapeTheTowerRolled()
+    {
+        GameData data = await TestData.LoadAsync();
+        Dictionary<int, string> outlines = [];
+
+        for (int face = 0; face < data.Tower.Shapes.Count; face++)
+        {
+            SitePlan plan = new SitePlan { Seed = 11, Kind = SiteKinds.Tower }
+                .WithPin(FieldPaths.TowerShape, PinReference.ForIndex(face));
+            AdventureSite site = SiteGenerator.Generate(data, plan);
+            XElement[] floors =
+                [.. Groups(XElement.Parse(SiteMapper.RenderSvg(site, plan, data.Ui)), "tower-floor-plan")];
+
+            outlines[face] = (string)floors[0].Attribute("data-footprint")!;
+            Assert.All(floors, floor => Assert.Equal(outlines[face], (string?)floor.Attribute("data-footprint")));
+        }
+
+        Assert.Equal(data.Tower.Shapes.Count, outlines.Values.Distinct(StringComparer.Ordinal).Count());
+    }
+
+    [Fact]
+    public async Task AShapePinnedToSomebodysOwnWordsFallsBackToAPlainOutline()
+    {
+        GameData data = await TestData.LoadAsync();
+        SiteWorkspace workspace = new(data, new SitePlan { Seed = 11, Kind = SiteKinds.Tower });
+        workspace.SetText(FieldPaths.TowerShape, "A tower of no describable shape");
+        XElement[] floors = [.. Groups(XElement.Parse(workspace.MapSvg), "tower-floor-plan")];
+
+        Assert.All(floors, floor => Assert.Equal("plain", (string?)floor.Attribute("data-footprint")));
+    }
+
+    [Fact]
+    public async Task TheWayInIsCutIntoWhicheverWallTheShapeGives()
+    {
+        GameData data = await TestData.LoadAsync();
+
+        for (int face = 0; face < data.Tower.Shapes.Count; face++)
+        {
+            SitePlan plan = new SitePlan { Seed = 11, Kind = SiteKinds.Tower }
+                .WithPin(FieldPaths.TowerShape, PinReference.ForIndex(face))
+                .WithPin(FieldPaths.Silhouette, PinReference.ForIndex(SilhouetteIndex(data, "vessel-moated")));
+            AdventureSite site = SiteGenerator.Generate(data, plan);
+            TowerSiteMap map = Assert.IsType<TowerSiteMap>(SiteMapper.Draw(site, plan, data.Ui));
+            XElement[] floors =
+                [.. Groups(XElement.Parse(SiteMapper.RenderSvg(site, plan, data.Ui)), "tower-floor-plan")];
+            XElement way = Assert.Single(Groups(floors[0], "tower-entrance"));
+
+            double sill = (double)way.Element(Svg + "rect")!.Attribute("y")! + 5;
+            MapPoint door = new(160, sill);
+
+            Assert.True(
+                map.Floors[0].Boundary.DistanceToEdge(door) < 1,
+                FormattableString.Invariant(
+                    $"The {data.Tower.Shapes[face]} has its door at {sill}, which is not on its wall."));
+            Assert.True(sill > 130 + TowerFootprints.Usable, "The door should be outside the usable floor.");
+            Assert.All(floors.Skip(1), floor => Assert.Empty(Groups(floor, "tower-entrance")));
+        }
     }
 
     [Theory]
@@ -345,14 +417,17 @@ public sealed partial class TowerMapTests
         Assert.Throws<ArgumentException>(() => SiteMapper.Draw(site, new SitePlan(), data.Ui));
     }
 
-    private static SitePlan PlanFor(GameData data, string silhouette, uint seed)
+    private static SitePlan PlanFor(GameData data, string silhouette, uint seed) =>
+        new SitePlan { Seed = seed, Kind = SiteKinds.Tower }
+            .WithPin(FieldPaths.Silhouette, PinReference.ForIndex(SilhouetteIndex(data, silhouette)));
+
+    private static int SilhouetteIndex(GameData data, string silhouette)
     {
         List<SilhouetteRow> candidates = [.. data.Silhouettes.Silhouettes.Where(row => row.Allows(SiteKinds.Tower))];
         int index = candidates.FindIndex(row => row.Id == silhouette);
         Assert.True(index >= 0, $"No tower silhouette named '{silhouette}'.");
 
-        return new SitePlan { Seed = seed, Kind = SiteKinds.Tower }
-            .WithPin(FieldPaths.Silhouette, PinReference.ForIndex(index));
+        return index;
     }
 
     private static IEnumerable<XElement> Groups(XElement parent, string cssClass) =>

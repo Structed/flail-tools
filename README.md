@@ -32,8 +32,13 @@ anything that bounces off the paper has to be reached some other way.
 
 Tower maps show separate, schematic top-down floor plans, stacked from the ground floor to the
 top. Their numbers match the floor list, stairwells line up between adjacent floors, and a moat
-appears only at ground level. The layout choice supplies a shared square or round footprint;
-the Shape text describes the tower's exterior rather than an exact architectural drawing.
+appears only at ground level. The footprint comes from the tower's rolled Shape: a Giant
+Clocktower is drawn square, a Bone Keep square with round corner bastions, a Hollow Tree as six
+soft lobes, a Glass Turret many-sided, a Twisted Spire an octagon that turns a little with every
+floor it climbs. Every shape leaves the same usable floor clear, so the furniture and the
+stairwells fit whichever one you rolled, and the way in is cut into whatever wall the shape puts
+at the foot of the plan. A Shape you have typed your own words into has no face to draw from, so
+it falls back to a plain round outline. The layout choice now supplies only the moat.
 
 Each plan is furnished to suit the room: a library gets shelves along the walls, a laboratory
 its benches and a vat, the top floor a telescope or an oculus. The fixtures follow the die face

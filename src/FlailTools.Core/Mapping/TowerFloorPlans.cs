@@ -2,6 +2,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using FlailTools.Core.Data;
+using FlailTools.Core.Generation;
 using FlailTools.Core.Model;
 using Structed.Inkwell.Generation;
 using Structed.Inkwell.Mapping;
@@ -28,41 +29,39 @@ internal static class TowerFloorPlans
             throw new ArgumentException("A tower needs at least one floor to draw.", nameof(site));
         }
 
-        MapPolygon boundary = site.Shape switch
-        {
-            MapShapes.Boxy => new([new(98, 68), new(222, 68), new(222, 192), new(98, 192)]),
-            MapShapes.Vessel => new(Enumerable.Range(0, 32)
-                .Select(index => Centre + MapPoint.FromAngle(index * Math.Tau / 32, 62))),
-            _ => throw new ArgumentException(
-                $"Tower floor plans do not support the layout shape '{site.Shape}'.", nameof(site))
-        };
-
+        int? shape = FaceOf(site, FieldPaths.TowerShape);
         List<TowerFloorPlan> floors = new(site.Areas.Count);
 
         for (int index = 0; index < site.Areas.Count; index++)
         {
             SiteArea area = site.Areas[index];
+            (string footprint, MapPolygon boundary) = TowerFootprints.For(shape, index);
+
             floors.Add(new TowerFloorPlan(
                 area,
+                footprint,
                 boundary,
                 index < site.Areas.Count - 1 ? StairPosition(index) : null,
                 index > 0 ? StairPosition(index - 1) : null,
                 index == 0 && site.HasWater,
-                FurnishingFor(site, area)));
+                FaceOf(site, area.Path)));
         }
 
         return new TowerSiteMap(site.Name, floors);
     }
 
     /// <summary>
-    /// Which fixtures belong on a floor, as the die face its kind was read from.
+    /// The die face a field was read from, as opposed to the words it produced.
     /// </summary>
     /// <remarks>
-    /// A floor pinned to somebody's own words has no face, and is drawn bare rather than furnished
-    /// from a guess: fixtures that contradict the text would be worse than an empty room.
+    /// The drawing follows faces so that a translated table still furnishes a library with shelves
+    /// and still draws a keep as a keep, and so that rewording an entry cannot silently change the
+    /// plan. A field pinned to somebody's own words has no face: the floor is then drawn bare and
+    /// the tower gets the plain round outline, which is honester than furnishing or shaping it from
+    /// a guess that might contradict the text.
     /// </remarks>
-    private static int? FurnishingFor(AdventureSite site, SiteArea area) =>
-        site.PinValues.TryGetValue(area.Path, out string? pin) && PinReference.TryGetIndex(pin, out int face)
+    private static int? FaceOf(AdventureSite site, string path) =>
+        site.PinValues.TryGetValue(path, out string? pin) && PinReference.TryGetIndex(pin, out int face)
             ? face
             : null;
 
@@ -97,6 +96,7 @@ internal static class TowerFloorPlans
                 new XAttribute("class", "tower-floor-plan"),
                 new XAttribute("data-floor", floor.Area.Number),
                 new XAttribute("data-role", floor.Area.Role),
+                new XAttribute("data-footprint", floor.Footprint),
                 new XAttribute("transform", $"translate(0 {HeaderHeight + (index * FloorHeight)})"),
                 new XElement(Svg + "title", $"{ui.AreaName(SiteKinds.Tower, floor.Area.Role)}: {floor.Area.Value}"),
                 Text(new(16, 22), $"{floor.Area.Number}. {ui.AreaName(SiteKinds.Tower, floor.Area.Role)}", 15),
@@ -139,7 +139,7 @@ internal static class TowerFloorPlans
 
             if (index == 0)
             {
-                group.Add(Entrance(pen, floor.HasMoat, ui));
+                group.Add(Entrance(pen, floor.Boundary, floor.HasMoat, ui));
             }
 
             svg.Add(group);
@@ -199,26 +199,32 @@ internal static class TowerFloorPlans
         return group;
     }
 
-    private static XElement Entrance(RoughPen pen, bool hasMoat, UiText ui)
+    /// <summary>
+    /// The way in, cut into whichever wall the plan actually has at the foot of the floor.
+    /// </summary>
+    private static XElement Entrance(RoughPen pen, MapPolygon boundary, bool hasMoat, UiText ui)
     {
+        double sill = TowerFootprints.Doorway(boundary).Y;
+        double moat = 130 + (1.25 * (sill - 130)) + 8;
         XElement group = new(Svg + "g",
             new XAttribute("class", "tower-entrance"),
             new XElement(Svg + "title", ui.RoleName(AreaRoles.Entrance)),
             new XElement(Svg + "rect",
                 new XAttribute("x", 152),
-                new XAttribute("y", 187),
+                new XAttribute("y", SvgNumber.Format(sill - 5)),
                 new XAttribute("width", 16),
-                new XAttribute("height", hasMoat ? 28 : 10),
+                new XAttribute("height", SvgNumber.Format(hasMoat ? moat - sill + 5 : 10)),
                 new XAttribute("fill", Paper)),
-            Path(pen.Line(new(152, 192), new(152, 176), 0.4), Ink, 1.2),
-            Path(pen.OpenPath([new(168, 192), new(167, 186), new(163, 180), new(152, 176)], 0.3), Ink, 0.7),
-            Text(new(184, 212), ui.RoleName(AreaRoles.Entrance), 11));
+            Path(pen.Line(new(152, sill), new(152, sill - 16), 0.4), Ink, 1.2),
+            Path(pen.OpenPath(
+                [new(168, sill), new(167, sill - 6), new(163, sill - 12), new(152, sill - 16)], 0.3), Ink, 0.7),
+            Text(new(184, sill + 20), ui.RoleName(AreaRoles.Entrance), 11));
 
         if (hasMoat)
         {
             group.Add(
-                Path(pen.Line(new(152, 196), new(152, 215), 0.5), Ink, 1),
-                Path(pen.Line(new(168, 196), new(168, 215), 0.5), Ink, 1));
+                Path(pen.Line(new(152, sill + 4), new(152, moat), 0.5), Ink, 1),
+                Path(pen.Line(new(168, sill + 4), new(168, moat), 0.5), Ink, 1));
         }
 
         return group;
