@@ -43,12 +43,18 @@ enough.
 ## On content, and why the tables are ours
 
 FLAIL! has no SRD and is not openly licensed. The Games Omnivorous Third Party Licence permits
-reusing **rules and mechanics** and forbids **copying or translating art or text**.
+**using, copying and modifying templates** and **using, referencing and modifying rules and
+mechanics**, and forbids **copying or translating art or text**.
+[NOTICE.md](NOTICE.md#what-the-licence-says) quotes it rather than summarising it.
 
 So this tool implements the book's procedures — which is allowed, and is the interesting part
 anyway — and fills them with tables written from scratch. **Nothing here is transcribed or
 paraphrased from FLAIL!**, and every data file records that claim in its own `_source` header, with
 a test that fails if any file ever declares an upstream work.
+
+The templates clause raises a fair question about roll tables, which are arguably template and text
+at once. The reading this project settled on — the frame yes, the filling no — is set out in
+[NOTICE.md](NOTICE.md#on-templates).
 
 The shared name tables in `src/FlailTools.Web/wwwroot/data/house/site.json` contain 60 original stems
 and 60 tails, making 3,600 short, kind-neutral names for all five generators. `NameAssembler.Join`

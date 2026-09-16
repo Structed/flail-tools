@@ -17,9 +17,47 @@ rendered in English alongside any translation of them, never instead of it.
 ## Licence
 
 - **FLAIL!** is by Andre Novoa, published by [Games Omnivorous](https://gamesomnivorous.com).
-- The [Games Omnivorous Third Party
-  Licence](https://gamesomnivorous.com/pages/flail-license) permits reusing rules and mechanics, and
-  forbids copying or translating art or text, using official logos, or implying official status.
+- It has no SRD and is not openly licensed. Reuse is governed by the [Games Omnivorous Third Party
+  Licence](https://gamesomnivorous.com/pages/flail-license), quoted below rather than summarised.
+  This file used to summarise it, and the summary understated what the licence grants.
+
+### What the licence says
+
+The licence covers FLAIL! and its compatible settings — Undying Sands, Bottled Sea and Boreal
+Frostlands — and allows free or commercial material based upon or declaring compatibility with them
+without express permission from Andre Novoa or Games Omnivorous. Quoted from the licence:
+
+> **Without explicit permission, you may not:**
+>
+> - Copy or translate the art or text on any of the above products.
+> - Use any official logo (Games Omnivorous, FLAIL, Undying Sands, Bottled Sea, Boreal Frostlands
+>   logos).
+> - State or imply that your work is an official Games Omnivorous creation.
+>
+> **You may:**
+>
+> - Use, copy and modify any templates present in the above products.
+> - Use, reference and modify any of the rules and mechanics.
+> - Reference any locations, creatures, characters or factions mentioned in the above products.
+
+It also requires the two notices at the top of this file, and adds that "Games Omnivorous takes no
+responsibility for any legal claims against your product."
+
+### On "templates"
+
+The licence permits copying templates and forbids copying text, and a roll table is plausibly both.
+This project reads "templates" as the frame, not the filling.
+
+A table's skeleton — which die, which axes, how many rows, how the results combine — is a template,
+and is equally a rule or mechanic, so it is permitted twice over. That is the part this tool
+implements. The entries inside a table are authored prose, and prose is what "copy or translate the
+art or text" forbids. Reading "templates" widely enough to swallow table entries would leave the
+text prohibition with almost nothing left to bite on, because in a rules-light book most of the text
+*is* tables. Both clauses are read here so that each has effect.
+
+That is a reading, not a ruling, and not legal advice; only Games Omnivorous can settle it. It is
+not the only reason the tables here are original, either — see [Content](#content) for a constraint
+that binds whichever way the question falls.
 
 ## Content
 
@@ -31,8 +69,9 @@ Each data file carries a `_source` header stating this, and `ProvenanceTests` fa
 file ever names an upstream work.
 
 The dungeon room-stocking checklist FLAIL! uses is credited in the book to the Goblin Punch blog. It
-is therefore not Games Omnivorous's to license onward either, which is a second reason the wording
-of every stocking outcome here is written from scratch.
+is therefore not Games Omnivorous's to license onward either — which binds however the templates
+question above is read, and is a second reason the wording of every stocking outcome here is written
+from scratch.
 
 ## Icon artwork
 

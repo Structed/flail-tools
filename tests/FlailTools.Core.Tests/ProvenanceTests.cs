@@ -8,9 +8,10 @@ namespace FlailTools.Core.Tests;
 /// </summary>
 /// <remarks>
 /// FLAIL! has no SRD and no open licence. The Games Omnivorous Third Party Licence lets this tool
-/// reuse rules and mechanics; it does not let it copy or translate text. So no table entry this tool
-/// ships may come from the book, and the way that is kept true over time is a test that fails if any
-/// data file ever claims an upstream work.
+/// reuse templates, rules and mechanics; it does not let it copy or translate text. A table's shape
+/// is therefore fair game and the entries filling it are not, so no table entry this tool ships may
+/// come from the book, and the way that is kept true over time is a test that fails if any data file
+/// ever claims an upstream work. <c>NOTICE.md</c> quotes the licence and records that reading.
 /// </remarks>
 public sealed class ProvenanceTests
 {
