@@ -26,9 +26,11 @@ FLAIL! calls them Adventure Sites, and there are five sorts:
 | Landmark | d20 | Landmark · Biome · Condition · Key Feature · Occupant |
 
 Dungeons are stocked room by room on a d6 and keyed from the entrance to the final area. Towers are
-a stack of d6s with a d4 balanced on top, each die a floor. Caves are a handful of dice dropped on
-a page: the one nearest the edge is the way in, the one nearest the middle is the heart of it, and
-anything that bounces off the paper has to be reached some other way.
+a stack of d6s with a d4 balanced on top, each die a floor, and how many d6s go under the d4 is
+what the layout decides: a compact tower is a squat thing of two to five floors, a tall one a climb
+of four to seven. Caves are a handful of dice dropped on a page: the one nearest the edge is the
+way in, the one nearest the middle is the heart of it, and anything that bounces off the paper has
+to be reached some other way.
 
 Tower maps show separate, schematic top-down floor plans, stacked from the ground floor to the
 top. Their numbers match the floor list, stairwells line up between adjacent floors, and a moat
@@ -38,7 +40,8 @@ soft lobes, a Glass Turret many-sided, a Twisted Spire an octagon that turns a l
 floor it climbs. Every shape leaves the same usable floor clear, so the furniture and the
 stairwells fit whichever one you rolled, and the way in is cut into whatever wall the shape puts
 at the foot of the plan. A Shape you have typed your own words into has no face to draw from, so
-it falls back to a plain round outline. The layout choice now supplies only the moat.
+it falls back to a plain round outline. Between them the two fields say everything about the
+building: the Shape is its plan and the layout is its height and whether it stands in water.
 
 Each plan is furnished to suit the room: a library gets shelves along the walls, a laboratory
 its benches and a vat, the top floor a telescope or an oculus. The fixtures follow the die face

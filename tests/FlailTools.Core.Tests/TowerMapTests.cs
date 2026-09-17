@@ -17,10 +17,10 @@ public sealed partial class TowerMapTests
     private static readonly XNamespace Svg = "http://www.w3.org/2000/svg";
 
     [Theory]
-    [InlineData("boxy-compact")]
-    [InlineData("vessel-tall")]
-    [InlineData("vessel-moated")]
-    public async Task FloorsShareAFootprintAndTheirStairsConnectInOrder(string silhouette)
+    [InlineData("boxy-compact", 2, 5)]
+    [InlineData("vessel-tall", 4, 7)]
+    [InlineData("vessel-moated", 4, 7)]
+    public async Task FloorsShareAFootprintAndTheirStairsConnectInOrder(string silhouette, int shortest, int tallest)
     {
         GameData data = await TestData.LoadAsync();
         HashSet<int> counts = [];
@@ -68,8 +68,8 @@ public sealed partial class TowerMapTests
             }
         }
 
-        Assert.Contains(3, counts);
-        Assert.Contains(6, counts);
+        Assert.Contains(shortest, counts);
+        Assert.Contains(tallest, counts);
     }
 
     [Theory]

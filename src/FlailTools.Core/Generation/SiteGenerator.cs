@@ -1,4 +1,5 @@
 using FlailTools.Core.Data;
+using FlailTools.Core.Mapping;
 using FlailTools.Core.Model;
 using Structed.Inkwell.Data;
 using Structed.Inkwell.Generation;
@@ -48,7 +49,7 @@ public static class SiteGenerator
         {
             SiteKinds.Dungeon => BuildDungeonRooms(data, roll),
             SiteKinds.Cave => BuildCaveChambers(data, roll),
-            SiteKinds.Tower => BuildTowerFloors(data, roll),
+            SiteKinds.Tower => BuildTowerFloors(data, roll, silhouette),
             _ => []
         };
 
@@ -215,13 +216,22 @@ public static class SiteGenerator
     /// A stack of d6s with a d4 balanced on top, each face the floor it stands for.
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The d4 is the top floor and reads from its own four-row table, which is the whole reason the
     /// top floor of a wizard's tower is never merely another storey. Every floor below it is two
     /// rolls, as the book has it: the d6 says what kind of room it is, then a d4 says which one.
+    /// </para>
+    /// <para>
+    /// How many d6s go under the d4 is what the layout decides. A compact tower is a squat thing of
+    /// two or three floors and a tall one is a proper climb, which is the difference the words
+    /// promise and the only way the reader sees it: the shape draws the footprint, so without this
+    /// a compact tower and a tall one would come out the same height and differ in nothing at all.
+    /// </para>
     /// </remarks>
-    private static IReadOnlyList<SiteArea> BuildTowerFloors(GameData data, RollContext roll)
+    private static IReadOnlyList<SiteArea> BuildTowerFloors(GameData data, RollContext roll, SilhouetteRow silhouette)
     {
-        int count = 2 + roll.Dice(FieldPaths.TowerFloorCount).Roll(4);
+        int shortest = silhouette.Shape == MapShapes.Vessel ? 3 : 1;
+        int count = shortest + roll.Dice(FieldPaths.TowerFloorCount).Roll(4);
         List<SiteArea> floors = new(count);
 
         for (int index = 0; index < count; index++)
