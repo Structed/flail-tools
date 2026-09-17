@@ -1,6 +1,7 @@
 using FlailTools.Core.Data;
 using FlailTools.Core.Generation;
 using FlailTools.Core.Model;
+using Structed.Inkwell.Generation;
 
 namespace FlailTools.Core.Tests;
 
@@ -119,10 +120,41 @@ public sealed class GenerationTests
         {
             AdventureSite site = SiteGenerator.Generate(data, new SitePlan { Seed = seed, Kind = SiteKinds.Tower });
 
-            Assert.InRange(site.Areas.Count, 3, 6);
+            Assert.InRange(site.Areas.Count, 2, 7);
             Assert.Equal(AreaRoles.Top, site.Areas[^1].Role);
             Assert.All(site.Areas.Take(site.Areas.Count - 1), floor => Assert.Equal(AreaRoles.Plain, floor.Role));
         }
+    }
+
+    /// <summary>
+    /// A compact tower comes out squat and a tall one a proper climb.
+    /// </summary>
+    /// <remarks>
+    /// The layout is the only thing that says how high a tower stands, now that the shape draws its
+    /// footprint, so the two have to be tellable apart on the page: the tallest compact tower is
+    /// still shorter than the tallest tall one, and the shortest tall one is taller than the
+    /// shortest compact one. A pinned layout fixes the range but not the roll inside it, so both
+    /// ends are checked across many seeds rather than asserted of any one.
+    /// </remarks>
+    [Theory]
+    [InlineData("boxy-compact", 2, 5)]
+    [InlineData("vessel-tall", 4, 7)]
+    public async Task HowHighATowerStandsIsWhatItsLayoutDecides(string silhouette, int shortest, int tallest)
+    {
+        GameData data = await TestData.LoadAsync();
+        List<SilhouetteRow> candidates = [.. data.Silhouettes.Silhouettes.Where(row => row.Allows(SiteKinds.Tower))];
+        int index = candidates.FindIndex(row => row.Id == silhouette);
+        HashSet<int> seen = [];
+
+        for (uint seed = 1; seed <= 60; seed++)
+        {
+            SitePlan plan = new SitePlan { Seed = seed, Kind = SiteKinds.Tower }
+                .WithPin(FieldPaths.Silhouette, PinReference.ForIndex(index));
+
+            seen.Add(SiteGenerator.Generate(data, plan).Areas.Count);
+        }
+
+        Assert.Equal(Enumerable.Range(shortest, (tallest - shortest) + 1), seen.Order());
     }
 
     /// <summary>
