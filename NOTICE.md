@@ -1,7 +1,7 @@
 # Notices
 
 FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with
-Games Omnivorous. It is published under the Games Omnivorous Third Party Licence.
+Games Omnivorous. It is published under the Games Omnivorous Third-Party Licence.
 
 FLAIL is copyright of Games Omnivorous.
 
@@ -11,67 +11,52 @@ repository is not a notice a player ever sees. The wording is held in
 `src/FlailTools.Core/Attribution.cs` and a test asserts that what the interface renders still reads
 exactly this once the markup is stripped.
 
-The licence grants no right to translate. If a language is ever added, these two notices must be
-rendered in English alongside any translation of them, never instead of it.
+The licence gives these two notices as fixed wording and grants no right to restate them in another
+language, even though it now permits translating rules text and table entries. If a language is ever
+added, the notices must be rendered in English alongside any translation of them, never instead of
+it.
 
 ## Licence
 
 - **FLAIL!** is by Andre Novoa, published by [Games Omnivorous](https://gamesomnivorous.com).
-- It has no SRD and is not openly licensed. Reuse is governed by the [Games Omnivorous Third Party
-  Licence](https://gamesomnivorous.com/pages/flail-license), quoted below rather than summarised.
-  This file used to summarise it, and the summary understated what the licence grants.
+- The [Games Omnivorous Third-Party
+  Licence](https://gamesomnivorous.com/pages/flail-license) permits reusing rules, mechanics,
+  terminology and random tables, table entries included. It forbids reproducing artwork or written
+  prose, using official logos, implying official status, and reproducing a licensed product whole or
+  building a replacement for one.
 
-### What the licence says
+## Outstanding obligation
 
-The licence covers FLAIL! and its compatible settings — Undying Sands, Bottled Sea and Boreal
-Frostlands — and allows free or commercial material based upon or declaring compatibility with them
-without express permission from Andre Novoa or Games Omnivorous. Quoted from the licence:
+The licence **requires** the relevant Games Omnivorous compatibility logo to identify a work as
+compatible with FLAIL!. This tool does not carry one yet, so that requirement is currently unmet.
 
-> **Without explicit permission, you may not:**
->
-> - Copy or translate the art or text on any of the above products.
-> - Use any official logo (Games Omnivorous, FLAIL, Undying Sands, Bottled Sea, Boreal Frostlands
->   logos).
-> - State or imply that your work is an official Games Omnivorous creation.
->
-> **You may:**
->
-> - Use, copy and modify any templates present in the above products.
-> - Use, reference and modify any of the rules and mechanics.
-> - Reference any locations, creatures, characters or factions mentioned in the above products.
-
-It also requires the two notices at the top of this file, and adds that "Games Omnivorous takes no
-responsibility for any legal claims against your product."
-
-### On "templates"
-
-The licence permits copying templates and forbids copying text, and a roll table is plausibly both.
-This project reads "templates" as the frame, not the filling.
-
-A table's skeleton — which die, which axes, how many rows, how the results combine — is a template,
-and is equally a rule or mechanic, so it is permitted twice over. That is the part this tool
-implements. The entries inside a table are authored prose, and prose is what "copy or translate the
-art or text" forbids. Reading "templates" widely enough to swallow table entries would leave the
-text prohibition with almost nothing left to bite on, because in a rules-light book most of the text
-*is* tables. Both clauses are read here so that each has effect.
-
-That is a reading, not a ruling, and not legal advice; only Games Omnivorous can settle it. It is
-not the only reason the tables here are original, either — see [Content](#content) for a constraint
-that binds whichever way the question falls.
+The asset has to come from Games Omnivorous — it is one of the logos the licence otherwise forbids
+reproducing, and it may not be altered or used to suggest the tool is official, approved or
+endorsed. It cannot be drawn from scratch here; the published file has to be obtained and added.
 
 ## Content
 
-Every table in `src/FlailTools.Web/wwwroot/data/house/` is original to this project. The structures
-and procedures follow FLAIL!, which the licence permits; the words filling them do not come from the
-book, in whole or in paraphrase.
+The five generator tables in `src/FlailTools.Web/wwwroot/data/house/` are FLAIL!'s own, reproduced
+in face order: the Dungeons, Caves and Wizard Towers themes from the Adventure Sites chapter, and
+the d20 Locations and Landmarks tables from the hexcrawl chapter. Section 1 of the licence permits
+this expressly — it covers rules text, random tables, table entries and terminology.
 
-Each data file carries a `_source` header stating this, and `ProvenanceTests` fails the build if any
-file ever names an upstream work.
+Games Omnivorous publish the rulebook free at <https://gamesomnivorous.com/pages/flail>, which is
+where these were taken from.
 
-The dungeon room-stocking checklist FLAIL! uses is credited in the book to the Goblin Punch blog. It
-is therefore not Games Omnivorous's to license onward either — which binds however the templates
-question above is read, and is a second reason the wording of every stocking outcome here is written
-from scratch.
+No prose came with them. The book's introductions, descriptions, adventure text and setting text are
+not reproduced here, and neither is any artwork; section 2 still forbids both. Nor is this a
+replacement for the book — it generates the skeleton of a site and leaves every judgement the
+procedures ask for to the reader, who needs the rules to make anything of it.
+
+The site names and the map silhouettes are ours outright, because FLAIL! has no equivalent tables.
+
+Each data file carries a `_source` header naming the work its entries come from, or declaring that
+they were written for this tool. `ProvenanceTests` fails the build if a generator table stops naming
+FLAIL!, or if any other file starts to — so the split is a reviewed decision rather than a drift.
+
+The dungeon keying checklist FLAIL! uses is credited in the book to the Goblin Punch blog. That
+credit is passed on here rather than stopping at Games Omnivorous.
 
 ## Icon artwork
 

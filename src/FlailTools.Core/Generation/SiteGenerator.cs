@@ -16,10 +16,10 @@ namespace FlailTools.Core.Generation;
 /// the sender saw.
 /// </para>
 /// <para>
-/// The procedures are FLAIL!'s and are implemented faithfully — the d6 room stocking, the stack of
-/// dice that makes a tower's floors, the handful of dice dropped on a page that makes a cave. The
-/// licence permits reusing rules and mechanics; it does not permit reusing the words, so every table
-/// these read from is original to this repository.
+/// The procedures are FLAIL!'s and are implemented faithfully — the nine keying concepts, the
+/// stack of dice that makes a tower's floors, the handful of dice dropped on a page that makes
+/// a cave. The licence permits reusing its rules, mechanics, terminology and random tables
+/// alike, so the tables these read from are the book's own.
 /// </para>
 /// </remarks>
 public static class SiteGenerator
@@ -90,13 +90,17 @@ public static class SiteGenerator
     }
 
     /// <summary>
-    /// Eight to twelve rooms, each stocked on a d6, keyed from the way in to the way it ends.
+    /// Eight to twelve rooms, each keyed from the way in to the way it ends.
     /// </summary>
     /// <remarks>
     /// Area 1 is the entrance and area 10 is the finale, so the rooms are keyed in the order they
     /// are rolled rather than sorted afterwards: the number is the reader's route through the place,
     /// not a ranking. A dungeon that rolled fewer than ten rooms ends at its last one — the point of
     /// the finale is that the place has somewhere to end, not that it is the tenth door.
+    /// <para>
+    /// The concept is picked rather than rolled on a die, because that is what the book asks for:
+    /// nine concepts to stock areas from, not a table with one outcome per face.
+    /// </para>
     /// </remarks>
     private static IReadOnlyList<SiteArea> BuildDungeonRooms(GameData data, RollContext roll)
     {
@@ -115,7 +119,7 @@ public static class SiteGenerator
                 Role = index == 0
                     ? AreaRoles.Entrance
                     : index == finale ? AreaRoles.Finale : AreaRoles.Plain,
-                Value = Rolls.Face(roll, path, data.Dungeon.Stocking, sides: 6).Value
+                Value = roll.Text(path, data.Dungeon.Stocking)
             });
         }
 
@@ -212,7 +216,8 @@ public static class SiteGenerator
     /// </summary>
     /// <remarks>
     /// The d4 is the top floor and reads from its own four-row table, which is the whole reason the
-    /// top floor of a wizard's tower is never merely another storey.
+    /// top floor of a wizard's tower is never merely another storey. Every floor below it is two
+    /// rolls, as the book has it: the d6 says what kind of room it is, then a d4 says which one.
     /// </remarks>
     private static IReadOnlyList<SiteArea> BuildTowerFloors(GameData data, RollContext roll)
     {
@@ -231,11 +236,37 @@ public static class SiteGenerator
                 Role = isTop ? AreaRoles.Top : AreaRoles.Plain,
                 Value = isTop
                     ? Rolls.Face(roll, path, data.Tower.TopFloorTypes, sides: 4).Value
-                    : Rolls.Face(roll, path, data.Tower.FloorTypes, sides: 6).Value
+                    : FloorWithDetail(data, roll, path, index)
             });
         }
 
         return floors;
+    }
+
+    /// <summary>
+    /// One floor below the top: a d6 for the kind of room, then a d4 for which one of those.
+    /// </summary>
+    /// <remarks>
+    /// The detail is skipped rather than guessed when the d6 did not land on a row of the table —
+    /// which happens when somebody has pinned the floor to words of their own. Skipping costs
+    /// nothing, because each path draws from its own stream and so no other floor shifts.
+    /// </remarks>
+    private static string FloorWithDetail(GameData data, RollContext roll, string path, int index)
+    {
+        (int face, string type) = Rolls.Face(roll, path, data.Tower.FloorTypes, sides: 6);
+
+        if (string.IsNullOrEmpty(type) || face < 0 || face >= data.Tower.FloorDetails.Count)
+        {
+            return type;
+        }
+
+        string detail = Rolls.Face(
+            roll,
+            FieldPaths.TowerFloorDetail(index),
+            data.Tower.FloorDetails[face],
+            sides: 4).Value;
+
+        return string.IsNullOrEmpty(detail) ? type : $"{type}: {detail}";
     }
 
     /// <summary>How big to draw the place, from what its own procedure already decided.</summary>

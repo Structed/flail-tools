@@ -1,21 +1,87 @@
 {
   "_source": {
-    "describes": "The Wizard Towers generator: its four axes, and what each die in the stack makes of a floor.",
+    "describes": "The Wizard Towers generator: FLAIL!'s four d10 theme axes, and what each die in the stack makes of a floor.",
     "status": "Unofficial. Not affiliated with Games Omnivorous.",
-    "rationale": "The stack of d6s with a d4 balanced on top is FLAIL!'s procedure and is implemented faithfully, which the Third Party Licence permits. The words each face resolves to are original to this project. The top floor reads from its own four-row table because the d4 is a different die, not a shorter d6.",
-    "licence": "Games Omnivorous Third Party Licence",
+    "rationale": "FLAIL!'s own Wizard Towers tables, reproduced in face order, which the Third-Party Licence permits. The stack of d6s with a d4 balanced on top is the book's procedure and is implemented faithfully. A floor is two rolls, not one: the d6 gives the kind of floor and a d4 gives its exact nature, so 'floorDetails' holds the four options for each of the six kinds, in that order. The top floor reads from its own four-row table because the d4 that tops the stack is a different die, not a shorter d6.",
+    "work": "FLAIL!",
+    "url": "https://gamesomnivorous.com/pages/flail",
+    "licence": "Games Omnivorous Third-Party Licence",
     "licenceUrl": "https://gamesomnivorous.com/pages/flail-license",
-    "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third Party Licence.",
+    "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third-Party Licence.",
     "notices": [
       "FLAIL is copyright of Games Omnivorous."
     ]
   },
 
-  "shapes": [],
-  "occupants": [],
-  "reactions": [],
-  "goals": [],
+  "shapes": [
+    "Giant Clocktower",
+    "Crystal Protrusion",
+    "Arcane Obelisk",
+    "Forsaken Lighthouse",
+    "Hollow Tree",
+    "Twisted Spire",
+    "Enchanted Windmill",
+    "Glass Turret",
+    "Stonework Tower",
+    "Bone Keep"
+  ],
+  "occupants": [
+    "Pyromancer",
+    "Cryomancer",
+    "Conjurer",
+    "Illusionist",
+    "Warlock",
+    "Necromancer",
+    "Sorcerer",
+    "Thaumaturge",
+    "Chronomancer",
+    "Geomancer"
+  ],
+  "reactions": [
+    "Kill characters",
+    "Trick characters",
+    "Befriend characters",
+    "Hire characters",
+    "Help characters",
+    "Lure characters",
+    "Imprison characters",
+    "Teleport characters",
+    "Transform characters",
+    "Steal characters"
+  ],
+  "goals": [
+    "Rule the world",
+    "Raise army",
+    "Open portal",
+    "Spread curse",
+    "Invoke monster",
+    "Craft magic item",
+    "Unleash cataclysm",
+    "Raise disciples",
+    "Perform ritual",
+    "Be left alone"
+  ],
 
-  "floorTypes": [],
-  "topFloorTypes": []
+  "floorTypes": [
+    "Chamber",
+    "Hall",
+    "Lab",
+    "Library",
+    "Gallery",
+    "Leisure"
+  ],
+  "floorDetails": [
+    ["bedroom", "demon jail", "shrine", "games room"],
+    ["armoury", "treasury", "sepulchre", "dining hall"],
+    ["construct workshop", "medicine lab", "magic item studio", "potions brewery"],
+    ["spellbooks", "weird inventions", "cookbooks", "occult tomes"],
+    ["paintings", "statues", "trophies", "cabinet of curiosities"],
+    ["arboretum", "dream lounge", "music chamber", "reptilarium"]
+  ],
+  "topFloorTypes": [
+    "Astronomical observatory",
+    "Meditation pod",
+    "Light-prism beacon",
+    "Eldritch lookout"
+  ]
 }

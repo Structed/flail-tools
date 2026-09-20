@@ -101,20 +101,20 @@ public sealed class GameData
     public IReadOnlyList<string> Notices { get; }
 
     /// <summary>
-    /// <c>true</c> once at least one table has entries in it.
+    /// <c>true</c> once every generator has a table to roll on.
     /// </summary>
     /// <remarks>
-    /// The machinery ships before the words do, because every table here has to be written from
-    /// scratch rather than transcribed. Until then the generator runs, the maps draw and the seeds
-    /// are stable — the fields just come out blank, and the interface says so rather than
-    /// pretending.
+    /// Deliberately an <c>and</c>, not an <c>or</c>: the interface uses this to decide whether to
+    /// explain itself instead of showing blank fields, and a half-loaded set of files is exactly
+    /// the case worth explaining. Any one table arriving is not enough, because the generator a
+    /// reader happens to pick may be one of the empty ones.
     /// </remarks>
     public bool HasContent =>
-        Site.NameStems.Count > 0 ||
-        Dungeon.Flavours.Count > 0 ||
-        Cave.Flavours.Count > 0 ||
-        Tower.Shapes.Count > 0 ||
-        Location.Locations.Count > 0 ||
+        Site.NameStems.Count > 0 &&
+        Dungeon.Flavours.Count > 0 &&
+        Cave.Flavours.Count > 0 &&
+        Tower.Shapes.Count > 0 &&
+        Location.Locations.Count > 0 &&
         Landmark.Landmarks.Count > 0;
 
     public static async Task<GameData> LoadAsync(
@@ -220,14 +220,23 @@ public sealed class GameData
             }
         }
 
-        RequireFaces(DataPaths.Dungeon, "stocking", Dungeon.Stocking, 6);
         RequireFaces(DataPaths.Cave, "chambers", Cave.Chambers, 6);
         RequireFaces(DataPaths.Tower, "floorTypes", Tower.FloorTypes, 6);
         RequireFaces(DataPaths.Tower, "topFloorTypes", Tower.TopFloorTypes, 4);
+
+        if (Tower.FloorDetails.Count is not 0)
+        {
+            RequireFaces(DataPaths.Tower, "floorDetails", Tower.FloorDetails, 6);
+
+            for (int index = 0; index < Tower.FloorDetails.Count; index++)
+            {
+                RequireFaces(DataPaths.Tower, $"floorDetails[{index}]", Tower.FloorDetails[index], 4);
+            }
+        }
     }
 
     /// <summary>A table read by a die must have exactly one outcome per face, or none at all yet.</summary>
-    private static void RequireFaces(string file, string table, IReadOnlyList<string> rows, int faces)
+    private static void RequireFaces<T>(string file, string table, IReadOnlyList<T> rows, int faces)
     {
         if (rows.Count is not 0 && rows.Count != faces)
         {

@@ -1,21 +1,68 @@
 {
   "_source": {
-    "describes": "The Dungeons generator: its five axes, and the outcomes a d6 stocks a room with.",
+    "describes": "The Dungeons generator: FLAIL!'s five d6 theme axes, and the concepts an area is keyed with.",
     "status": "Unofficial. Not affiliated with Games Omnivorous.",
-    "rationale": "The axes and the room-stocking procedure are FLAIL!'s mechanics, which the Third Party Licence permits this tool to implement. The entries are not, and none are copied or paraphrased from the book: every row here is original to this project. The stocking checklist FLAIL! uses is itself credited in-book to the Goblin Punch blog, so it is not Games Omnivorous's to license onward either — one more reason the wording of each outcome is written from scratch.",
-    "licence": "Games Omnivorous Third Party Licence",
+    "rationale": "The five theme columns are FLAIL!'s own d6 tables, reproduced in face order, which the Third-Party Licence permits: it covers rules text, random tables, table entries and terminology. 'stocking' is the keying checklist, which FLAIL! presents as nine concepts to choose from rather than a die roll — so the generator picks across all nine rather than rolling a d6 and stranding the last three. That checklist is credited in FLAIL! itself to the Goblin Punch blog, so the credit is passed on here rather than stopping at Games Omnivorous.",
+    "work": "FLAIL!",
+    "url": "https://gamesomnivorous.com/pages/flail",
+    "licence": "Games Omnivorous Third-Party Licence",
     "licenceUrl": "https://gamesomnivorous.com/pages/flail-license",
-    "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third Party Licence.",
+    "attribution": "FLAIL! Tools is an independent production by the flail-tools contributors and is not affiliated with Games Omnivorous. It is published under the Games Omnivorous Third-Party Licence.",
     "notices": [
       "FLAIL is copyright of Games Omnivorous."
     ]
   },
 
-  "flavours": [],
-  "types": [],
-  "locations": [],
-  "keyFeatures": [],
-  "creatures": [],
+  "flavours": [
+    "Enchanted",
+    "Festering",
+    "Haunted",
+    "Misty",
+    "Broken",
+    "Cursed"
+  ],
+  "types": [
+    "Crypts",
+    "Vaults",
+    "Tombs",
+    "Catacombs",
+    "Sewers",
+    "Cellar"
+  ],
+  "locations": [
+    "Beneath a busy city",
+    "Hidden in old temple",
+    "Inside a deep well",
+    "Within a black fortress",
+    "Under a ruined castle",
+    "Below an ancient ruin"
+  ],
+  "keyFeatures": [
+    "Arcane glyphs",
+    "Bone-coated walls",
+    "Toxic vapours",
+    "Cobweb shroud",
+    "Dripping ceilings",
+    "Hanging chains"
+  ],
+  "creatures": [
+    "Undead",
+    "Oozes",
+    "Reptiles",
+    "Giants",
+    "Insects",
+    "Demons"
+  ],
 
-  "stocking": []
+  "stocking": [
+    "Something to steal",
+    "Something that probably won't be found",
+    "Something the characters can kill",
+    "Something that can kill the characters",
+    "Someone to meet",
+    "Puzzle to play with",
+    "Obstacle to overcome",
+    "Trap to avoid",
+    "Odd anomaly"
+  ]
 }
