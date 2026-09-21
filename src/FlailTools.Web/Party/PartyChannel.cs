@@ -40,6 +40,11 @@ public enum PartyStatus
 /// way out. Two independent chances to get it right, because getting it wrong is the one failure
 /// here that cannot be undone by refreshing.
 /// </para>
+/// <para>
+/// The <see cref="Roster"/> is the other half: names arrive as hails, keyed by the connection they
+/// came in on rather than by anything the message claims, so the table can show who is at it before
+/// anybody has rolled.
+/// </para>
 /// </remarks>
 public sealed class PartyChannel(IJSRuntime js) : IAsyncDisposable
 {
@@ -51,6 +56,9 @@ public sealed class PartyChannel(IJSRuntime js) : IAsyncDisposable
 
     /// <summary>What the table has rolled.</summary>
     public RollLog Log { get; } = new();
+
+    /// <summary>Who else is at the table.</summary>
+    public Roster Roster { get; } = new();
 
     public PartyStatus Status { get; private set; } = PartyStatus.Away;
 
@@ -117,6 +125,35 @@ public sealed class PartyChannel(IJSRuntime js) : IAsyncDisposable
         Peers = 0;
         Status = PartyStatus.Away;
         Log.Clear();
+        Roster.Clear();
+        Changed?.Invoke();
+    }
+
+    /// <summary>
+    /// Changes what this player is called, and tells the table if there is one.
+    /// </summary>
+    /// <remarks>
+    /// A name typed after joining is the common case, not the exception: people open the link,
+    /// land at the table and then decide what to call themselves. Re-hailing on every change keeps
+    /// the other screens right without anybody having to rejoin.
+    /// </remarks>
+    public async Task RenameAsync(string? name)
+    {
+        Player = name ?? "";
+
+        if (IsJoined && module is not null)
+        {
+            try
+            {
+                await module.InvokeVoidAsync("greet", Greeting());
+            }
+            catch (Exception error) when (error is JSException or JSDisconnectedException)
+            {
+                // A name that did not reach the others is a cosmetic loss, and the next hail — on
+                // the next peer to arrive — fixes it.
+            }
+        }
+
         Changed?.Invoke();
     }
 
@@ -189,6 +226,38 @@ public sealed class PartyChannel(IJSRuntime js) : IAsyncDisposable
         Peers = Math.Max(count, 0);
         Changed?.Invoke();
     }
+
+    /// <summary>Takes a name from the player on one connection.</summary>
+    /// <remarks>
+    /// The connection is the transport's word, not the sender's: a hail says what somebody is
+    /// called and never which seat it belongs to, so nobody can rename a player across the table.
+    /// </remarks>
+    [JSInvokable]
+    public void ReceiveHail(string peer, string json)
+    {
+        if (Hail.TryRead(json, out Hail hail) && Roster.Greet(peer, hail))
+        {
+            Changed?.Invoke();
+        }
+    }
+
+    /// <summary>Clears the seat of somebody who has gone.</summary>
+    [JSInvokable]
+    public void ReceiveDeparture(string peer)
+    {
+        if (Roster.Leave(peer))
+        {
+            Changed?.Invoke();
+        }
+    }
+
+    /// <summary>Says what this player is called, for sending to somebody who has just arrived.</summary>
+    /// <remarks>
+    /// Called from JavaScript, which does not decide what goes in it, in the same way as
+    /// <see cref="Replay"/>. The transport asks for a greeting and relays whatever it is handed.
+    /// </remarks>
+    [JSInvokable]
+    public string Greeting() => Hail.From(Player, DateTimeOffset.UtcNow).Write();
 
     [JSInvokable]
     public void ReceiveStatus(string status)

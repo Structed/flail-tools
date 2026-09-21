@@ -145,6 +145,10 @@
     "dicePeersOne": "1 other player",
     "dicePeersOther": "other players",
 
+    "diceWhoHeading": "Who is here",
+    "diceYou": "you",
+    "diceWhoWaiting": "still saying hello",
+
     "dicePrivately": "rolled privately",
     "dicePrivateMine": "privately",
     "diceDropped": "dropped",
