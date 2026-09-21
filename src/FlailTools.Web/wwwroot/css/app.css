@@ -374,9 +374,7 @@ input[type="number"]:hover {
     width: 5rem;
 }
 
-.dice-identity,
-.dice-presets,
-.dice-freehand {
+.dice-identity {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-end;
@@ -434,17 +432,31 @@ input[type="number"]:hover {
 
 .dice-controls {
     display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    gap: 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
     padding: 1.25rem 0;
     border-bottom: 1px solid var(--rule);
 }
 
-.dice-preset {
+.dice-rolls {
     display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 0.75rem;
+}
+
+/* Each way to roll is framed, so the number field and the edge steps sit plainly with the button
+   they belong to rather than running into the next roll along. */
+.dice-roll {
+    display: flex;
+    flex-wrap: wrap;
     align-items: flex-end;
     gap: 0.5rem;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    background: var(--paper-raised);
 }
 
 /* One row of steps rather than a dropdown, so the whole range is visible while choosing. */
@@ -627,6 +639,11 @@ input[type="number"]:hover {
 @media (max-width: 52rem) {
     .site {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    .dice-rolls {
+        flex-direction: column;
+        align-self: stretch;
     }
 
     .seed {
