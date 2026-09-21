@@ -89,12 +89,12 @@
 </section>
 
 <section class="dice-controls">
-    <div class="dice-presets">
+    <div class="dice-rolls">
         @foreach (RollPreset preset in FlailRolls.All)
         {
             string id = preset.Id;
 
-            <div class="dice-preset">
+            <div class="dice-roll dice-preset">
                 @if (preset.Parameter is { } parameter)
                 {
                     <label class="dice-field dice-field-number">
@@ -129,22 +129,22 @@
                 </button>
             </div>
         }
-    </div>
 
-    <div class="dice-freehand">
-        <label class="dice-field">
-            <span class="field-label">@Ui.Message("diceNotationLabel")</span>
-            <input type="text"
-                   spellcheck="false"
-                   autocomplete="off"
-                   maxlength="@DiceNotation.MaximumLength"
-                   placeholder="@Ui.Message("diceNotationPlaceholder")"
-                   value="@_notation"
-                   @onchange="OnNotationChanged"
-                   @onkeydown="OnNotationKey" />
-        </label>
+        <div class="dice-roll dice-freehand">
+            <label class="dice-field">
+                <span class="field-label">@Ui.Message("diceNotationLabel")</span>
+                <input type="text"
+                       spellcheck="false"
+                       autocomplete="off"
+                       maxlength="@DiceNotation.MaximumLength"
+                       placeholder="@Ui.Message("diceNotationPlaceholder")"
+                       value="@_notation"
+                       @onchange="OnNotationChanged"
+                       @onkeydown="OnNotationKey" />
+            </label>
 
-        <button type="button" class="button" @onclick="RollNotationAsync">@Ui.Action("roll")</button>
+            <button type="button" class="button" @onclick="RollNotationAsync">@Ui.Action("roll")</button>
+        </div>
     </div>
 
     <label class="dice-secret">
