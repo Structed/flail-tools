@@ -76,3 +76,19 @@ notice. Its title is ordinary typeset text, not the FLAIL! logo.
 The code in this repository is MIT licensed.
 
 It depends on [Structed.Inkwell](https://github.com/Structed/inkwell), also MIT.
+
+### Trystero
+
+The dice table's peer-to-peer connection uses
+[Trystero](https://github.com/dmotz/trystero) 0.25.4 by Dan Motzenbecker, MIT licensed. The Nostr
+strategy bundle is vendored verbatim at
+`src/FlailTools.Web/wwwroot/js/party/trystero-nostr.js`, with its origin and refresh instructions in
+a banner at the top of the file.
+
+Vendoring rather than loading it from a CDN keeps the site working when a CDN does not, and means no
+third party can change what runs on the page between one session and the next. The bundle carries
+its own copy of [@noble/secp256k1](https://github.com/paulmillr/noble-secp256k1) by Paul Miller,
+also MIT licensed, which Trystero uses to sign the Nostr events that carry the signalling.
+
+Neither library sees a roll. They establish the connection; the dice travel directly between
+browsers over it.

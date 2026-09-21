@@ -89,7 +89,22 @@
     "copyLink": "Copy link",
     "copied": "Copied",
     "download": "Download",
-    "about": "About"
+    "about": "About",
+
+    "dice": "Dice",
+    "startTable": "Start a table",
+    "joinTable": "Join",
+    "leaveTable": "Leave",
+    "copyInvite": "Copy invite",
+    "roll": "Roll",
+    "rollPrivately": "Roll privately",
+    "clearRolls": "Clear the log",
+
+    "preset/hit": "To Hit",
+    "preset/save": "Save",
+    "edgeDown": "Disadvantage",
+    "edgeUp": "Advantage",
+    "edgeNone": "Straight"
   },
 
   "messages": {
@@ -100,6 +115,65 @@
     "loading": "Loading…",
     "noContentTitle": "No tables loaded",
     "noContentBody": "The generator, the maps and the seeds are all working, but the tables came back with no rows in them, so every field is blank. This normally means the data files did not load rather than that anything was rolled badly.",
-    "emptyField": "—"
+    "emptyField": "—",
+
+    "diceTagline": "Roll where the whole party can see it.",
+    "dicePlayerLabel": "Your name",
+    "dicePlayerPlaceholder": "Who is rolling",
+    "diceTableLabel": "Table code",
+    "diceTablePlaceholder": "abcd-efgh-jkmn",
+    "diceNotationLabel": "Anything else",
+    "diceNotationPlaceholder": "2d6+1",
+    "diceEdgeLabel": "Advantage or disadvantage",
+    "diceRollsHeading": "Rolls",
+    "diceTableHeading": "The table",
+
+    "param/dice": "Dice",
+    "param/score": "Score",
+    "diceNameNeeded": "Put a name in first, so the rest of the table knows whose dice those were.",
+    "diceNotationBad": "That is not a roll this understands. Try d20, 2d6+1, or 4d6kh3 to keep the best three of four.",
+    "diceTableBad": "That is not a table code.",
+    "diceEmptyLog": "Nothing rolled yet.",
+
+    "diceStatusAway": "Not at a table — these rolls are only on this screen.",
+    "diceStatusJoining": "Opening the table…",
+    "diceStatusSearching": "Looking for the others…",
+    "diceStatusOpen": "At the table",
+    "diceStatusFailed": "This browser would not open a connection. Rolls still work here; they just stay here.",
+
+    "dicePeersNone": "nobody else yet",
+    "dicePeersOne": "1 other player",
+    "dicePeersOther": "other players",
+
+    "dicePrivately": "rolled privately",
+    "dicePrivateMine": "privately",
+    "diceDropped": "dropped",
+
+    "hit/miss": "No 1s — a miss.",
+    "hit/fumble": "A fumble — hit an ally for d8, or mark usage on a carried item.",
+    "hit/minor": "Minor Hit — weapon damage, less defence.",
+    "hit/major": "Major Hit — double weapon damage, less defence.",
+    "hit/death": "Death Blow — the target is eliminated.",
+    "save/pass": "At or under — it holds.",
+    "save/fail": "Over — it does not.",
+    "save/critical": "A natural 1 — a critical success.",
+    "save/fumble": "A natural 20 — a fumble.",
+
+    "poker/pair": "Pair",
+    "poker/pairs": "Pairs",
+    "poker/triplet": "Triplet",
+    "poker/poker": "Poker",
+    "poker/house": "Full house",
+    "poker/run3": "Three-number sequence",
+    "poker/run4": "Four-number sequence",
+    "poker/run5": "Five-number sequence",
+    "poker/run6": "Six-number sequence",
+
+    "diceInviteHint": "Anyone with this link joins the table. Anyone with this code can listen to it, so share it the way you would share a door key.",
+    "dicePrivacyHint": "Rolls travel straight between browsers, encrypted, with no server in the middle and nothing stored anywhere. Close the tab and the table is gone.",
+    "diceSecretHint": "A private roll tells the table that you rolled and nothing else. The dice never leave this browser.",
+    "dicePokerHint": "A To Hit roll also reports its poker results, because that is what talents, legendary weapons and most of the bestiary trigger on — a Cutthroat rolling two pairs strikes again. What the trigger does is on your sheet; this only tells you it fired.",
+    "diceEdgeHint": "Advantage is one more d6 on a To Hit, or a second d20 with the kinder result kept on a save. They stack to three dice and cancel each other out.",
+    "diceNatHint": "Some networks will not let two browsers talk directly, and there is no relay to fall back on. If somebody never appears, paste them the seed beside a roll — it rebuilds the same dice anywhere."
   }
 }

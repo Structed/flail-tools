@@ -9,6 +9,7 @@
         </a>
         <nav class="masthead-nav">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">@Generate</NavLink>
+            <NavLink class="nav-link" href="dice">@Dice</NavLink>
             <NavLink class="nav-link" href="about">@About</NavLink>
         </nav>
     </header>
@@ -46,6 +47,8 @@
         _data?.Ui.Licence.Unofficial is { Length: > 0 } text ? text : "Unofficial";
 
     private string Generate => _data?.Ui.Action("generate") ?? "Roll a site";
+
+    private string Dice => _data?.Ui.Action("dice") ?? "Dice";
 
     private string About => _data?.Ui.Action("about") ?? "About";
 

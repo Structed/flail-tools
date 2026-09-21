@@ -32,5 +32,32 @@ window.flailTools = {
 
         // Revoked on the next tick, so the click has taken the URL first.
         setTimeout(() => URL.revokeObjectURL(url), 0);
+    },
+
+    // Remembering what someone called themselves at the table, and which table they were at.
+    //
+    // Guarded because storage is not always there to be written to: private windows, storage
+    // quotas, and browsers set to refuse it all throw from the same call. A dice roller that will
+    // not open because it could not remember a name would be a poor trade.
+    read: function (key) {
+        try {
+            return localStorage.getItem(key);
+        } catch {
+            return null;
+        }
+    },
+
+    write: function (key, value) {
+        try {
+            if (value === null || value === undefined || value === '') {
+                localStorage.removeItem(key);
+            } else {
+                localStorage.setItem(key, value);
+            }
+
+            return true;
+        } catch {
+            return false;
+        }
     }
 };
