@@ -18,4 +18,3 @@ var vn=Object.freeze,Pe=0xffffffffffffffffffffffffffffffffffffffffffffffffffffff
 @noble/secp256k1/index.js:
   (*! noble-secp256k1 - MIT License (c) 2019 Paul Miller (paulmillr.com) *)
 */
-//# sourceMappingURL=trystero.bundle.mjs.map

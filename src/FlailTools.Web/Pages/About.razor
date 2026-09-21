@@ -64,6 +64,28 @@
     </p>
 </section>
 
+<section class="prose">
+    <h2>The dice table</h2>
+    <p>
+        The shared dice table has no server behind it, because there is nowhere to put one. Browsers
+        connect straight to each other and the dice travel between them, encrypted end to end. To
+        find each other in the first place they use public relays, which carry an opaque room
+        identifier and an encrypted handshake and nothing else — no names, no rolls, no results.
+        Nothing is stored anywhere, by anyone. Close the tab and the table is gone.
+    </p>
+    <p>
+        A private roll is not a roll the other players are trusted to ignore. It is ghosted before it
+        leaves your machine, so what the rest of the table receives has no dice, no total and no
+        reading in it — only that you rolled. The same is true of the history a late arrival is sent.
+        Your own screen keeps the numbers, because the secret is from the table and not from you.
+    </p>
+    <p>
+        The table code is the whole of the security: twelve random characters that nobody will guess,
+        and that anybody you send them to can use. Treat the link like a key. And because the
+        connection is direct, a strict firewall between two players can refuse to allow one at all.
+    </p>
+</section>
+
 @code {
     [CascadingParameter]
     public GameData Data { get; set; } = default!;

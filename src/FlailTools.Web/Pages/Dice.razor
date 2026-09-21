@@ -1,0 +1,468 @@
+@page "/dice"
+@implements IAsyncDisposable
+@inject NavigationManager Nav
+@inject IJSRuntime Js
+
+<PageTitle>@Ui.Action("dice") — @Ui.App.Title</PageTitle>
+
+<h1 class="visually-hidden">@Ui.Action("dice")</h1>
+
+<section class="dice-table">
+    <h2 class="dice-heading">@Ui.Message("diceTableHeading")</h2>
+
+    <div class="dice-identity">
+        <label class="dice-field">
+            <span class="field-label">@Ui.Message("dicePlayerLabel")</span>
+            <input type="text"
+                   maxlength="@RollMessage.MaximumNameLength"
+                   placeholder="@Ui.Message("dicePlayerPlaceholder")"
+                   value="@_player"
+                   @onchange="OnPlayerChanged" />
+        </label>
+
+        @if (_channel.IsJoined)
+        {
+            <p class="dice-code">
+                <span class="field-label">@Ui.Message("diceTableLabel")</span>
+                <code>@TableCode.Group(_channel.Code)</code>
+            </p>
+
+            <button type="button" class="button" @onclick="CopyInvite">
+                @(_copied ? Ui.Action("copied") : Ui.Action("copyInvite"))
+            </button>
+
+            <button type="button" class="button" @onclick="Leave">@Ui.Action("leaveTable")</button>
+        }
+        else
+        {
+            <label class="dice-field">
+                <span class="field-label">@Ui.Message("diceTableLabel")</span>
+                <input type="text"
+                       spellcheck="false"
+                       autocomplete="off"
+                       placeholder="@Ui.Message("diceTablePlaceholder")"
+                       value="@_code"
+                       @onchange="OnCodeChanged" />
+            </label>
+
+            <button type="button" class="button" @onclick="Join">@Ui.Action("joinTable")</button>
+            <button type="button" class="button button-primary" @onclick="Start">@Ui.Action("startTable")</button>
+        }
+    </div>
+
+    <p class="dice-status dice-status-@_channel.Status.ToString().ToLowerInvariant()" role="status">
+        @StatusText@(_channel.IsJoined ? $" — {PeerText}." : "")
+    </p>
+
+    @if (_notice is { Length: > 0 })
+    {
+        <p class="notice notice-bad" role="alert">@_notice</p>
+    }
+
+    @if (_channel.IsJoined)
+    {
+        <p class="dice-hint">@Ui.Message("diceInviteHint")</p>
+    }
+</section>
+
+<section class="dice-controls">
+    <div class="dice-presets">
+        @foreach (RollPreset preset in FlailRolls.All)
+        {
+            string id = preset.Id;
+
+            <div class="dice-preset">
+                @if (preset.Parameter is { } parameter)
+                {
+                    <label class="dice-field dice-field-number">
+                        <span class="field-label">@Ui.Message("param/" + parameter.Id)</span>
+                        <input type="number"
+                               min="@parameter.Minimum"
+                               max="@parameter.Maximum"
+                               value="@Parameter(preset)"
+                               @onchange="@(args => OnParameterChanged(id, args))" />
+                    </label>
+                }
+
+                <button type="button" class="button button-primary" @onclick="@(() => RollPresetAsync(preset))">
+                    @Ui.Action("preset/" + id)
+                </button>
+            </div>
+        }
+    </div>
+
+    <div class="dice-freehand">
+        <label class="dice-field">
+            <span class="field-label">@Ui.Message("diceNotationLabel")</span>
+            <input type="text"
+                   spellcheck="false"
+                   autocomplete="off"
+                   maxlength="@DiceNotation.MaximumLength"
+                   placeholder="@Ui.Message("diceNotationPlaceholder")"
+                   value="@_notation"
+                   @onchange="OnNotationChanged"
+                   @onkeydown="OnNotationKey" />
+        </label>
+
+        <button type="button" class="button" @onclick="RollNotationAsync">@Ui.Action("roll")</button>
+    </div>
+
+    <label class="dice-secret">
+        <input type="checkbox" checked="@_secret" @onchange="OnSecretChanged" />
+        <span>@Ui.Action("rollPrivately")</span>
+    </label>
+
+    @if (_secret)
+    {
+        <p class="dice-hint">@Ui.Message("diceSecretHint")</p>
+    }
+</section>
+
+<section class="dice-log">
+    <div class="dice-log-head">
+        <h2 class="dice-heading">@Ui.Message("diceRollsHeading")</h2>
+
+        @if (_channel.Log.Entries.Count > 0)
+        {
+            <button type="button" class="button button-quiet" @onclick="ClearLog">@Ui.Action("clearRolls")</button>
+        }
+    </div>
+
+    @if (_channel.Log.Entries.Count == 0)
+    {
+        <p class="dice-empty">@Ui.Message("diceEmptyLog")</p>
+    }
+    else
+    {
+        <ol class="dice-entries">
+            @foreach (RollEntry entry in _channel.Log.Entries)
+            {
+                RollMessage roll = entry.Message;
+
+                // A private roll is a secret from the table, not from the person who made it. Only
+                // somebody else's private roll arrives hollow; this player's own keeps its dice.
+                bool hidden = roll.Secret && !entry.IsMine;
+
+                <li class="dice-entry @(entry.IsMine ? "dice-entry-mine" : "") @(roll.Secret ? "dice-entry-secret" : "")"
+                    @key="roll.Id">
+                    <span class="dice-who">@Who(roll)</span>
+
+                    @if (hidden)
+                    {
+                        <span class="dice-private">@Ui.Message("dicePrivately")</span>
+                    }
+                    else
+                    {
+                        @if (roll.Secret)
+                        {
+                            <span class="dice-private">@Ui.Message("dicePrivateMine")</span>
+                        }
+
+                        <span class="dice-notation">@roll.Notation</span>
+
+                        <span class="dice-faces">
+                            @for (int index = 0; index < roll.Faces.Count; index++)
+                            {
+                                bool kept = index >= roll.Kept.Count || roll.Kept[index];
+
+                                <span class="die @(kept ? "" : "die-dropped")"
+                                      title="@(kept ? null : Ui.Message("diceDropped"))">@roll.Faces[index]</span>
+                            }
+                        </span>
+
+                        <span class="dice-total">@roll.Total</span>
+
+                        @if (roll.ReadingKey is { Length: > 0 })
+                        {
+                            <span class="dice-reading">@Ui.Message(roll.ReadingKey)</span>
+                        }
+
+                        <span class="dice-seed" title="@Ui.Message("seed")">@SeedOf(roll)</span>
+                    }
+                </li>
+            }
+        </ol>
+    }
+</section>
+
+<section class="dice-notes">
+    <p>@Ui.Message("dicePrivacyHint")</p>
+    <p>@Ui.Message("diceNatHint")</p>
+</section>
+
+@code {
+    private const string PlayerKey = "flail.dice.player";
+    private const string TableKey = "flail.dice.table";
+
+    [CascadingParameter]
+    public GameData Data { get; set; } = default!;
+
+    private PartyChannel _channel = default!;
+
+    private readonly Dictionary<string, int> _parameters = new(StringComparer.Ordinal);
+
+    private string _player = "";
+    private string _code = "";
+    private string _notation = "";
+    private string _notice = "";
+    private bool _secret;
+    private bool _copied;
+
+    private UiText Ui => Data.Ui;
+
+    protected override void OnInitialized()
+    {
+        _channel = new PartyChannel(Js);
+        _channel.Changed += OnChannelChanged;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        _player = await Read(PlayerKey);
+        _channel.Player = _player;
+
+        string invited = Query("t");
+
+        if (invited.Length > 0)
+        {
+            _code = invited;
+            await JoinCode(invited);
+        }
+        else
+        {
+            _code = await Read(TableKey);
+        }
+
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Rolls arrive from JavaScript, which is not where Blazor expects to be told to redraw.
+    /// </summary>
+    private void OnChannelChanged() => _ = InvokeAsync(StateHasChanged);
+
+    private string StatusText => _channel.Status switch
+    {
+        PartyStatus.Joining => Ui.Message("diceStatusJoining"),
+        PartyStatus.Searching => Ui.Message("diceStatusSearching"),
+        PartyStatus.Open => Ui.Message("diceStatusOpen"),
+        PartyStatus.Failed => Ui.Message("diceStatusFailed"),
+        _ => Ui.Message("diceStatusAway")
+    };
+
+    private string PeerText => _channel.Peers switch
+    {
+        0 => Ui.Message("dicePeersNone"),
+        1 => Ui.Message("dicePeersOne"),
+        _ => $"{_channel.Peers} {Ui.Message("dicePeersOther")}"
+    };
+
+    /// <summary>What to call whoever rolled, when they did not say.</summary>
+    private string Who(RollMessage roll) =>
+        roll.Player is { Length: > 0 } name ? name : Ui.Message("emptyField");
+
+    private string SeedOf(RollMessage roll) =>
+        Structed.Inkwell.Randomness.SeedCodec.Encode(roll.Seed);
+
+    private int Parameter(RollPreset preset) =>
+        preset.Parameter is null
+            ? 0
+            : _parameters.TryGetValue(preset.Id, out int value) ? value : preset.Parameter.Default;
+
+    private void OnParameterChanged(string id, ChangeEventArgs args)
+    {
+        RollPreset preset = FlailRolls.All.First(candidate => candidate.Id == id);
+
+        _parameters[id] = int.TryParse(args.Value as string, out int typed)
+            ? preset.Settle(typed)
+            : preset.Parameter?.Default ?? 0;
+    }
+
+    private async Task OnPlayerChanged(ChangeEventArgs args)
+    {
+        _player = (args.Value as string ?? "").Trim();
+
+        if (_player.Length > RollMessage.MaximumNameLength)
+        {
+            _player = _player[..RollMessage.MaximumNameLength];
+        }
+
+        _channel.Player = _player;
+        _notice = "";
+
+        await Write(PlayerKey, _player);
+    }
+
+    private void OnCodeChanged(ChangeEventArgs args)
+    {
+        _code = args.Value as string ?? "";
+        _notice = "";
+    }
+
+    private void OnNotationChanged(ChangeEventArgs args) => _notation = args.Value as string ?? "";
+
+    private void OnSecretChanged(ChangeEventArgs args) => _secret = args.Value is true;
+
+    private async Task OnNotationKey(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter")
+        {
+            await RollNotationAsync();
+        }
+    }
+
+    private Task Start() => JoinCode(TableCode.Create());
+
+    private Task Join() => JoinCode(_code);
+
+    /// <summary>
+    /// Joins, then makes the address bar into the invitation.
+    /// </summary>
+    /// <remarks>
+    /// The link is the share mechanism, exactly as it is on the generator page. Replacing the URL
+    /// rather than pushing it keeps the back button meaning what it meant before.
+    /// </remarks>
+    private async Task JoinCode(string code)
+    {
+        if (!TableCode.TryParse(code, out string parsed))
+        {
+            _notice = Ui.Message("diceTableBad");
+            return;
+        }
+
+        if (_player.Length == 0)
+        {
+            _notice = Ui.Message("diceNameNeeded");
+            return;
+        }
+
+        _notice = "";
+        _copied = false;
+        _code = parsed;
+
+        await Write(TableKey, parsed);
+        await _channel.JoinAsync(parsed);
+        await SetUrl(Invite);
+    }
+
+    private async Task Leave()
+    {
+        await _channel.LeaveAsync();
+        await SetUrl(Nav.BaseUri + "dice");
+    }
+
+    private string Invite => $"{Nav.BaseUri}dice?t={_channel.Code}";
+
+    private async Task CopyInvite()
+    {
+        try
+        {
+            _copied = await Js.InvokeAsync<bool>("flailTools.copyText", Invite);
+        }
+        catch (JSException)
+        {
+            _copied = false;
+        }
+    }
+
+    private async Task RollPresetAsync(RollPreset preset)
+    {
+        int value = Parameter(preset);
+        RollOutcome outcome = preset.Roll(value);
+
+        await Announce(outcome, preset.Read(outcome, value));
+    }
+
+    private async Task RollNotationAsync()
+    {
+        if (!DiceNotation.TryParse(_notation, out DiceNotation notation))
+        {
+            _notice = Ui.Message("diceNotationBad");
+            return;
+        }
+
+        _notice = "";
+        _notation = notation.Text;
+
+        await Announce(DiceRolls.Roll(notation), null);
+    }
+
+    private async Task Announce(RollOutcome outcome, RollReading? reading)
+    {
+        if (_player.Length == 0)
+        {
+            _notice = Ui.Message("diceNameNeeded");
+            return;
+        }
+
+        await _channel.RollAsync(outcome, reading, _secret);
+    }
+
+    /// <summary>Empties this screen's copy of the log, and nobody else's.</summary>
+    private void ClearLog() => _channel.Log.Clear();
+
+    private string Query(string key)
+    {
+        string query = new Uri(Nav.Uri).Query;
+
+        foreach (string part in query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
+        {
+            string[] pair = part.Split('=', 2);
+
+            if (pair.Length == 2 && pair[0] == key)
+            {
+                return Uri.UnescapeDataString(pair[1]);
+            }
+        }
+
+        return "";
+    }
+
+    private async Task SetUrl(string url)
+    {
+        try
+        {
+            await Js.InvokeVoidAsync("flailTools.setUrl", url);
+        }
+        catch (JSException)
+        {
+            // An address bar that has stopped agreeing is not worth breaking the page over.
+        }
+    }
+
+    private async Task<string> Read(string key)
+    {
+        try
+        {
+            return await Js.InvokeAsync<string?>("flailTools.read", key) ?? "";
+        }
+        catch (JSException)
+        {
+            return "";
+        }
+    }
+
+    private async Task Write(string key, string value)
+    {
+        try
+        {
+            await Js.InvokeAsync<bool>("flailTools.write", key, value);
+        }
+        catch (JSException)
+        {
+            // Storage that refuses to remember a name is a small loss, and not one worth a dialog.
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        _channel.Changed -= OnChannelChanged;
+
+        await _channel.DisposeAsync();
+    }
+}

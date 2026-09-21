@@ -239,4 +239,5 @@ public sealed record RollMessage
     PropertyNameCaseInsensitive = true,
     DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault)]
 [JsonSerializable(typeof(RollMessage))]
+[JsonSerializable(typeof(string[]))]
 public sealed partial class PartyJsonContext : JsonSerializerContext;

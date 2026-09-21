@@ -22,3 +22,7 @@
 # whole fixture as modified the moment anyone regenerates it — and, more to the point, keeps CI on
 # Linux and a developer on Windows from disagreeing about what a seed produces.
 tests/**/Fixtures/*.txt text eol=lf
+
+# The vendored Trystero bundle is upstream's bytes, not ours. Pinning it to LF keeps a refresh
+# downloaded from esm.sh producing a diff of what actually changed rather than of every line.
+src/FlailTools.Web/wwwroot/js/party/trystero-nostr.js text eol=lf linguist-vendored

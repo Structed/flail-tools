@@ -340,12 +340,248 @@ select:hover {
     color: var(--ink-soft);
 }
 
+/* The dice table. Rolls are read at a glance, across the room, by somebody who is also holding a
+   character sheet — so the faces are large, the dropped ones are dimmed rather than hidden, and the
+   reading gets a line of its own rather than being tucked beside the total. */
+
+input[type="text"],
+input[type="number"] {
+    font: inherit;
+    font-size: 0.95rem;
+    color: var(--ink);
+    background: var(--paper-raised);
+    border: 1px solid var(--ink-faint);
+    border-radius: 2px;
+    padding: 0.35rem 0.55rem;
+}
+
+input[type="text"]:hover,
+input[type="number"]:hover {
+    border-color: var(--ink);
+}
+
+.dice-heading {
+    margin-bottom: 0.75rem;
+}
+
+.dice-field {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.dice-field-number input {
+    width: 5rem;
+}
+
+.dice-identity,
+.dice-presets,
+.dice-freehand {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.6rem;
+}
+
+.dice-code {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin: 0;
+}
+
+.dice-code code {
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+}
+
+.dice-status {
+    margin: 0.75rem 0 0;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+}
+
+.dice-status-open::before,
+.dice-status-searching::before,
+.dice-status-joining::before,
+.dice-status-away::before,
+.dice-status-failed::before {
+    content: "●";
+    margin-right: 0.4rem;
+    color: var(--ink-faint);
+}
+
+.dice-status-open::before {
+    color: #3f6212;
+}
+
+.dice-status-failed::before {
+    color: var(--accent);
+}
+
+.dice-hint,
+.dice-notes p {
+    margin: 0.5rem 0 0;
+    max-width: 44rem;
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+}
+
+.dice-table {
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--rule);
+}
+
+.dice-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1.5rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+.dice-preset {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.dice-secret {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+}
+
+.dice-log {
+    margin-top: 1.5rem;
+}
+
+.dice-log-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.button-quiet {
+    background: none;
+    border-color: transparent;
+    color: var(--ink-faint);
+    font-size: 0.85rem;
+}
+
+.button-quiet:hover {
+    color: var(--ink);
+}
+
+.dice-empty {
+    color: var(--ink-faint);
+}
+
+.dice-entries {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dice-entry {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 0.75rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+.dice-entry-mine {
+    background: var(--accent-soft);
+    box-shadow: -0.6rem 0 0 var(--accent-soft), 0.6rem 0 0 var(--accent-soft);
+}
+
+/* A private roll still shows its own roller the dice, so it needs a mark that says the rest of the
+   table is not seeing this. Dashed, because the entry is deliberately incomplete elsewhere. */
+.dice-entry-secret {
+    border-bottom-style: dashed;
+}
+
+.dice-who {
+    font-weight: 600;
+    min-width: 6rem;
+}
+
+.dice-notation,
+.dice-seed {
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 0.8rem;
+    color: var(--ink-faint);
+}
+
+.dice-seed {
+    margin-left: auto;
+}
+
+.dice-faces {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+}
+
+.die {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.6rem;
+    height: 1.6rem;
+    padding: 0 0.25rem;
+    border: 1px solid var(--ink);
+    border-radius: 3px;
+    background: var(--paper-raised);
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Dropped dice stay on the table. Half the pleasure of keeping the best three is seeing what you
+   did not keep. */
+.die-dropped {
+    border-color: var(--rule);
+    color: var(--ink-faint);
+    opacity: 0.6;
+}
+
+.dice-total {
+    font-size: 1.15rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.dice-reading {
+    color: var(--accent);
+}
+
+.dice-private {
+    color: var(--ink-faint);
+    font-style: italic;
+}
+
+.dice-notes {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+}
+
 @media (max-width: 52rem) {
     .site {
         grid-template-columns: minmax(0, 1fr);
     }
 
     .seed {
+        margin-left: 0;
+    }
+
+    .dice-seed {
         margin-left: 0;
     }
 }

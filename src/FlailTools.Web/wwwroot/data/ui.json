@@ -89,7 +89,19 @@
     "copyLink": "Copy link",
     "copied": "Copied",
     "download": "Download",
-    "about": "About"
+    "about": "About",
+
+    "dice": "Dice",
+    "startTable": "Start a table",
+    "joinTable": "Join",
+    "leaveTable": "Leave",
+    "copyInvite": "Copy invite",
+    "roll": "Roll",
+    "rollPrivately": "Roll privately",
+    "clearRolls": "Clear the log",
+
+    "preset/pool": "Attack",
+    "preset/save": "Save"
   },
 
   "messages": {
@@ -100,6 +112,49 @@
     "loading": "Loading…",
     "noContentTitle": "No tables loaded",
     "noContentBody": "The generator, the maps and the seeds are all working, but the tables came back with no rows in them, so every field is blank. This normally means the data files did not load rather than that anything was rolled badly.",
-    "emptyField": "—"
+    "emptyField": "—",
+
+    "diceTagline": "Roll where the whole party can see it.",
+    "dicePlayerLabel": "Your name",
+    "dicePlayerPlaceholder": "Who is rolling",
+    "diceTableLabel": "Table code",
+    "diceTablePlaceholder": "abcd-efgh-jkmn",
+    "diceNotationLabel": "Anything else",
+    "diceNotationPlaceholder": "2d6+1",
+    "diceRollsHeading": "Rolls",
+    "diceTableHeading": "The table",
+
+    "param/dice": "Dice",
+    "param/score": "Score",
+    "diceNameNeeded": "Put a name in first, so the rest of the table knows whose dice those were.",
+    "diceNotationBad": "That is not a roll this understands. Try d20, 2d6+1, or 4d6kh3 to keep the best three of four.",
+    "diceTableBad": "That is not a table code.",
+    "diceEmptyLog": "Nothing rolled yet.",
+
+    "diceStatusAway": "Not at a table — these rolls are only on this screen.",
+    "diceStatusJoining": "Opening the table…",
+    "diceStatusSearching": "Looking for the others…",
+    "diceStatusOpen": "At the table",
+    "diceStatusFailed": "This browser would not open a connection. Rolls still work here; they just stay here.",
+
+    "dicePeersNone": "nobody else yet",
+    "dicePeersOne": "1 other player",
+    "dicePeersOther": "other players",
+
+    "dicePrivately": "rolled privately",
+    "dicePrivateMine": "privately",
+    "diceDropped": "dropped",
+
+    "pool/none": "No hits.",
+    "pool/single": "One hit — damage as normal.",
+    "pool/double": "Two hits — double damage.",
+    "pool/slay": "Three hits or more — slain outright.",
+    "save/under": "Under — it holds.",
+    "save/over": "Not under — it does not.",
+
+    "diceInviteHint": "Anyone with this link joins the table. Anyone with this code can listen to it, so share it the way you would share a door key.",
+    "dicePrivacyHint": "Rolls travel straight between browsers, encrypted, with no server in the middle and nothing stored anywhere. Close the tab and the table is gone.",
+    "diceSecretHint": "A private roll tells the table that you rolled and nothing else. The dice never leave this browser.",
+    "diceNatHint": "Some networks will not let two browsers talk directly, and there is no relay to fall back on. If somebody never appears, paste them the seed beside a roll — it rebuilds the same dice anywhere."
   }
 }

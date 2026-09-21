@@ -1,8 +1,8 @@
 # FLAIL! Tools
 
 An unofficial adventure site generator for **FLAIL!**, in your browser. It rolls dungeons, caves,
-wizard towers and hexcrawl locations, draws each one a hand-inked map, and gives you a short link
-that rebuilds exactly what you saw.
+wizard towers and hexcrawl locations, draws each one a hand-inked map, gives you a short link that
+rebuilds exactly what you saw, and runs a shared dice table for the whole party.
 
 Free, no account, no tracking, no server — it is a static site and everything happens on your
 machine.
@@ -39,6 +39,55 @@ its own stream, so it cannot disturb anything else on the page.
 The address bar always describes what is on screen — seed, kind, locks and all — so copying the
 link is the whole of sharing. **Download** writes the same thing as a file, for when a link is not
 enough.
+
+## Rolling dice together
+
+`/dice` is a dice table the whole party shares. One player presses **Start a table** and sends
+round the link; everyone who opens it sees every roll appear on their own screen as it happens.
+There are buttons for the two rolls FLAIL! asks for constantly — an attack pool of d6s counting 1s,
+and a roll-under save — and a box for anything else in ordinary notation: `d20`, `2d6+1`, `4d6kh3`.
+
+Tick **Roll privately** and the table is told you rolled and nothing else. No dice, no total, no
+reading. That entry is a ghost when it leaves the machine, so it is not a matter of the other
+players' browsers politely declining to look: what they receive has nothing in it to look at. Your
+own screen still shows the dice, marked as private, because it is a secret from the table and not
+from you.
+
+### How it works without a server
+
+There is no server, because there is nowhere to put one — this is a static site on GitHub Pages.
+Browsers connect **directly to each other** over WebRTC, using
+[Trystero](https://github.com/dmotz/trystero) over public [Nostr](https://nostr.com) relays to find
+one another in the first place.
+
+The relays only carry the introduction. They see an opaque room identifier derived from the table
+code and encrypted handshake traffic; they never see a roll, a name, or a result, and they store
+nothing. Once two browsers have found each other the relays are out of the conversation and the
+dice go straight between the two, encrypted end to end. Close the tab and the table is gone — there
+is nothing anywhere to delete.
+
+Worth knowing before you rely on it:
+
+- **Some networks will not allow it.** Peer-to-peer needs a route between the two machines, and a
+  strict corporate firewall or an unlucky pair of mobile carriers can refuse to give one. There is
+  no fallback relay to hide behind, so when it fails it fails visibly rather than quietly.
+- **The table code is the whole of the security.** Twelve random characters, 60 bits: nobody is
+  guessing one, but anybody you send it to can listen. Treat the link like a key.
+- **Most public relays are down at any given moment.** That is normal and the page copes; it only
+  needs one, and it says out loud when it has none.
+- **Nobody is the host.** The history a late arrival receives comes from whoever is already there,
+  which means a roll made before anybody was connected is a roll nobody else will ever see.
+
+The dice themselves are C# in `FlailTools.Core/Dice`, and the table in `FlailTools.Core/Party`;
+neither knows what a browser is, which is what makes them testable without one. `party.js` opens the
+room and passes opaque strings across it. It has no vocabulary of its own — no dice, no FLAIL!, no
+wording — so the transport could be replaced without touching a rule.
+
+`PortabilityTests` enforces that split: nothing in those two folders may reference the generator,
+the data loader or the site's model, and `FlailRolls.cs` is the single file allowed to know what
+game this is. That is the groundwork for lifting the dice and the table into
+[Structed.Inkwell](https://github.com/Structed/inkwell) once they have proven themselves here, so a
+sibling tool can share them.
 
 ## On content, and where the tables come from
 
@@ -118,6 +167,24 @@ A changed fixture means every link anybody has already shared now resolves to so
 the diff.
 
 CI runs the suite on Linux *and* Windows for the same reason.
+
+### The vendored Trystero bundle
+
+`src/FlailTools.Web/wwwroot/js/party/trystero-nostr.js` is
+[Trystero](https://github.com/dmotz/trystero) 0.25.4, MIT licensed, committed verbatim rather than
+fetched from a CDN so the dice table keeps working when a CDN does not and nothing third-party can
+change under the page between sessions. It is marked `linguist-vendored` and pinned to LF.
+
+To refresh it, download
+`https://esm.sh/trystero@<version>/es2022/trystero.bundle.mjs`, replace everything below the banner
+comment, keep the banner, and check the bundle still declares no imports of its own. It is saved as
+`.js` and not `.mjs` because GitHub Pages serves `.mjs` with a MIME type browsers refuse to import.
+
+Trystero's action API is settable properties rather than callbacks — `action.onMessage = handler`,
+`action.send(payload, { target })`, `room.onPeerJoin = handler` — and handlers are called with
+`(payload, { peerId })`. A version that changes this will break `party.js` loudly rather than
+quietly, but there are no unit tests behind that boundary, so the dice table wants opening in two
+browsers after any bump.
 
 ### Icon artwork
 
