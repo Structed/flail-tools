@@ -100,8 +100,11 @@
     "rollPrivately": "Roll privately",
     "clearRolls": "Clear the log",
 
-    "preset/pool": "Attack",
-    "preset/save": "Save"
+    "preset/hit": "To Hit",
+    "preset/save": "Save",
+    "edgeDown": "Disadvantage",
+    "edgeUp": "Advantage",
+    "edgeNone": "Straight"
   },
 
   "messages": {
@@ -121,6 +124,7 @@
     "diceTablePlaceholder": "abcd-efgh-jkmn",
     "diceNotationLabel": "Anything else",
     "diceNotationPlaceholder": "2d6+1",
+    "diceEdgeLabel": "Advantage or disadvantage",
     "diceRollsHeading": "Rolls",
     "diceTableHeading": "The table",
 
@@ -145,16 +149,31 @@
     "dicePrivateMine": "privately",
     "diceDropped": "dropped",
 
-    "pool/none": "No hits.",
-    "pool/single": "One hit — damage as normal.",
-    "pool/double": "Two hits — double damage.",
-    "pool/slay": "Three hits or more — slain outright.",
-    "save/under": "Under — it holds.",
-    "save/over": "Not under — it does not.",
+    "hit/miss": "No 1s — a miss.",
+    "hit/fumble": "A fumble — hit an ally for d8, or mark usage on a carried item.",
+    "hit/minor": "Minor Hit — weapon damage, less defence.",
+    "hit/major": "Major Hit — double weapon damage, less defence.",
+    "hit/death": "Death Blow — the target is eliminated.",
+    "save/pass": "At or under — it holds.",
+    "save/fail": "Over — it does not.",
+    "save/critical": "A natural 1 — a critical success.",
+    "save/fumble": "A natural 20 — a fumble.",
+
+    "poker/pair": "Pair",
+    "poker/pairs": "Pairs",
+    "poker/triplet": "Triplet",
+    "poker/poker": "Poker",
+    "poker/house": "Full house",
+    "poker/run3": "Three-number sequence",
+    "poker/run4": "Four-number sequence",
+    "poker/run5": "Five-number sequence",
+    "poker/run6": "Six-number sequence",
 
     "diceInviteHint": "Anyone with this link joins the table. Anyone with this code can listen to it, so share it the way you would share a door key.",
     "dicePrivacyHint": "Rolls travel straight between browsers, encrypted, with no server in the middle and nothing stored anywhere. Close the tab and the table is gone.",
     "diceSecretHint": "A private roll tells the table that you rolled and nothing else. The dice never leave this browser.",
+    "dicePokerHint": "A To Hit roll also reports its poker results, because that is what talents, legendary weapons and most of the bestiary trigger on — a Cutthroat rolling two pairs strikes again. What the trigger does is on your sheet; this only tells you it fired.",
+    "diceEdgeHint": "Advantage is one more d6 on a To Hit, or a second d20 with the kinder result kept on a save. They stack to three dice and cancel each other out.",
     "diceNatHint": "Some networks will not let two browsers talk directly, and there is no relay to fall back on. If somebody never appears, paste them the seed beside a roll — it rebuilds the same dice anywhere."
   }
 }

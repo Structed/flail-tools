@@ -8,7 +8,7 @@ namespace FlailTools.Core.Tests.Dice;
 /// </summary>
 /// <remarks>
 /// <para>
-/// A preset reports <c>pool/slay</c> and leaves it to <c>ui.json</c> to say what that means. That
+/// A preset reports <c>hit/death</c> and leaves it to <c>ui.json</c> to say what that means. That
 /// is what keeps the dice code free of any one game's vocabulary — and it means a missing line does
 /// not fail anywhere. It shows the key on screen, in front of the players, looking like a bug
 /// because it is one.
@@ -63,13 +63,21 @@ public sealed class DiceWordingTests
 
             for (int value = minimum; value <= maximum; value++)
             {
-                for (uint seed = 1; seed <= 300; seed++)
+                for (int edge = -RollEdge.Most; edge <= RollEdge.Most; edge++)
                 {
-                    RollOutcome outcome = preset.Roll(value, seed);
-
-                    if (preset.Read(outcome, value) is { } reading)
+                    for (uint seed = 1; seed <= 300; seed++)
                     {
-                        keys.Add(reading.Key);
+                        RollOutcome outcome = preset.Roll(value, edge, seed);
+
+                        if (preset.Read(outcome, value) is { } reading)
+                        {
+                            keys.Add(reading.Key);
+                        }
+
+                        foreach (RollReading note in preset.Note(outcome, value))
+                        {
+                            keys.Add(note.Key);
+                        }
                     }
                 }
             }
@@ -88,21 +96,56 @@ public sealed class DiceWordingTests
     /// The rarest readings are reachable at all.
     /// </summary>
     /// <remarks>
-    /// Rolling three 1s on ten dice is not rare, but rolling it inside a test that only tries three
-    /// hundred seeds might be — and a reading that is never produced would sail through the check
-    /// above by simply never appearing. Asserted directly so the coverage claim is honest.
+    /// Rolling three 1s on twelve dice is not rare, but rolling it inside a test that only tries a
+    /// few hundred seeds might be — and a reading that is never produced would sail through the
+    /// check above by simply never appearing. Asserted directly so the coverage claim is honest.
     /// </remarks>
     [Theory]
-    [InlineData("pool/none")]
-    [InlineData("pool/single")]
-    [InlineData("pool/double")]
-    [InlineData("pool/slay")]
-    [InlineData("save/under")]
-    [InlineData("save/over")]
+    [InlineData("hit/miss")]
+    [InlineData("hit/fumble")]
+    [InlineData("hit/minor")]
+    [InlineData("hit/major")]
+    [InlineData("hit/death")]
+    [InlineData("save/pass")]
+    [InlineData("save/fail")]
+    [InlineData("save/critical")]
+    [InlineData("save/fumble")]
     public async Task TheRarerReadingsAreWrittenDownToo(string key)
     {
         UiText ui = (await TestData.LoadAsync()).Ui;
 
         Assert.True(ui.Messages.ContainsKey(key), $"'{key}' is missing from ui.json.");
+    }
+
+    /// <summary>
+    /// Every poker result a talent might key off is written down.
+    /// </summary>
+    /// <remarks>
+    /// A four-number sequence is uncommon enough on four dice that seed-rolling alone could miss it,
+    /// and a talent that fires on one would then show its players a bare <c>poker/run</c>.
+    /// </remarks>
+    [Fact]
+    public async Task EveryPokerResultIsWrittenDownToo()
+    {
+        UiText ui = (await TestData.LoadAsync()).Ui;
+
+        foreach (string key in FlailRolls.PokerKeys)
+        {
+            Assert.True(ui.Messages.ContainsKey(key), $"'{key}' is missing from ui.json.");
+            Assert.NotEqual("", ui.Message(key));
+        }
+    }
+
+    /// <summary>Both ways of bending the odds are named on the buttons that offer them.</summary>
+    [Theory]
+    [InlineData("edgeUp")]
+    [InlineData("edgeDown")]
+    [InlineData("edgeNone")]
+    public async Task TheEdgeIsLabelled(string key)
+    {
+        UiText ui = (await TestData.LoadAsync()).Ui;
+
+        Assert.True(ui.Actions.ContainsKey(key), $"'{key}' is missing from ui.json.");
+        Assert.NotEqual("", ui.Action(key));
     }
 }

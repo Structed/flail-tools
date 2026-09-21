@@ -44,14 +44,36 @@ enough.
 
 `/dice` is a dice table the whole party shares. One player presses **Start a table** and sends
 round the link; everyone who opens it sees every roll appear on their own screen as it happens.
-There are buttons for the two rolls FLAIL! asks for constantly — an attack pool of d6s counting 1s,
-and a roll-under save — and a box for anything else in ordinary notation: `d20`, `2d6+1`, `4d6kh3`.
+There are buttons for the two rolls FLAIL! asks for constantly — a To Hit pool of d6s counting 1s,
+and a save rolled at or under an attribute — and a box for anything else in ordinary notation:
+`d20`, `2d6+1`, `4d6kh3`.
+
+Both presets take an **advantage or disadvantage**, in the steps the rules use: a To Hit gains or
+loses a die, a save rolls a second d20 and keeps the kinder result, and stacking stops at three
+dice. Pressing the step you are already on puts the roll back to straight.
 
 Tick **Roll privately** and the table is told you rolled and nothing else. No dice, no total, no
 reading. That entry is a ghost when it leaves the machine, so it is not a matter of the other
 players' browsers politely declining to look: what they receive has nothing in it to look at. Your
 own screen still shows the dice, marked as private, because it is a secret from the table and not
 from you.
+
+### Talents, and why there are none
+
+A To Hit roll also reports its **poker results** — pair, two pairs, triplet, poker, full house,
+sequence — beside the hit itself. That is not decoration. It is the mechanic almost every talent,
+legendary weapon and creature ability in FLAIL! is keyed to: a Cutthroat who rolls two pairs on a To
+Hit attacks again immediately, and until now they had to squint at five dice to notice.
+
+What the tool deliberately does not do is know that. Encoding the talents would make this a rules
+engine, would need extending for every new class and monster, and would still be wrong for the table
+that house-ruled one of them. Worse, the interesting cases are the ambiguous ones — some talents fire
+on a To Hit roll and some only on a successful one — and a tool that quietly picked a side would be
+making rulings nobody asked it to make. So the dice are read honestly and completely, and the player
+reads their own sheet, which is the part they came for.
+
+Those results are never sent. Each screen works them out again from the faces it received, which
+have already been checked, so a peer cannot announce a full house they did not roll.
 
 ### How it works without a server
 

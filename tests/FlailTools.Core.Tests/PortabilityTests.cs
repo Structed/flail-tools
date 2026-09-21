@@ -80,8 +80,15 @@ public sealed class PortabilityTests
     /// The game-specific file has to stay small enough to be worth leaving behind.
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Not a style rule. If the FLAIL! presets grow into a rules engine, the extraction stops being
     /// a move and the plan needs revisiting — this is where that conversation gets scheduled.
+    /// </para>
+    /// <para>
+    /// Counted in code rather than in lines, because this repository explains itself at length and a
+    /// raw line count would have the rule firing at good documentation while a dense hundred lines
+    /// of rules arithmetic slipped past it. What is being watched for is logic.
+    /// </para>
     /// </remarks>
     [Fact]
     public void TheGameSpecificFileIsStillTheSmallOne()
@@ -89,7 +96,12 @@ public sealed class PortabilityTests
         string path = Path.Combine(TestData.RepositoryRoot, "src", "FlailTools.Core", "Dice", StaysBehind);
 
         Assert.True(File.Exists(path), $"'{StaysBehind}' has moved; the extraction rule needs updating.");
-        Assert.True(File.ReadAllLines(path).Length < 150, $"'{StaysBehind}' is growing into a rules engine.");
+
+        int code = File.ReadAllLines(path)
+            .Select(line => line.Trim())
+            .Count(line => line.Length > 0 && !line.StartsWith("//", StringComparison.Ordinal));
+
+        Assert.True(code < 130, $"'{StaysBehind}' is growing into a rules engine.");
     }
 
     [Fact]

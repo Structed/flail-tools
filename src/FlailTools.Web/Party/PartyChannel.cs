@@ -124,7 +124,11 @@ public sealed class PartyChannel(IJSRuntime js) : IAsyncDisposable
     /// Announces a roll: to the table, or only to this screen.
     /// </summary>
     /// <returns>The entry as it was added locally, so the roller sees their own dice either way.</returns>
-    public async Task<RollMessage> RollAsync(RollOutcome outcome, RollReading? reading, bool secret)
+    public async Task<RollMessage> RollAsync(
+        RollOutcome outcome,
+        RollReading? reading,
+        bool secret,
+        string preset = "")
     {
         RollMessage message = RollMessage.From(
             Guid.NewGuid().ToString("n"),
@@ -132,7 +136,8 @@ public sealed class PartyChannel(IJSRuntime js) : IAsyncDisposable
             outcome,
             reading,
             secret,
-            DateTimeOffset.UtcNow);
+            DateTimeOffset.UtcNow,
+            preset);
 
         Log.Add(message, isMine: true);
 

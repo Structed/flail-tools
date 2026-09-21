@@ -447,6 +447,40 @@ input[type="number"]:hover {
     gap: 0.5rem;
 }
 
+/* One row of steps rather than a dropdown, so the whole range is visible while choosing. */
+.dice-edge {
+    display: inline-flex;
+    align-self: flex-end;
+    border: 1px solid var(--rule);
+    border-radius: 0.2rem;
+    overflow: hidden;
+}
+
+.dice-edge-step {
+    min-width: 2rem;
+    padding: 0.35rem 0.4rem;
+    border: 0;
+    border-right: 1px solid var(--rule);
+    background: none;
+    font: inherit;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    cursor: pointer;
+}
+
+.dice-edge-step:last-child {
+    border-right: 0;
+}
+
+.dice-edge-step:hover {
+    color: var(--ink);
+}
+
+.dice-edge-step.is-on {
+    background: var(--accent);
+    color: var(--paper);
+}
+
 .dice-secret {
     display: inline-flex;
     align-items: center;
@@ -559,6 +593,24 @@ input[type="number"]:hover {
 
 .dice-reading {
     color: var(--accent);
+}
+
+/* Poker results sit apart from the reading: they are what the dice also showed, not the answer. */
+.dice-note {
+    padding: 0.05rem 0.4rem;
+    border: 1px solid var(--rule);
+    border-radius: 0.75rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    color: var(--ink-soft);
+    white-space: nowrap;
+}
+
+/* Shown only when a result happened more than once, which a pool large enough can manage. */
+.dice-note-count {
+    margin-left: 0.15rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
 }
 
 .dice-private {

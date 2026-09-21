@@ -84,6 +84,23 @@
                     </label>
                 }
 
+                @if (preset.HasEdge)
+                {
+                    <div class="dice-edge" role="group" aria-label="@Ui.Message("diceEdgeLabel")">
+                        @foreach (int edge in Edges)
+                        {
+                            <button type="button"
+                                    class="dice-edge-step @(Edge(preset) == edge ? "is-on" : "")"
+                                    title="@EdgeLabel(edge)"
+                                    aria-label="@EdgeLabel(edge)"
+                                    aria-pressed="@(Edge(preset) == edge ? "true" : "false")"
+                                    @onclick="@(() => OnEdgeChanged(id, edge))">
+                                @EdgeText(edge)
+                            </button>
+                        }
+                    </div>
+                }
+
                 <button type="button" class="button button-primary" @onclick="@(() => RollPresetAsync(preset))">
                     @Ui.Action("preset/" + id)
                 </button>
@@ -177,6 +194,18 @@
                             <span class="dice-reading">@Ui.Message(roll.ReadingKey)</span>
                         }
 
+                        @foreach (RollReading note in Notes(roll))
+                        {
+                            <span class="dice-note">
+                                @Ui.Message(note.Key)
+
+                                @if (note.Value > 1)
+                                {
+                                    <span class="dice-note-count">×@note.Value</span>
+                                }
+                            </span>
+                        }
+
                         <span class="dice-seed" title="@Ui.Message("seed")">@SeedOf(roll)</span>
                     }
                 </li>
@@ -186,6 +215,8 @@
 </section>
 
 <section class="dice-notes">
+    <p>@Ui.Message("diceEdgeHint")</p>
+    <p>@Ui.Message("dicePokerHint")</p>
     <p>@Ui.Message("dicePrivacyHint")</p>
     <p>@Ui.Message("diceNatHint")</p>
 </section>
@@ -200,6 +231,7 @@
     private PartyChannel _channel = default!;
 
     private readonly Dictionary<string, int> _parameters = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, int> _edges = new(StringComparer.Ordinal);
 
     private string _player = "";
     private string _code = "";
@@ -282,6 +314,40 @@
             ? preset.Settle(typed)
             : preset.Parameter?.Default ?? 0;
     }
+
+    /// <summary>Every edge the rules allow, worst to best.</summary>
+    private static IEnumerable<int> Edges =>
+        Enumerable.Range(-RollEdge.Most, (RollEdge.Most * 2) + 1);
+
+    private int Edge(RollPreset preset) =>
+        _edges.TryGetValue(preset.Id, out int edge) ? edge : 0;
+
+    /// <summary>
+    /// Sets the edge, or clears it when the step already showing is pressed again.
+    /// </summary>
+    /// <remarks>
+    /// Pressing the step you are on is the only way back to a straight roll without a fourth
+    /// button, and it is what the row looks like it should do.
+    /// </remarks>
+    private void OnEdgeChanged(string id, int edge) =>
+        _edges[id] = Edge(FlailRolls.All.First(candidate => candidate.Id == id)) == edge
+            ? 0
+            : RollEdge.Clamp(edge);
+
+    private string EdgeText(int edge) => edge switch
+    {
+        0 => Ui.Action("edgeNone"),
+        < 0 => new string('−', -edge),
+        _ => new string('+', edge)
+    };
+
+    /// <summary>What the step means, for anyone who cannot see that it is a plus sign.</summary>
+    private string EdgeLabel(int edge) => edge switch
+    {
+        0 => Ui.Action("edgeNone"),
+        < 0 => $"{Ui.Action("edgeDown")} ×{-edge}",
+        _ => $"{Ui.Action("edgeUp")} ×{edge}"
+    };
 
     private async Task OnPlayerChanged(ChangeEventArgs args)
     {
@@ -373,9 +439,9 @@
     private async Task RollPresetAsync(RollPreset preset)
     {
         int value = Parameter(preset);
-        RollOutcome outcome = preset.Roll(value);
+        RollOutcome outcome = preset.Roll(value, Edge(preset));
 
-        await Announce(outcome, preset.Read(outcome, value));
+        await Announce(outcome, preset.Read(outcome, value), preset.Id);
     }
 
     private async Task RollNotationAsync()
@@ -389,10 +455,30 @@
         _notice = "";
         _notation = notation.Text;
 
-        await Announce(DiceRolls.Roll(notation), null);
+        await Announce(DiceRolls.Roll(notation), null, "");
     }
 
-    private async Task Announce(RollOutcome outcome, RollReading? reading)
+    /// <summary>
+    /// Works out what else a roll showed, from the dice rather than from what was said about them.
+    /// </summary>
+    /// <remarks>
+    /// The sender says only which preset they used. The pairs and runs are read again here, from
+    /// faces that have already been checked, so a peer cannot announce a talent trigger they did not
+    /// roll. The nastiest thing they can do is claim a preset, and the dice beside it will disagree.
+    /// </remarks>
+    private static IReadOnlyList<RollReading> Notes(RollMessage roll)
+    {
+        RollPreset? preset = FlailRolls.All.FirstOrDefault(candidate => candidate.Id == roll.Preset);
+
+        if (preset?.Notes is null || roll.Faces.Count == 0)
+        {
+            return [];
+        }
+
+        return preset.Note(roll.Faces, 0);
+    }
+
+    private async Task Announce(RollOutcome outcome, RollReading? reading, string preset)
     {
         if (_player.Length == 0)
         {
@@ -400,7 +486,7 @@
             return;
         }
 
-        await _channel.RollAsync(outcome, reading, _secret);
+        await _channel.RollAsync(outcome, reading, _secret, preset);
     }
 
     /// <summary>Empties this screen's copy of the log, and nobody else's.</summary>

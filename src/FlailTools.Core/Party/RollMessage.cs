@@ -70,6 +70,18 @@ public sealed record RollMessage
 
     public int ReadingValue { get; init; }
 
+    /// <summary>
+    /// Which preset made the roll, if any.
+    /// </summary>
+    /// <remarks>
+    /// Here so that everybody reading this roll can work out for themselves what the dice show
+    /// beyond the headline — the pairs and runs a talent might key off. Those are deliberately
+    /// <em>not</em> sent. They are recomputed from the faces at every screen they reach, which means
+    /// a peer cannot announce a full house they did not roll: the dice are already checked, and a
+    /// claim about them would be one more thing to have to disbelieve.
+    /// </remarks>
+    public string Preset { get => field ?? ""; init; } = "";
+
     /// <summary>When it was rolled, by the roller's clock.</summary>
     /// <remarks>
     /// The sender's clock, and therefore not to be trusted for ordering — arrival order decides
@@ -90,7 +102,8 @@ public sealed record RollMessage
         RollOutcome outcome,
         RollReading? reading,
         bool secret,
-        DateTimeOffset at)
+        DateTimeOffset at,
+        string preset = "")
     {
         ArgumentNullException.ThrowIfNull(outcome);
 
@@ -106,6 +119,7 @@ public sealed record RollMessage
             Seed = outcome.Seed,
             ReadingKey = reading?.Key ?? "",
             ReadingValue = reading?.Value ?? 0,
+            Preset = preset,
             At = at.ToUnixTimeMilliseconds()
         };
     }
@@ -219,6 +233,7 @@ public sealed record RollMessage
             Seed = read.Seed,
             ReadingKey = Clean(read.ReadingKey, MaximumTextLength),
             ReadingValue = read.ReadingValue,
+            Preset = Clean(read.Preset, MaximumTextLength),
             At = read.At
         };
 

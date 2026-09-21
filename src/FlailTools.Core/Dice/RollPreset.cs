@@ -33,6 +33,30 @@ public sealed record RollParameter(string Id, int Minimum, int Maximum, int Defa
 public sealed record RollReading(string Key, int Value);
 
 /// <summary>
+/// How much the odds have been bent, in steps.
+/// </summary>
+/// <remarks>
+/// <para>
+/// A signed count rather than a three-way switch, because advantages stack and cancel: two
+/// advantages and a disadvantage are one advantage, and the arithmetic says so without anybody
+/// writing a rule for it.
+/// </para>
+/// <para>
+/// What a step <em>does</em> is not decided here. A pool might get another die; a single d20 might
+/// be rolled twice and the kinder result kept. Both are one step, and the preset that owns the dice
+/// is the only thing that knows which.
+/// </para>
+/// </remarks>
+public static class RollEdge
+{
+    /// <summary>No amount of stacking bends the odds further than this.</summary>
+    public const int Most = 2;
+
+    /// <summary>Drags a step count back inside the bounds.</summary>
+    public static int Clamp(int steps) => Math.Clamp(steps, -Most, Most);
+}
+
+/// <summary>
 /// A named roll a player can make without spelling out the notation.
 /// </summary>
 /// <remarks>
@@ -57,21 +81,47 @@ public sealed record RollPreset
     /// <summary>The number to ask for, or <c>null</c> if the preset needs nothing.</summary>
     public RollParameter? Parameter { get; init; }
 
-    /// <summary>Builds the dice from the parameter, which is <see cref="RollParameter.Default"/> when there is none.</summary>
-    public required Func<int, DiceNotation> Notation { get; init; }
+    /// <summary>Builds the dice from the settled parameter and the edge, in that order.</summary>
+    public required Func<int, int, DiceNotation> Notation { get; init; }
 
     /// <summary>Reads the landed dice, or <c>null</c> to leave the total to speak for itself.</summary>
     public Func<RollOutcome, int, RollReading?>? Reading { get; init; }
+
+    /// <summary>
+    /// Anything else the dice happen to show, beyond how the roll went.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Separate from <see cref="Reading"/> because these are not the answer to the roll — they are
+    /// the raw material a character sheet might make something of. A roll can succeed and still owe
+    /// the roller a second attack, and the two facts need saying side by side rather than one
+    /// overwriting the other.
+    /// </para>
+    /// <para>
+    /// Handed the faces rather than the whole outcome, so that anyone holding nothing but a list of
+    /// numbers — a screen across the table, say, that received the dice and would rather not take
+    /// the sender's word for what they add up to — can work these out again for themselves.
+    /// </para>
+    /// </remarks>
+    public Func<IReadOnlyList<int>, int, IReadOnlyList<RollReading>>? Notes { get; init; }
+
+    /// <summary>Whether the edge control is worth offering for this preset.</summary>
+    public bool HasEdge { get; init; }
 
     /// <summary>The parameter as it will actually be used, clamped and defaulted.</summary>
     public int Settle(int? value) =>
         Parameter is null ? 0 : Parameter.Clamp(value ?? Parameter.Default);
 
+    /// <summary>The dice this preset would roll, which is also what the player is shown before rolling.</summary>
+    public DiceNotation Dice(int? value, int edge) =>
+        Notation(Settle(value), HasEdge ? RollEdge.Clamp(edge) : 0);
+
     /// <summary>Rolls the preset, with a fresh seed.</summary>
-    public RollOutcome Roll(int? value) => Roll(value, DiceRolls.CreateSeed());
+    public RollOutcome Roll(int? value, int edge = 0) => Roll(value, edge, DiceRolls.CreateSeed());
 
     /// <summary>Rolls the preset as <paramref name="seed"/> dictates.</summary>
-    public RollOutcome Roll(int? value, uint seed) => DiceRolls.Roll(Notation(Settle(value)), seed);
+    public RollOutcome Roll(int? value, int edge, uint seed) =>
+        DiceRolls.Roll(Dice(value, edge), seed);
 
     /// <summary>Reads an outcome this preset produced.</summary>
     public RollReading? Read(RollOutcome outcome, int? value)
@@ -80,4 +130,16 @@ public sealed record RollPreset
 
         return Reading?.Invoke(outcome, Settle(value));
     }
+
+    /// <summary>Everything else the outcome is worth saying, which may be nothing.</summary>
+    public IReadOnlyList<RollReading> Note(RollOutcome outcome, int? value)
+    {
+        ArgumentNullException.ThrowIfNull(outcome);
+
+        return Note([.. outcome.Faces], value);
+    }
+
+    /// <summary>Everything else a bare list of faces is worth saying.</summary>
+    public IReadOnlyList<RollReading> Note(IReadOnlyList<int> faces, int? value) =>
+        Notes?.Invoke(faces, Settle(value)) ?? [];
 }

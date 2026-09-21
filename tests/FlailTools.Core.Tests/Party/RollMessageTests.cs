@@ -21,9 +21,10 @@ public sealed class RollMessageTests
             "roll-1",
             "Ada",
             DiceRolls.Roll(notation, 4242),
-            new RollReading("pool/single", 1),
+            new RollReading("hit/minor", 1),
             secret,
-            DateTimeOffset.UnixEpoch.AddSeconds(1_700_000_000));
+            DateTimeOffset.UnixEpoch.AddSeconds(1_700_000_000),
+            FlailRolls.HitId);
     }
 
     [Fact]
@@ -42,8 +43,40 @@ public sealed class RollMessageTests
         Assert.Equal(sent.Seed, read.Seed);
         Assert.Equal(sent.ReadingKey, read.ReadingKey);
         Assert.Equal(sent.ReadingValue, read.ReadingValue);
+        Assert.Equal(sent.Preset, read.Preset);
         Assert.Equal(sent.At, read.At);
         Assert.False(read.Secret);
+    }
+
+    /// <summary>
+    /// The wire carries which preset was used and never what the dice added up to beyond the total.
+    /// </summary>
+    /// <remarks>
+    /// Poker results are read again at the far end, from faces that have already been checked, so
+    /// there is nothing here for a peer to lie about. Pinned down because sending them would be the
+    /// obvious shortcut, and it would hand anybody on the relay a free talent.
+    /// </remarks>
+    [Fact]
+    public void NoPokerResultIsSentOnlyThePresetThatWouldReadThem()
+    {
+        string json = Sample().Write();
+
+        Assert.Contains(FlailRolls.HitId, json, StringComparison.Ordinal);
+
+        foreach (string key in FlailRolls.PokerKeys)
+        {
+            Assert.DoesNotContain(key, json, StringComparison.Ordinal);
+        }
+    }
+
+    /// <summary>A preset claimed from the wire is bounded like every other string.</summary>
+    [Fact]
+    public void ARidiculousPresetIsShortenedRatherThanRefused()
+    {
+        RollMessage sent = Sample() with { Preset = new string('h', 500) };
+
+        Assert.True(RollMessage.TryRead(sent.Write(), out RollMessage read));
+        Assert.True(read.Preset.Length <= RollMessage.MaximumTextLength);
     }
 
     /// <summary>
@@ -74,7 +107,8 @@ public sealed class RollMessageTests
         Assert.Equal(nothingHappened.Write(), json);
         Assert.DoesNotContain("4d6", json, StringComparison.Ordinal);
         Assert.DoesNotContain(secret.Seed.ToString(CultureInfo.InvariantCulture), json, StringComparison.Ordinal);
-        Assert.DoesNotContain("pool/single", json, StringComparison.Ordinal);
+        Assert.DoesNotContain("hit/minor", json, StringComparison.Ordinal);
+        Assert.DoesNotContain(FlailRolls.HitId, json, StringComparison.Ordinal);
 
         Assert.True(RollMessage.TryRead(json, out RollMessage read));
 
