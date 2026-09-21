@@ -1,0 +1,188 @@
+using System.Globalization;
+using FlailTools.Core.Dice;
+using FlailTools.Core.Party;
+
+namespace FlailTools.Core.Tests.Party;
+
+/// <summary>
+/// Messages arrive from other people's browsers, so the reader is the boundary.
+/// </summary>
+/// <remarks>
+/// There is no server in front of this to sanitise anything. Whatever <see cref="RollMessage.TryRead"/>
+/// accepts is what gets rendered, so these tests are mostly about what it refuses.
+/// </remarks>
+public sealed class RollMessageTests
+{
+    private static RollMessage Sample(bool secret = false)
+    {
+        Assert.True(DiceNotation.TryParse("4d6kh3+1", out DiceNotation notation));
+
+        return RollMessage.From(
+            "roll-1",
+            "Ada",
+            DiceRolls.Roll(notation, 4242),
+            new RollReading("pool/single", 1),
+            secret,
+            DateTimeOffset.UnixEpoch.AddSeconds(1_700_000_000));
+    }
+
+    [Fact]
+    public void ARollSurvivesTheRoundTrip()
+    {
+        RollMessage sent = Sample();
+
+        Assert.True(RollMessage.TryRead(sent.Write(), out RollMessage read));
+
+        Assert.Equal(sent.Id, read.Id);
+        Assert.Equal(sent.Player, read.Player);
+        Assert.Equal(sent.Notation, read.Notation);
+        Assert.Equal(sent.Faces, read.Faces);
+        Assert.Equal(sent.Kept, read.Kept);
+        Assert.Equal(sent.Total, read.Total);
+        Assert.Equal(sent.Seed, read.Seed);
+        Assert.Equal(sent.ReadingKey, read.ReadingKey);
+        Assert.Equal(sent.ReadingValue, read.ReadingValue);
+        Assert.Equal(sent.At, read.At);
+        Assert.False(read.Secret);
+    }
+
+    /// <summary>
+    /// A private roll has to leave nothing behind in what it sends.
+    /// </summary>
+    /// <remarks>
+    /// Asserted against the serialised text rather than the object, because the object is not what
+    /// travels. The strong form of the claim is that the bytes cannot depend on the hidden roll at
+    /// all: a ghost of a roll that happened must be indistinguishable from a ghost of a roll that
+    /// never did. Anything weaker leaves room for a field to survive that a listener could read,
+    /// however carefully the page then avoided drawing it.
+    /// </remarks>
+    [Fact]
+    public void AGhostCarriesNothingButTheFactThatSomebodyRolled()
+    {
+        RollMessage secret = Sample(secret: true);
+
+        RollMessage nothingHappened = new()
+        {
+            Id = secret.Id,
+            Player = secret.Player,
+            Secret = true,
+            At = secret.At
+        };
+
+        string json = secret.Ghost().Write();
+
+        Assert.Equal(nothingHappened.Write(), json);
+        Assert.DoesNotContain("4d6", json, StringComparison.Ordinal);
+        Assert.DoesNotContain(secret.Seed.ToString(CultureInfo.InvariantCulture), json, StringComparison.Ordinal);
+        Assert.DoesNotContain("pool/single", json, StringComparison.Ordinal);
+
+        Assert.True(RollMessage.TryRead(json, out RollMessage read));
+
+        Assert.True(read.Secret);
+        Assert.Equal("Ada", read.Player);
+        Assert.Empty(read.Faces);
+        Assert.Equal(0, read.Total);
+        Assert.Equal(0u, read.Seed);
+    }
+
+    [Fact]
+    public void GhostingTwiceChangesNothing()
+    {
+        RollMessage once = Sample(secret: true).Ghost();
+
+        Assert.Equal(once, once.Ghost());
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("not json at all")]
+    [InlineData("{}")]
+    [InlineData("[]")]
+    [InlineData("""{"version":1,"id":"a"}""")]
+    [InlineData("""{"version":1,"player":"Ada"}""")]
+    [InlineData("""{"version":2,"id":"a","player":"Ada","notation":"d6","faces":[3]}""")]
+    [InlineData("""{"version":1,"id":"a","player":"Ada","notation":"d6","faces":[]}""")]
+    [InlineData("""{"version":1,"id":"a","player":"Ada","faces":[3]}""")]
+    [InlineData("""{"version":1,"id":"  ","player":"Ada","notation":"d6","faces":[3]}""")]
+    public void AMalformedMessageIsDropped(string? json)
+    {
+        Assert.False(RollMessage.TryRead(json, out _));
+    }
+
+    [Fact]
+    public void AMessageLongerThanAnyRealRollIsDropped()
+    {
+        string faces = string.Join(',', Enumerable.Repeat('3', 3000));
+        string json = $$"""{"version":1,"id":"a","player":"Ada","notation":"d6","faces":[{{faces}}]}""";
+
+        Assert.False(RollMessage.TryRead(json, out _));
+    }
+
+    [Fact]
+    public void MoreDiceThanCanBeRolledAreDropped()
+    {
+        string faces = string.Join(',', Enumerable.Repeat(3, RollMessage.MaximumDice + 1));
+        string json = $$"""{"version":1,"id":"a","player":"Ada","notation":"d6","faces":[{{faces}}]}""";
+
+        Assert.False(RollMessage.TryRead(json, out _));
+    }
+
+    [Fact]
+    public void KeepFlagsThatDoNotMatchTheDiceAreDropped()
+    {
+        Assert.False(RollMessage.TryRead(
+            """{"version":1,"id":"a","player":"Ada","notation":"d6","faces":[3,4],"kept":[true]}""",
+            out _));
+    }
+
+    [Fact]
+    public void MissingKeepFlagsMeanEveryDieCounted()
+    {
+        Assert.True(RollMessage.TryRead(
+            """{"version":1,"id":"a","player":"Ada","notation":"2d6","faces":[3,4]}""",
+            out RollMessage read));
+
+        Assert.Equal([true, true], read.Kept);
+    }
+
+    /// <summary>A name from the wire is a string somebody else chose.</summary>
+    [Fact]
+    public void ALongNameIsShortenedRatherThanRefused()
+    {
+        string json = $$"""
+            {"version":1,"id":"a","player":"{{new string('x', 400)}}","notation":"d6","faces":[3]}
+            """;
+
+        Assert.True(RollMessage.TryRead(json, out RollMessage read));
+        Assert.Equal(RollMessage.MaximumNameLength, read.Player.Length);
+    }
+
+    [Fact]
+    public void ControlCharactersAreStrippedOutOfNames()
+    {
+        Assert.True(RollMessage.TryRead(
+            """{"version":1,"id":"a","player":"A\u0000d\u001ba","notation":"d6","faces":[3]}""",
+            out RollMessage read));
+
+        Assert.Equal("Ada", read.Player);
+    }
+
+    /// <summary>
+    /// Nothing in a message is trusted to be a real notation.
+    /// </summary>
+    /// <remarks>
+    /// The notation is echoed, not re-rolled, so a peer sending <c>"not a roll"</c> is a display
+    /// problem rather than an execution one — but it still has to arrive shortened and inert.
+    /// </remarks>
+    [Fact]
+    public void ANotationFromTheWireIsTextAndNothingMore()
+    {
+        string json = $$"""
+            {"version":1,"id":"a","player":"Ada","notation":"{{new string('d', 400)}}","faces":[3]}
+            """;
+
+        Assert.True(RollMessage.TryRead(json, out RollMessage read));
+        Assert.Equal(RollMessage.MaximumTextLength, read.Notation.Length);
+    }
+}
