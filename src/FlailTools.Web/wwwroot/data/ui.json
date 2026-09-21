@@ -101,7 +101,7 @@
     "clearRolls": "Clear the log",
 
     "preset/hit": "Roll to Hit",
-    "preset/save": "Save",
+    "preset/save": "Roll Save",
     "edgeDown": "Disadvantage",
     "edgeUp": "Advantage",
     "edgeNone": "Straight"
@@ -129,7 +129,7 @@
     "diceTableHeading": "The table",
 
     "param/dice": "To Hit",
-    "param/score": "Score",
+    "param/score": "Attribute value",
     "diceNameNeeded": "Put a name in first, so the rest of the table knows whose dice those were.",
     "diceNotationBad": "That is not a roll this understands. Try d20, 2d6+1, or 4d6kh3 to keep the best three of four.",
     "diceTableBad": "That is not a table code.",
