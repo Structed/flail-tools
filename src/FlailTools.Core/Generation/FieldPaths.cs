@@ -53,13 +53,36 @@ public static class FieldPaths
     public const string CaveCreatures = "cave/creatures";
     public const string CaveChamberCount = "cave/chambers/count";
 
-    // Wizard towers: Shape, Occupant, Reaction, Goal.
+    // Wizard towers: Shape, Occupant, Reaction and Goal, the wizard whose tower it is, how many
+    // dice are stacked to make it, and which side of that stack is read as the front.
     public const string TowerPrefix = "tower/";
     public const string TowerShape = "tower/shape";
     public const string TowerOccupant = "tower/occupant";
     public const string TowerReaction = "tower/reaction";
     public const string TowerGoal = "tower/goal";
+
+    /// <summary>The wizard's level, which FLAIL! bounds rather than tabulates.</summary>
+    public const string TowerWizardLevel = "tower/wizard/level";
+
+    public const string TowerWizardHitPoints = "tower/wizard/hit-points";
+
+    public const string TowerWizardMana = "tower/wizard/mana";
+
+    /// <summary>How many d6s go into the stack. In the book the referee chooses; here it is rolled.</summary>
     public const string TowerFloorCount = "tower/floors/count";
+
+    /// <summary>Which of the stack's four sides is read as the front of the tower.</summary>
+    public const string TowerFacade = "tower/facade";
+
+    /// <summary>
+    /// The d4 balanced on top of the stack.
+    /// </summary>
+    /// <remarks>
+    /// Not indexed with the floors below it, although it is drawn above them and numbered after
+    /// them. The top floor is one particular die rather than the last of a run, so its lock should
+    /// survive the stack gaining or losing a storey — which an indexed path could not promise.
+    /// </remarks>
+    public const string TowerTopFloor = "tower/top-floor";
 
     // Hexcrawl locations: Location, Biome, Condition, Key Feature, Occupant.
     public const string LocationPrefix = "location/";
@@ -108,14 +131,22 @@ public static class FieldPaths
     /// </remarks>
     public static string CaveDrop(int index) => $"cave/chamber/{index}/drop";
 
-    /// <summary>The stream a tower floor's die is drawn from.</summary>
-    public static string TowerFloor(int index) => $"tower/floor/{index}/type";
+    /// <summary>
+    /// The stream one of the stack's d6s is thrown on.
+    /// </summary>
+    /// <remarks>
+    /// The die, not the floor. FLAIL! stacks the dice without looking and only afterwards picks a
+    /// façade to read them from, so what is on a given floor is the die <em>and</em> the façade
+    /// together. Pinning the die is therefore what pinning a floor can honestly mean: it holds that
+    /// storey's die still while the tower is turned around it.
+    /// </remarks>
+    public static string TowerFloorDie(int index) => $"tower/floor/{index}/die";
 
     /// <summary>
     /// The stream a tower floor's d4 detail is drawn from.
     /// </summary>
     /// <remarks>
-    /// Kept apart from <see cref="TowerFloor"/> because the book rolls it separately: locking a
+    /// Kept apart from <see cref="TowerFloorDie"/> because the book rolls it separately: locking a
     /// floor to be a library should not also decide which library it is, and re-rolling the detail
     /// should not be able to turn the library into a laboratory.
     /// </remarks>
@@ -133,6 +164,11 @@ public static class FieldPaths
     };
 
     /// <summary>The axis paths a kind rolls, in the order they are shown.</summary>
+    /// <remarks>
+    /// Only the paths read off a printed table. A tower rolls more than these — its wizard and its
+    /// façade are numbers and choices rather than table rows — and those are added by the tower's
+    /// own procedure, which is the only thing that knows how to roll them.
+    /// </remarks>
     public static IReadOnlyList<string> AxesFor(string kind) => kind switch
     {
         SiteKinds.Dungeon => [DungeonFlavour, DungeonType, DungeonLocation, DungeonKeyFeature, DungeonCreatures],
@@ -166,7 +202,12 @@ public static class FieldPaths
         TowerOccupant,
         TowerReaction,
         TowerGoal,
+        TowerWizardLevel,
+        TowerWizardHitPoints,
+        TowerWizardMana,
         TowerFloorCount,
+        TowerFacade,
+        TowerTopFloor,
         LocationLocation,
         LocationBiome,
         LocationCondition,

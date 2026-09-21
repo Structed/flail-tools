@@ -113,11 +113,11 @@ public sealed class FieldPathTests
         {
             Assert.True(seen.Add(FieldPaths.DungeonRoom(index)));
             Assert.True(seen.Add(FieldPaths.CaveChamber(index)));
-            Assert.True(seen.Add(FieldPaths.TowerFloor(index)));
+            Assert.True(seen.Add(FieldPaths.TowerFloorDie(index)));
 
             Assert.StartsWith(FieldPaths.DungeonPrefix, FieldPaths.DungeonRoom(index), StringComparison.Ordinal);
             Assert.StartsWith(FieldPaths.CavePrefix, FieldPaths.CaveChamber(index), StringComparison.Ordinal);
-            Assert.StartsWith(FieldPaths.TowerPrefix, FieldPaths.TowerFloor(index), StringComparison.Ordinal);
+            Assert.StartsWith(FieldPaths.TowerPrefix, FieldPaths.TowerFloorDie(index), StringComparison.Ordinal);
         }
     }
 

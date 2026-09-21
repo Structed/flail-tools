@@ -44,13 +44,28 @@ public static class SiteGenerator
             fields.Add(new SiteField { Path = path, Value = roll.Text(path, TableFor(data, path)) });
         }
 
-        IReadOnlyList<SiteArea> areas = kind switch
+        IReadOnlyList<SiteArea> areas;
+
+        switch (kind)
         {
-            SiteKinds.Dungeon => BuildDungeonRooms(data, roll),
-            SiteKinds.Cave => BuildCaveChambers(data, roll),
-            SiteKinds.Tower => BuildTowerFloors(data, roll),
-            _ => []
-        };
+            case SiteKinds.Dungeon:
+                areas = BuildDungeonRooms(data, roll);
+                break;
+
+            case SiteKinds.Cave:
+                areas = BuildCaveChambers(data, roll);
+                break;
+
+            case SiteKinds.Tower:
+                TowerStack tower = Towers.Build(data, roll);
+                fields.AddRange(tower.Fields);
+                areas = tower.Floors;
+                break;
+
+            default:
+                areas = [];
+                break;
+        }
 
         return new AdventureSite
         {
@@ -211,70 +226,15 @@ public static class SiteGenerator
         return chambers;
     }
 
-    /// <summary>
-    /// A stack of d6s with a d4 balanced on top, each face the floor it stands for.
-    /// </summary>
-    /// <remarks>
-    /// The d4 is the top floor and reads from its own four-row table, which is the whole reason the
-    /// top floor of a wizard's tower is never merely another storey. Every floor below it is two
-    /// rolls, as the book has it: the d6 says what kind of room it is, then a d4 says which one.
-    /// </remarks>
-    private static IReadOnlyList<SiteArea> BuildTowerFloors(GameData data, RollContext roll)
-    {
-        int count = 2 + roll.Dice(FieldPaths.TowerFloorCount).Roll(4);
-        List<SiteArea> floors = new(count);
-
-        for (int index = 0; index < count; index++)
-        {
-            bool isTop = index == count - 1;
-            string path = FieldPaths.TowerFloor(index);
-
-            floors.Add(new SiteArea
-            {
-                Number = index + 1,
-                Path = path,
-                Role = isTop ? AreaRoles.Top : AreaRoles.Plain,
-                Value = isTop
-                    ? Rolls.Face(roll, path, data.Tower.TopFloorTypes, sides: 4).Value
-                    : FloorWithDetail(data, roll, path, index)
-            });
-        }
-
-        return floors;
-    }
-
-    /// <summary>
-    /// One floor below the top: a d6 for the kind of room, then a d4 for which one of those.
-    /// </summary>
-    /// <remarks>
-    /// The detail is skipped rather than guessed when the d6 did not land on a row of the table —
-    /// which happens when somebody has pinned the floor to words of their own. Skipping costs
-    /// nothing, because each path draws from its own stream and so no other floor shifts.
-    /// </remarks>
-    private static string FloorWithDetail(GameData data, RollContext roll, string path, int index)
-    {
-        (int face, string type) = Rolls.Face(roll, path, data.Tower.FloorTypes, sides: 6);
-
-        if (string.IsNullOrEmpty(type) || face < 0 || face >= data.Tower.FloorDetails.Count)
-        {
-            return type;
-        }
-
-        string detail = Rolls.Face(
-            roll,
-            FieldPaths.TowerFloorDetail(index),
-            data.Tower.FloorDetails[face],
-            sides: 4).Value;
-
-        return string.IsNullOrEmpty(detail) ? type : $"{type}: {detail}";
-    }
-
     /// <summary>How big to draw the place, from what its own procedure already decided.</summary>
     private static int ScaleFor(string kind, int areaCount) => kind switch
     {
         SiteKinds.Dungeon => Math.Clamp((areaCount / 3) + 1, 2, 6),
         SiteKinds.Cave => Math.Clamp((areaCount / 2) + 1, 2, 6),
-        SiteKinds.Tower => Math.Clamp(areaCount, 2, 6),
+
+        // The dice in the stack, without the d4 balanced on top of them.
+        SiteKinds.Tower => Math.Clamp(areaCount - 1, 2, 6),
+
         SiteKinds.Location => 3,
         SiteKinds.Landmark => 2,
         _ => 3

@@ -49,6 +49,11 @@ not reproduced here, and neither is any artwork; section 2 still forbids both. N
 replacement for the book — it generates the skeleton of a site and leaves every judgement the
 procedures ask for to the reader, who needs the rules to make anything of it.
 
+The procedures themselves are rules and mechanics, which section 1 also permits. That covers the
+Wizard Towers stack of dice and the numeric bounds it gives the wizard whose tower it is — a level,
+hit points and mana. What the book asks the referee to *choose* rather than roll, including the
+wizard's name and spells, is left for the reader to choose.
+
 The site names and the map silhouettes are ours outright, because FLAIL! has no equivalent tables.
 
 Each data file carries a `_source` header naming the work its entries come from, or declaring that

@@ -18,7 +18,12 @@ tower/shape
 tower/occupant
 tower/reaction
 tower/goal
+tower/wizard/level
+tower/wizard/hit-points
+tower/wizard/mana
 tower/floors/count
+tower/facade
+tower/top-floor
 location/location
 location/biome
 location/condition

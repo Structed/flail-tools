@@ -2,7 +2,7 @@
   "_source": {
     "describes": "The Wizard Towers generator: FLAIL!'s four d10 theme axes, and what each die in the stack makes of a floor.",
     "status": "Unofficial. Not affiliated with Games Omnivorous.",
-    "rationale": "FLAIL!'s own Wizard Towers tables, reproduced in face order, which the Third-Party Licence permits. The stack of d6s with a d4 balanced on top is the book's procedure and is implemented faithfully. A floor is two rolls, not one: the d6 gives the kind of floor and a d4 gives its exact nature, so 'floorDetails' holds the four options for each of the six kinds, in that order. The top floor reads from its own four-row table because the d4 that tops the stack is a different die, not a shorter d6.",
+    "rationale": "FLAIL!'s own Wizard Towers tables, reproduced in face order, which the Third-Party Licence permits. The book's procedure is implemented faithfully: four to six d6s are stacked without looking with a d4 balanced on top, then one of the stack's four sides is picked as the façade and the numbers showing on it are read down the tower. A stacked die only presents four of its six faces, so the generator throws each storey's die once and reads whichever side the façade asks for rather than rolling a d6 per floor, which would build a stack that could not exist. A floor is then two rolls, not one: the face gives the kind of floor and a d4 gives its exact nature, so 'floorDetails' holds the four options for each of the six kinds, in that order. The top floor reads from its own four-row table because the d4 that tops the stack is a different die, not a shorter d6.",
     "work": "FLAIL!",
     "url": "https://gamesomnivorous.com/pages/flail",
     "licence": "Games Omnivorous Third-Party Licence",

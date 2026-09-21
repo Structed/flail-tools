@@ -110,8 +110,11 @@ public sealed class GenerationTests
         }
     }
 
+    /// <summary>
+    /// A tower is four to six d6s with a d4 balanced on top, and each die is a floor.
+    /// </summary>
     [Fact]
-    public async Task ATowerIsAStackOfFloorsWithADifferentOneOnTop()
+    public async Task ATowerIsAStackOfDiceWithADifferentFloorOnTop()
     {
         GameData data = await TestData.LoadAsync();
 
@@ -119,11 +122,126 @@ public sealed class GenerationTests
         {
             AdventureSite site = SiteGenerator.Generate(data, new SitePlan { Seed = seed, Kind = SiteKinds.Tower });
 
-            Assert.InRange(site.Areas.Count, 3, 6);
+            Assert.InRange(site.Areas.Count, 5, 7);
             Assert.Equal(AreaRoles.Top, site.Areas[^1].Role);
+            Assert.Equal(FieldPaths.TowerTopFloor, site.Areas[^1].Path);
+            Assert.InRange(site.Areas[^1].Face, 1, 4);
+
             Assert.All(site.Areas.Take(site.Areas.Count - 1), floor => Assert.Equal(AreaRoles.Plain, floor.Role));
+            Assert.All(site.Areas.Take(site.Areas.Count - 1), floor => Assert.InRange(floor.Face, 1, 6));
+
+            for (int index = 0; index < site.Areas.Count; index++)
+            {
+                Assert.Equal(index + 1, site.Areas[index].Number);
+            }
         }
     }
+
+    /// <summary>
+    /// "Only high-level mages have their own towers", and the book says how high.
+    /// </summary>
+    [Fact]
+    public async Task ATowerComesWithTheWizardWhoseTowerItIs()
+    {
+        GameData data = await TestData.LoadAsync();
+
+        for (uint seed = 1; seed <= 60; seed++)
+        {
+            AdventureSite site = SiteGenerator.Generate(data, new SitePlan { Seed = seed, Kind = SiteKinds.Tower });
+
+            Assert.InRange(Stat(site, FieldPaths.TowerWizardLevel), 6, 10);
+            Assert.InRange(Stat(site, FieldPaths.TowerWizardHitPoints), 10, 20);
+            Assert.InRange(Stat(site, FieldPaths.TowerWizardMana), 20, 30);
+        }
+    }
+
+    /// <summary>
+    /// Walking round a tower changes every floor at once, and never shows a face the stack is sitting on.
+    /// </summary>
+    /// <remarks>
+    /// This is the whole difference between reading a stack of dice and rolling a d6 per floor. A
+    /// stacked die hides the face under the storey above and the face on the storey below, so two
+    /// of its six numbers can never reach a façade — and which two is fixed for that die, however
+    /// far you walk. Re-rolling only the façade leaves every die pinned where it landed, so anything
+    /// that changes here changed because the reader moved, not because the tower did.
+    /// </remarks>
+    [Fact]
+    public async Task TurningATowerRoundShowsADifferentTowerBuiltFromTheSameDice()
+    {
+        GameData data = await TestData.LoadAsync();
+
+        for (uint seed = 1; seed <= 12; seed++)
+        {
+            SitePlan plan = new() { Seed = seed, Kind = SiteKinds.Tower };
+            AdventureSite first = SiteGenerator.Generate(data, plan);
+
+            int storeys = first.Areas.Count - 1;
+            List<HashSet<int>> shown = [.. Enumerable.Range(0, storeys).Select(_ => new HashSet<int>())];
+            HashSet<string> readings = new(StringComparer.Ordinal);
+
+            for (int turn = 0; turn < 24; turn++)
+            {
+                AdventureSite site = SiteGenerator.Generate(data, plan);
+
+                Assert.Equal(first.Areas.Count, site.Areas.Count);
+                readings.Add(Field(site, FieldPaths.TowerFacade));
+
+                for (int index = 0; index < storeys; index++)
+                {
+                    shown[index].Add(site.Areas[index].Face);
+                }
+
+                plan = plan.WithReroll(FieldPaths.TowerFacade);
+            }
+
+            Assert.True(readings.Count > 1, $"seed {seed}: turning the tower never changed what the façade reads.");
+
+            foreach (HashSet<int> faces in shown)
+            {
+                Assert.True(faces.Count <= 4, $"seed {seed}: a stacked die showed more than its four side faces.");
+
+                Assert.Contains(
+                    Enumerable.Range(1, 3),
+                    pair => !faces.Contains(pair) && !faces.Contains(7 - pair));
+            }
+        }
+    }
+
+    /// <summary>
+    /// A lock holds a number through a change of seed, and a lock that has stopped meaning anything
+    /// is re-rolled rather than clamped into range.
+    /// </summary>
+    [Fact]
+    public async Task ALockOnAWizardsNumbersHoldsAndAStaleOneIsDropped()
+    {
+        GameData data = await TestData.LoadAsync();
+
+        SitePlan plan = new() { Seed = 9, Kind = SiteKinds.Tower };
+        AdventureSite rolled = SiteGenerator.Generate(data, plan);
+
+        SitePlan held = plan
+            .WithPin(FieldPaths.TowerWizardLevel, rolled.PinValues[FieldPaths.TowerWizardLevel])
+            .WithSeed(77);
+
+        Assert.Equal(
+            Stat(rolled, FieldPaths.TowerWizardLevel),
+            Stat(SiteGenerator.Generate(data, held), FieldPaths.TowerWizardLevel));
+
+        // A position from some wider range, and somebody's own typing: neither is an offset here.
+        foreach (string stale in new[] { "#99", "-1", "Archmage" })
+        {
+            AdventureSite site = SiteGenerator.Generate(
+                data, plan.WithPin(FieldPaths.TowerWizardLevel, stale));
+
+            Assert.InRange(Stat(site, FieldPaths.TowerWizardLevel), 6, 10);
+        }
+    }
+
+    private static string Field(AdventureSite site, string path) =>
+        site.Fields.Single(field => string.Equals(field.Path, path, StringComparison.Ordinal)).Value;
+
+    private static int Stat(AdventureSite site, string path) =>
+        int.Parse(Field(site, path), System.Globalization.CultureInfo.InvariantCulture);
 
     /// <summary>
     /// The dice drop should usually give a cave a way in and a heart, and occasionally lose one.

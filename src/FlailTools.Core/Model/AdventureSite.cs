@@ -45,6 +45,17 @@ public sealed record SiteArea
 
     /// <summary>What is in it.</summary>
     public string Value { get => field ?? ""; init; } = "";
+
+    /// <summary>
+    /// The number on the die this area was read from, or <c>0</c> where no die was read.
+    /// </summary>
+    /// <remarks>
+    /// A tower's floors are a stack of real dice in FLAIL!, and the number a floor shows to the
+    /// chosen façade is the floor — so it is kept rather than discarded once the table has been
+    /// looked up. The map draws it as pips, which is the only way a drawing can show that the place
+    /// came off a stack of dice rather than out of a list.
+    /// </remarks>
+    public int Face { get => field is >= 0 ? field : 0; init; }
 }
 
 /// <summary>
