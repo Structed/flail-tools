@@ -1,4 +1,4 @@
-// The dice channel: one room, one kind of message, and nothing that knows what a roll is.
+// The dice channel: one room, a handful of opaque messages, and nothing that knows what a roll is.
 //
 // Everything with a rule in it lives in C#. This file opens a peer-to-peer room, relays opaque
 // strings across it, and refuses anything that arrives too big or too fast. It has no vocabulary of
@@ -15,12 +15,14 @@ const appId = 'structed-flail-tools-dice';
 // a dice message, and is dropped before it is looked at rather than after.
 const maximumRollBytes = 4096;
 const maximumHistoryBytes = 65536;
+const maximumHailBytes = 512;
 
 // A peer sending more than this is either broken or trying it on. Twelve rolls in ten seconds is
 // already faster than anyone rolls dice, and the limit is per peer so one loud peer cannot drown
 // out the rest of the table.
 const rollAllowance = 12;
 const historyAllowance = 3;
+const hailAllowance = 12;
 const allowanceWindow = 10000;
 
 let table = null;
@@ -38,6 +40,7 @@ export async function join(code, handler) {
     const roll = room.makeAction('roll');
     const ask = room.makeAction('ask');
     const tale = room.makeAction('tale');
+    const hail = room.makeAction('hail');
 
     const current = {
         room,
@@ -45,6 +48,7 @@ export async function join(code, handler) {
         roll,
         ask,
         tale,
+        hail,
         allowances: new Map(),
         asked: new Set(),
         closed: false
@@ -100,7 +104,23 @@ export async function join(code, handler) {
         }
     };
 
-    room.onPeerJoin = peer => {
+    // Somebody saying what they are called. Which connection it arrived on is the transport's
+    // business and is passed along with it, because the message itself does not say.
+    hail.onMessage = (data, from) => {
+        const peer = who(from);
+
+        if (!peer || !allow(current, peer, 'hail', hailAllowance)) {
+            return;
+        }
+
+        const json = text(data, maximumHailBytes);
+
+        if (json) {
+            call(current, 'ReceiveHail', peer, json);
+        }
+    };
+
+    room.onPeerJoin = async peer => {
         peers(current);
 
         // Asked once per peer, by both sides. The newcomer gets the history they wanted; the
@@ -110,11 +130,14 @@ export async function join(code, handler) {
             current.asked.add(peer);
             post(current.ask, '', peer);
         }
+
+        await hello(current, peer);
     };
 
     room.onPeerLeave = peer => {
         current.allowances.delete(peer);
         current.asked.delete(peer);
+        call(current, 'ReceiveDeparture', peer);
         peers(current);
     };
 
@@ -131,6 +154,15 @@ export function send(json) {
     }
 
     return post(table.roll, json);
+}
+
+/// Tells everybody at the table what this player is now called.
+export function greet(json) {
+    if (!table || table.closed || typeof json !== 'string' || json.length > maximumHailBytes) {
+        return false;
+    }
+
+    return post(table.hail, json);
 }
 
 /// Leaves the table. Safe to call when there is no table, and safe to call twice.
@@ -209,6 +241,22 @@ function peers(current) {
     call(current, 'ReceivePeers', count);
 }
 
+/// Introduces this player to one peer, in whatever words C# chooses.
+//
+// Both sides do this when they see each other, for the same reason both sides ask for the history:
+// it costs one small message and saves working out which of the two arrived first.
+async function hello(current, peer) {
+    try {
+        const greeting = await current.handler.invokeMethodAsync('Greeting');
+
+        if (greeting && !current.closed) {
+            post(current.hail, greeting, peer);
+        }
+    } catch {
+        // The page has gone. There is nobody left to introduce.
+    }
+}
+
 /// Sends on an action, to one peer or to everyone, without ever letting the failure escape.
 //
 // Sending is asynchronous and rejects when a peer disappears mid-send, which is ordinary rather
@@ -257,13 +305,13 @@ function text(data, maximum) {
     return typeof data === 'string' && data.length > 0 && data.length <= maximum ? data : null;
 }
 
-function call(current, method, argument) {
+function call(current, method, ...args) {
     if (current.closed) {
         return;
     }
 
     try {
-        const called = current.handler.invokeMethodAsync(method, argument);
+        const called = current.handler.invokeMethodAsync(method, ...args);
 
         if (called && typeof called.catch === 'function') {
             called.catch(() => { });

@@ -54,6 +54,29 @@
         @StatusText@(_channel.IsJoined ? $" — {PeerText}." : "")
     </p>
 
+    @if (_channel.IsJoined)
+    {
+        <div class="dice-present">
+            <span class="field-label" id="dice-who">@Ui.Message("diceWhoHeading")</span>
+
+            <ul class="dice-roster" aria-labelledby="dice-who">
+                <li class="dice-seat dice-seat-mine">
+                    @MyName<span class="dice-you">@Ui.Message("diceYou")</span>
+                </li>
+
+                @foreach (Seat seat in _channel.Roster.Seats)
+                {
+                    <li class="dice-seat" @key="seat.Peer">@seat.Name</li>
+                }
+
+                @if (Waiting > 0)
+                {
+                    <li class="dice-seat dice-seat-waiting">@Ui.Message("diceWhoWaiting")</li>
+                }
+            </ul>
+        </div>
+    }
+
     @if (_notice is { Length: > 0 })
     {
         <p class="notice notice-bad" role="alert">@_notice</p>
@@ -294,6 +317,19 @@
         _ => $"{_channel.Peers} {Ui.Message("dicePeersOther")}"
     };
 
+    /// <summary>This player, as the rest of the table sees them.</summary>
+    private string MyName => _player is { Length: > 0 } name ? name : Ui.Message("emptyField");
+
+    /// <summary>
+    /// How many people are connected but have not said what they are called yet.
+    /// </summary>
+    /// <remarks>
+    /// A connection is made a moment before the hail crossing it arrives, and a peer on an older
+    /// build never sends one at all. Either way the count and the list would disagree, and saying
+    /// so is better than quietly showing a shorter table than the line above it claims.
+    /// </remarks>
+    private int Waiting => Math.Max(_channel.Peers - _channel.Roster.Count, 0);
+
     /// <summary>What to call whoever rolled, when they did not say.</summary>
     private string Who(RollMessage roll) =>
         roll.Player is { Length: > 0 } name ? name : Ui.Message("emptyField");
@@ -358,10 +394,10 @@
             _player = _player[..RollMessage.MaximumNameLength];
         }
 
-        _channel.Player = _player;
         _notice = "";
 
         await Write(PlayerKey, _player);
+        await _channel.RenameAsync(_player);
     }
 
     private void OnCodeChanged(ChangeEventArgs args)

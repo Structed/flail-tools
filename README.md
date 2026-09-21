@@ -48,6 +48,13 @@ There are buttons for the two rolls FLAIL! asks for constantly — a To Hit pool
 and a save rolled at or under an attribute — and a box for anything else in ordinary notation:
 `d20`, `2d6+1`, `4d6kh3`.
 
+**Who is here** lists everybody at the table by name, yours first. Each browser says what it is
+called when somebody new arrives, so a player who has joined and not yet rolled is visible rather
+than an increment on a headcount, and changing your name mid-session updates it on every screen. A
+peer who is connected but has not introduced themselves yet — usually a moment's handshake — shows
+as *still saying hello* rather than quietly going missing from a list the count above it disagrees
+with.
+
 Both presets take an **advantage or disadvantage**, in the steps the rules use: a To Hit gains or
 loses a die, a save rolls a second d20 and keeps the kinder result, and stacking stops at three
 dice. Pressing the step you are already on puts the roll back to straight.
@@ -99,11 +106,17 @@ Worth knowing before you rely on it:
   needs one, and it says out loud when it has none.
 - **Nobody is the host.** The history a late arrival receives comes from whoever is already there,
   which means a roll made before anybody was connected is a roll nobody else will ever see.
+- **A name is a claim, not an identity.** There are no accounts here, so the table shows what each
+  browser says it is called. Two players may pick the same name, and the person who gave you the
+  code could pick yours. The connection a message arrived on is what keeps the seats apart.
 
 The dice themselves are C# in `FlailTools.Core/Dice`, and the table in `FlailTools.Core/Party`;
-neither knows what a browser is, which is what makes them testable without one. `party.js` opens the
-room and passes opaque strings across it. It has no vocabulary of its own — no dice, no FLAIL!, no
-wording — so the transport could be replaced without touching a rule.
+neither knows what a browser is, which is what makes them testable without one. The channel carries
+two kinds of message and no others — a roll, and a hail saying what a player is called — each with
+its own strict reader, because a channel that can only carry dice and names cannot be talked into
+carrying anything else. `party.js` opens the room and passes those as opaque strings. It has no
+vocabulary of its own — no dice, no FLAIL!, no wording — so the transport could be replaced without
+touching a rule.
 
 `PortabilityTests` enforces that split: nothing in those two folders may reference the generator,
 the data loader or the site's model, and `FlailRolls.cs` is the single file allowed to know what

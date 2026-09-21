@@ -9,11 +9,12 @@ namespace FlailTools.Core.Party;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This is the entire protocol. There is no chat, no presence beyond a name, no way to push a page
-/// or a site or a file at anybody: one type, one direction, and a strict reader. A channel that can
-/// only carry dice cannot be talked into carrying anything else, and since these messages arrive
-/// from other people's browsers over a link this code did not set up, that narrowness is the
-/// security model rather than a simplification of it.
+/// This and <see cref="Hail"/>, which carries a name and nothing else, are the entire protocol.
+/// There is no chat, no status, no way to push a page or a site or a file at anybody: two types,
+/// one direction each, and a strict reader apiece. A channel that can only carry dice and names
+/// cannot be talked into carrying anything else, and since these messages arrive from other
+/// people's browsers over a link this code did not set up, that narrowness is the security model
+/// rather than a simplification of it.
 /// </para>
 /// <para>
 /// A <see cref="Secret"/> message is the ghost of a roll: it says that somebody rolled and says
@@ -176,8 +177,8 @@ public sealed record RollMessage
             return false;
         }
 
-        string id = Clean(read.Id, MaximumTextLength);
-        string player = Clean(read.Player, MaximumNameLength);
+        string id = PartyText.Clean(read.Id, MaximumTextLength);
+        string player = PartyText.Clean(read.Player, MaximumNameLength);
 
         if (id.Length == 0 || player.Length == 0)
         {
@@ -197,7 +198,7 @@ public sealed record RollMessage
             return true;
         }
 
-        string notation = Clean(read.Notation, MaximumTextLength);
+        string notation = PartyText.Clean(read.Notation, MaximumTextLength);
 
         if (notation.Length == 0 || read.Faces.Count is 0 or > MaximumDice)
         {
@@ -231,21 +232,13 @@ public sealed record RollMessage
             Kept = kept,
             Total = read.Total,
             Seed = read.Seed,
-            ReadingKey = Clean(read.ReadingKey, MaximumTextLength),
+            ReadingKey = PartyText.Clean(read.ReadingKey, MaximumTextLength),
             ReadingValue = read.ReadingValue,
-            Preset = Clean(read.Preset, MaximumTextLength),
+            Preset = PartyText.Clean(read.Preset, MaximumTextLength),
             At = read.At
         };
 
         return true;
-    }
-
-    /// <summary>Trims, shortens, and drops anything that would not print.</summary>
-    private static string Clean(string value, int maximum)
-    {
-        string trimmed = string.Concat(value.Where(character => !char.IsControl(character))).Trim();
-
-        return trimmed.Length <= maximum ? trimmed : trimmed[..maximum].Trim();
     }
 }
 
@@ -254,5 +247,6 @@ public sealed record RollMessage
     PropertyNameCaseInsensitive = true,
     DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault)]
 [JsonSerializable(typeof(RollMessage))]
+[JsonSerializable(typeof(Hail))]
 [JsonSerializable(typeof(string[]))]
 public sealed partial class PartyJsonContext : JsonSerializerContext;
