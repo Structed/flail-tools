@@ -43,6 +43,18 @@ public sealed record SiteArea
     /// <summary>What this area is structurally: see <see cref="AreaRoles"/>.</summary>
     public string Role { get => field ?? ""; init; } = "";
 
+    /// <summary>
+    /// What this area is, in the fewest words — <c>Library</c> where <see cref="Value"/> reads
+    /// <c>Library: occult tomes</c>. Empty where nothing rolled a short name.
+    /// </summary>
+    /// <remarks>
+    /// Kept beside <see cref="Value"/> rather than recovered from it, because a drawing that names
+    /// its parts by splitting a sentence would quietly stop naming them the day a table row gained
+    /// a colon. Distinct from <see cref="Role"/>, which is what an area does for the site rather
+    /// than what it is: a tower's top floor is a <c>top</c> that happens to be an observatory.
+    /// </remarks>
+    public string Kind { get => field ?? ""; init; } = "";
+
     /// <summary>What is in it.</summary>
     public string Value { get => field ?? ""; init; } = "";
 

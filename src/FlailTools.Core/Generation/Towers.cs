@@ -109,13 +109,16 @@ internal static class Towers
             int face = Throw(roll, FieldPaths.TowerFloorDie(index)).Side(facade);
             reading[index] = face;
 
+            (string kind, string value) = Floor(data, roll, index, face);
+
             floors.Add(new SiteArea
             {
                 Number = index + 1,
                 Path = FieldPaths.TowerFloorDie(index),
                 Role = AreaRoles.Plain,
                 Face = face,
-                Value = Floor(data, roll, index, face)
+                Kind = kind,
+                Value = value
             });
         }
 
@@ -128,6 +131,7 @@ internal static class Towers
             Path = FieldPaths.TowerTopFloor,
             Role = AreaRoles.Top,
             Face = topIndex + 1,
+            Kind = top,
             Value = top
         });
 
@@ -159,13 +163,13 @@ internal static class Towers
     /// happens at the table too: the façade decides which column you read the d4 against, not what
     /// the d4 said.
     /// </remarks>
-    private static string Floor(GameData data, RollContext roll, int index, int face)
+    private static (string Kind, string Value) Floor(GameData data, RollContext roll, int index, int face)
     {
         string type = Row(data.Tower.FloorTypes, face - 1);
 
         if (type.Length == 0)
         {
-            return "";
+            return ("", "");
         }
 
         IReadOnlyList<string> details = face - 1 < data.Tower.FloorDetails.Count
@@ -174,7 +178,7 @@ internal static class Towers
 
         string detail = Rolls.Face(roll, FieldPaths.TowerFloorDetail(index), details, sides: TopDie).Value;
 
-        return detail.Length == 0 ? type : $"{type}: {detail}";
+        return (type, detail.Length == 0 ? type : $"{type}: {detail}");
     }
 
     /// <summary>A bounded number, shown as the field it is.</summary>

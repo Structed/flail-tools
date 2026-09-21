@@ -20,9 +20,15 @@ namespace FlailTools.Core.Mapping;
 /// balanced on top, read down one chosen face. That is a picture already, and it is this one.
 /// </para>
 /// <para>
-/// So each storey shows the number its die presents to the chosen façade, drawn as pips. A reader
-/// holding the book can read the tower off the drawing exactly as they would read it off their own
-/// dice, and walking round it — re-rolling the façade — visibly changes every floor at once.
+/// So each storey shows the number its die presents to the chosen façade, drawn as pips, and is
+/// named beside it with what that number made of it. A reader holding the book can read the tower
+/// off the drawing exactly as they would read it off their own dice, and walking round it —
+/// re-rolling the façade — visibly changes every floor at once, names and all.
+/// </para>
+/// <para>
+/// The names go down the left and the numbered badges down the right, which is the same order the
+/// list on the page reads in. That is the whole of how the two are tied together: no floor has to
+/// be found by counting rows, and nothing has to be highlighted or clicked to say which is which.
 /// </para>
 /// <para>
 /// Written here rather than in the engine because none of it is general: the engine has never heard
@@ -53,6 +59,7 @@ internal static class TowerElevation
         Ground(svg, pen, site.HasWater);
         Body(svg, pen, storeys, bodyTop, isRound);
         Roof(svg, pen, top, bodyTop, isRound);
+        Names(svg, storeys, top, bodyTop);
         Keys(svg, ui, storeys, top, bodyTop);
 
         svg.Append("</svg>");
@@ -88,14 +95,14 @@ internal static class TowerElevation
 
         if (hasWater)
         {
-            svg.Append(Path(pen.ClosedPath(Ellipse(CentreX, GroundY, MoatWidth, MoatDepth), 1.0), Water, Muted, 1.1));
+            svg.Append(Path(pen.ClosedPath(Ellipse(CentreX, GroundY, Footprint, MoatDepth), 1.0), Water, Muted, 1.1));
 
             for (int ring = 1; ring <= 2; ring++)
             {
                 double inset = ring * 16;
 
                 svg.Append(Path(
-                    pen.ClosedPath(Ellipse(CentreX, GroundY, MoatWidth - inset, MoatDepth - (ring * 3.5)), 0.8),
+                    pen.ClosedPath(Ellipse(CentreX, GroundY, Footprint - inset, MoatDepth - (ring * 3.5)), 0.8),
                     "none",
                     Muted,
                     0.7,
@@ -105,7 +112,12 @@ internal static class TowerElevation
         else
         {
             svg.Append(Stroke(
-                pen.Line(new MapPoint(Margin, GroundY), new MapPoint(Width - Margin, GroundY), 1.4), Ink, 1.6));
+                pen.Line(
+                    new MapPoint(CentreX - Footprint, GroundY),
+                    new MapPoint(CentreX + Footprint, GroundY),
+                    1.4),
+                Ink,
+                1.6));
         }
 
         svg.Append("</g>");
@@ -216,6 +228,123 @@ internal static class TowerElevation
         svg.Append("</g>");
     }
 
+    /// <summary>
+    /// What each floor is, written beside the floor it is.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The badges down the right say which floor is which; these say what they are, so the tower can
+    /// be read without looking away to the list and counting rows. The two together mirror how the
+    /// list itself reads — a number, then a name — which is what lets a reader match the drawing to
+    /// the page without either one explaining the other.
+    /// </para>
+    /// <para>
+    /// Only the type is written, not the d4 detail that finishes a floor's entry. The type is what
+    /// the façade chose, and so the part that changes when the tower is turned; the detail is a
+    /// phrase, and half a dozen phrases stacked up the margin would be a list with a tower drawn
+    /// beside it rather than a drawing.
+    /// </para>
+    /// </remarks>
+    private static void Names(StringBuilder svg, IReadOnlyList<SiteArea> storeys, SiteArea? top, double bodyTop)
+    {
+        svg.Append("<g class=\"tower-names\" font-family=\"Helvetica, Arial, sans-serif\" font-size=\"")
+            .Append(N(LabelSize)).Append("\" text-anchor=\"end\" fill=\"").Append(Ink).Append("\">");
+
+        for (int index = 0; index < storeys.Count; index++)
+        {
+            Name(svg, storeys[index].Kind, GroundY - (StoreyHeight * (index + 0.5)));
+        }
+
+        if (top is not null)
+        {
+            Name(svg, top.Kind, bodyTop - (RoofHeight * 0.45));
+        }
+
+        svg.Append("</g>");
+    }
+
+    /// <summary>One name, right up against the wall it belongs to and centred on its storey.</summary>
+    private static void Name(StringBuilder svg, string text, double centreY)
+    {
+        if (text.Length == 0)
+        {
+            return;
+        }
+
+        IReadOnlyList<string> lines = Wrap(text);
+        double first = centreY + (LabelSize * 0.34) - ((lines.Count - 1) * LabelLeading / 2);
+
+        svg.Append("<text x=\"").Append(N(LabelRight)).Append("\" y=\"").Append(N(first)).Append("\">");
+
+        for (int line = 0; line < lines.Count; line++)
+        {
+            svg.Append("<tspan x=\"").Append(N(LabelRight));
+
+            if (line > 0)
+            {
+                svg.Append("\" dy=\"").Append(N(LabelLeading));
+            }
+
+            svg.Append("\">").Append(Escape(lines[line])).Append("</tspan>");
+        }
+
+        svg.Append("</text>");
+    }
+
+    /// <summary>
+    /// A name as the lines it has to be written on: one if it fits the gutter, two if it does not.
+    /// </summary>
+    /// <remarks>
+    /// Never three, and never shortened. The d6 floor types are all a single short word and always
+    /// come out as one line; it is the d4 names on top — <c>Astronomical observatory</c> and its
+    /// fellows — that need breaking, and they break once. A name too long for two lines would be a
+    /// table entry this drawing cannot show, which is a thing to fix in the table rather than to
+    /// paper over by trimming words off the end of it, so nothing here truncates and a test holds
+    /// the tables to what fits.
+    /// </remarks>
+    private static IReadOnlyList<string> Wrap(string text)
+    {
+        if (TextWidth(text) <= LabelWidth)
+        {
+            return [text];
+        }
+
+        string[] words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+        if (words.Length < 2)
+        {
+            return [text];
+        }
+
+        int best = 1;
+
+        for (int split = 2; split < words.Length; split++)
+        {
+            if (Imbalance(words, split) < Imbalance(words, best))
+            {
+                best = split;
+            }
+        }
+
+        return [string.Join(' ', words[..best]), string.Join(' ', words[best..])];
+    }
+
+    /// <summary>How unevenly a break at <paramref name="split"/> would divide the name.</summary>
+    private static double Imbalance(string[] words, int split) => Math.Abs(
+        TextWidth(string.Join(' ', words[..split])) - TextWidth(string.Join(' ', words[split..])));
+
+    /// <summary>
+    /// Roughly how wide a run of text will be, with no font to ask.
+    /// </summary>
+    /// <remarks>
+    /// An SVG is laid out by whoever opens it, so nothing here can measure a string — the drawing
+    /// has to decide where the words go before anybody has picked a font. Helvetica and Arial
+    /// average a little over half an em per character in mixed case, which is near enough to tell
+    /// whether a name needs breaking in two, and the margin left around the estimate covers the
+    /// rest.
+    /// </remarks>
+    private static double TextWidth(string text) => text.Length * LabelSize * 0.52;
+
     /// <summary>The numbers beside the tower, in the engine's own keying style.</summary>
     private static void Keys(
         StringBuilder svg,
@@ -318,9 +447,19 @@ internal static class TowerElevation
     /// <summary>The stream the ink's wobble is drawn from, kept apart from anything rolled.</summary>
     private const string InkStream = "tower/elevation";
 
-    private const double Width = 300;
+    /// <summary>
+    /// The paper, sized to what the drawing actually puts on it.
+    /// </summary>
+    /// <remarks>
+    /// A floor's name reaches further left than the moat does, and the badges do not reach as far
+    /// right as it, so the tower does not stand in the middle of its own page. This is the width
+    /// that leaves a roughly even margin either side of the ink once the names are on — narrower
+    /// than a tower with nothing written beside it would have wanted, because the space that used
+    /// to be empty on the right is now words on the left.
+    /// </remarks>
+    private const double Width = 264;
+
     private const double Height = 400;
-    private const double Margin = 24;
 
     private const double CentreX = 140;
     private const double HalfWidth = 56;
@@ -332,11 +471,30 @@ internal static class TowerElevation
 
     private const double KeyX = 214;
 
+    /// <summary>
+    /// How far the ground reaches either side of the tower.
+    /// </summary>
+    /// <remarks>
+    /// The moat's width and the horizon's length are the same measurement, so a moated tower and a
+    /// dry one stand on a footprint of exactly the same size rather than on two that happen to look
+    /// alike.
+    /// </remarks>
+    private const double Footprint = 112;
+
+    private const double MoatDepth = 16;
+
+    /// <summary>Where a floor's name ends: a little clear of the wall it names.</summary>
+    private const double LabelRight = CentreX - HalfWidth - 8;
+
+    /// <summary>The leftmost ink a name may put on the page.</summary>
+    private const double LabelLeft = 8;
+
+    private const double LabelWidth = LabelRight - LabelLeft;
+    private const double LabelSize = 10;
+    private const double LabelLeading = 11;
+
     private const double PipSpacing = 11;
     private const double PipRadius = 3.2;
-
-    private const double MoatWidth = 112;
-    private const double MoatDepth = 16;
 
     private const int EllipseSteps = 40;
     private const int BowSteps = 10;

@@ -174,8 +174,10 @@ Wizard towers are the one exception to that, and they bypass the engine's map en
 `Mapping/TowerElevation.cs`. FLAIL! gives towers no cartography at all — no plans, no connections,
 not even an entrance — so a view from above would have to invent everything it drew. What the book
 does give is the stack of dice the tower is built from, so that is what gets drawn: an elevation,
-one storey per die, each showing the pips its façade reads. It borrows the engine's palette, ink and
-keying conventions so the two drawings sit on the same page.
+one storey per die, each showing the pips its façade reads and named with what the façade made of
+them. Numbers run down one side and names down the other, so a floor can be found without counting
+rows in the list beside it. It borrows the engine's palette, ink and keying conventions so the two
+drawings sit on the same page.
 
 ## Licence
 
