@@ -87,6 +87,50 @@ internal static class Rolls
     private static string Row(IReadOnlyList<string> rows, int index) =>
         index >= 0 && index < rows.Count ? rows[index] : "";
 
+    /// <summary>
+    /// Rolls a whole number in an inclusive range, honouring a pin and recording what it drew.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// FLAIL! bounds several things by a range rather than by a table: a tower wizard is set
+    /// "between 6 and 10", with hit points of 10-20 and mana of 20-30, and a tower is built from
+    /// "between four and six" dice. None of those is a printed table, so none of them can go
+    /// through <c>Text</c> — but they still have to honour a lock and still have to be reproducible.
+    /// </para>
+    /// <para>
+    /// What is recorded is the offset from <paramref name="min"/> rather than the number itself, so
+    /// that a pin here is a position exactly as it is everywhere else. A pin holding something that
+    /// is not an offset in range — typed text, or an offset left over from a narrower range — is
+    /// discarded and re-rolled rather than clamped, because a silently clamped lock is a lock that
+    /// shows a number nobody chose.
+    /// </para>
+    /// </remarks>
+    public static int Number(RollContext roll, string path, int min, int max)
+    {
+        ArgumentNullException.ThrowIfNull(roll);
+
+        if (max < min)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(max), max, $"The range for '{path}' ends before it starts.");
+        }
+
+        int span = max - min + 1;
+
+        if (roll.TryGetPin(path, out string pinned) &&
+            PinReference.TryGetIndex(pinned, out int pinnedOffset) &&
+            pinnedOffset >= 0 && pinnedOffset < span)
+        {
+            roll.Record(path, pinned);
+            return min + pinnedOffset;
+        }
+
+        int offset = roll.Dice(path).Roll(span) - 1;
+        roll.Record(path, PinReference.ForIndex(offset));
+
+        return min + offset;
+    }
+
     /// <summary>A value in <c>[0, 1]</c> drawn from a stream, for the geometry a dice drop needs.</summary>
     /// <remarks>
     /// Drawn through <see cref="DiceRoller.NextIndex"/> rather than any floating-point source so it

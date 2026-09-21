@@ -199,37 +199,56 @@ area	7	entry	cave/chamber/6/chamber	#2	Obstacle: roll or choose a fitting dungeo
 area	8	plain	cave/chamber/7/chamber	#0	Treasure: buried chest, weapons cache, spellbook or Unique Item
 == tower 1
 name	Hungry Wake
-silhouette	boxy-compact	boxy	dry	3
+silhouette	boxy-compact	boxy	dry	6
 field	tower/shape	#3	Forsaken Lighthouse
 field	tower/occupant	#9	Geomancer
 field	tower/reaction	#2	Befriend characters
 field	tower/goal	#2	Open portal
-area	1	plain	tower/floor/0/type	#2	Lab: potions brewery
-area	2	plain	tower/floor/1/type	#0	Chamber: shrine
-area	3	top	tower/floor/2/type	#1	Meditation pod
+field	tower/wizard/level	#2	8
+field	tower/wizard/hit-points	#9	19
+field	tower/wizard/mana	#8	28
+field	tower/facade	#2	5 · 4 · 2 · 4 · 5 · 3
+area	1	plain	tower/floor/0/die	#9	Gallery: cabinet of curiosities	face 5
+area	2	plain	tower/floor/1/die	#17	Library: cookbooks	face 4
+area	3	plain	tower/floor/2/die	#2	Hall: dining hall	face 2
+area	4	plain	tower/floor/3/die	#1	Library: occult tomes	face 4
+area	5	plain	tower/floor/4/die	#13	Gallery: trophies	face 5
+area	6	plain	tower/floor/5/die	#23	Lab: potions brewery	face 3
+area	7	top	tower/top-floor	#2	Light-prism beacon	face 3
 == tower 7
 name	Ashen Lull
-silhouette	vessel-tall	vessel	dry	6
+silhouette	vessel-tall	vessel	dry	5
 field	tower/shape	#8	Stonework Tower
 field	tower/occupant	#9	Geomancer
 field	tower/reaction	#9	Steal characters
 field	tower/goal	#8	Perform ritual
-area	1	plain	tower/floor/0/type	#3	Library: spellbooks
-area	2	plain	tower/floor/1/type	#5	Leisure: music chamber
-area	3	plain	tower/floor/2/type	#5	Leisure: dream lounge
-area	4	plain	tower/floor/3/type	#1	Hall: treasury
-area	5	plain	tower/floor/4/type	#2	Lab: medicine lab
-area	6	top	tower/floor/5/type	#0	Astronomical observatory
+field	tower/wizard/level	#3	9
+field	tower/wizard/hit-points	#7	17
+field	tower/wizard/mana	#6	26
+field	tower/facade	#2	1 · 6 · 4 · 2 · 3
+area	1	plain	tower/floor/0/die	#14	Chamber: bedroom	face 1
+area	2	plain	tower/floor/1/die	#8	Leisure: music chamber	face 6
+area	3	plain	tower/floor/2/die	#5	Library: weird inventions	face 4
+area	4	plain	tower/floor/3/die	#11	Hall: treasury	face 2
+area	5	plain	tower/floor/4/die	#19	Lab: medicine lab	face 3
+area	6	top	tower/top-floor	#0	Astronomical observatory	face 1
 == tower 42
 name	Amber Heart
-silhouette	vessel-tall	vessel	dry	3
+silhouette	vessel-tall	vessel	dry	5
 field	tower/shape	#2	Arcane Obelisk
 field	tower/occupant	#9	Geomancer
 field	tower/reaction	#6	Imprison characters
 field	tower/goal	#1	Raise army
-area	1	plain	tower/floor/0/type	#2	Lab: construct workshop
-area	2	plain	tower/floor/1/type	#5	Leisure: arboretum
-area	3	top	tower/floor/2/type	#3	Eldritch lookout
+field	tower/wizard/level	#3	9
+field	tower/wizard/hit-points	#4	14
+field	tower/wizard/mana	#4	24
+field	tower/facade	#0	4 · 5 · 4 · 2 · 4
+area	1	plain	tower/floor/0/die	#3	Library: spellbooks	face 4
+area	2	plain	tower/floor/1/die	#15	Gallery: paintings	face 5
+area	3	plain	tower/floor/2/die	#7	Library: occult tomes	face 4
+area	4	plain	tower/floor/3/die	#20	Hall: dining hall	face 2
+area	5	plain	tower/floor/4/die	#23	Library: spellbooks	face 4
+area	6	top	tower/top-floor	#3	Eldritch lookout	face 4
 == tower 1337
 name	Ivory Shiver
 silhouette	vessel-moated	vessel	water	5
@@ -237,36 +256,50 @@ field	tower/shape	#4	Hollow Tree
 field	tower/occupant	#2	Conjurer
 field	tower/reaction	#5	Lure characters
 field	tower/goal	#0	Rule the world
-area	1	plain	tower/floor/0/type	#3	Library: weird inventions
-area	2	plain	tower/floor/1/type	#5	Leisure: reptilarium
-area	3	plain	tower/floor/2/type	#4	Gallery: cabinet of curiosities
-area	4	plain	tower/floor/3/type	#2	Lab: potions brewery
-area	5	top	tower/floor/4/type	#0	Astronomical observatory
+field	tower/wizard/level	#2	8
+field	tower/wizard/hit-points	#3	13
+field	tower/wizard/mana	#5	25
+field	tower/facade	#3	6 · 4 · 6 · 5 · 6
+area	1	plain	tower/floor/0/die	#19	Leisure: dream lounge	face 6
+area	2	plain	tower/floor/1/die	#4	Library: occult tomes	face 4
+area	3	plain	tower/floor/2/die	#11	Leisure: reptilarium	face 6
+area	4	plain	tower/floor/3/die	#12	Gallery: cabinet of curiosities	face 5
+area	5	plain	tower/floor/4/die	#11	Leisure: reptilarium	face 6
+area	6	top	tower/top-floor	#0	Astronomical observatory	face 1
 == tower 65535
 name	Hollow Mark
-silhouette	boxy-compact	boxy	dry	6
+silhouette	boxy-compact	boxy	dry	4
 field	tower/shape	#5	Twisted Spire
 field	tower/occupant	#6	Sorcerer
 field	tower/reaction	#4	Help characters
 field	tower/goal	#8	Perform ritual
-area	1	plain	tower/floor/0/type	#3	Library: spellbooks
-area	2	plain	tower/floor/1/type	#3	Library: cookbooks
-area	3	plain	tower/floor/2/type	#5	Leisure: music chamber
-area	4	plain	tower/floor/3/type	#5	Leisure: reptilarium
-area	5	plain	tower/floor/4/type	#1	Hall: armoury
-area	6	top	tower/floor/5/type	#3	Eldritch lookout
+field	tower/wizard/level	#2	8
+field	tower/wizard/hit-points	#3	13
+field	tower/wizard/mana	#3	23
+field	tower/facade	#0	4 · 5 · 3 · 6
+area	1	plain	tower/floor/0/die	#19	Library: spellbooks	face 4
+area	2	plain	tower/floor/1/die	#2	Gallery: trophies	face 5
+area	3	plain	tower/floor/2/die	#5	Lab: magic item studio	face 3
+area	4	plain	tower/floor/3/die	#18	Leisure: reptilarium	face 6
+area	5	top	tower/top-floor	#3	Eldritch lookout	face 4
 == tower 2147483647
 name	Blind Eye
-silhouette	vessel-tall	vessel	dry	5
+silhouette	vessel-tall	vessel	dry	6
 field	tower/shape	#9	Bone Keep
 field	tower/occupant	#2	Conjurer
 field	tower/reaction	#5	Lure characters
 field	tower/goal	#8	Perform ritual
-area	1	plain	tower/floor/0/type	#3	Library: cookbooks
-area	2	plain	tower/floor/1/type	#3	Library: occult tomes
-area	3	plain	tower/floor/2/type	#2	Lab: potions brewery
-area	4	plain	tower/floor/3/type	#0	Chamber: shrine
-area	5	top	tower/floor/4/type	#3	Eldritch lookout
+field	tower/wizard/level	#1	7
+field	tower/wizard/hit-points	#3	13
+field	tower/wizard/mana	#4	24
+field	tower/facade	#2	5 · 3 · 5 · 2 · 3 · 4
+area	1	plain	tower/floor/0/die	#13	Gallery: trophies	face 5
+area	2	plain	tower/floor/1/die	#23	Lab: potions brewery	face 3
+area	3	plain	tower/floor/2/die	#13	Gallery: cabinet of curiosities	face 5
+area	4	plain	tower/floor/3/die	#22	Hall: sepulchre	face 2
+area	5	plain	tower/floor/4/die	#23	Lab: construct workshop	face 3
+area	6	plain	tower/floor/5/die	#1	Library: occult tomes	face 4
+area	7	top	tower/top-floor	#3	Eldritch lookout	face 4
 == location 1
 name	Hungry Wake
 silhouette	linear-channel	linear	water	3

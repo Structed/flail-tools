@@ -26,7 +26,10 @@ FLAIL! calls them Adventure Sites, and there are five sorts:
 | Landmark | d20 | Landmark · Biome · Condition · Key Feature · Occupant |
 
 Dungeons are stocked room by room on a d6 and keyed from the entrance to the final area. Towers are
-a stack of d6s with a d4 balanced on top, each die a floor. Caves are a handful of dice dropped on
+built the way the book builds them: four to six d6s stacked without looking with a d4 balanced on
+top, then one side of the stack picked as the façade and read down. Each die is a floor, and the
+number it happens to turn towards you is what is on it — so re-rolling the façade walks round the
+tower and gives you a different one built from the same dice. Caves are a handful of dice dropped on
 a page: the one nearest the edge is the way in, the one nearest the middle is the heart of it, and
 anything that bounces off the paper has to be reached some other way.
 
@@ -157,11 +160,13 @@ The five per-kind files hold 349 further entries, sized to the die each axis is 
 | `location.json` | five @ d20 | — |
 | `landmark.json` | five @ d20 | — |
 
-A tower floor is two rolls, as it is in the book: the d6 gives the kind of room and a d4 gives which
-one, so `floorDetails` row *n* belongs to `floorTypes` face *n* and the two must stay aligned.
-`dungeon.json`'s `stocking` is the odd one out — FLAIL! gives nine keying concepts to choose from
-rather than a table with one outcome per face, so the generator picks across all nine. Rolling a d6
-over it would leave the last three unreachable.
+A tower floor is two rolls, as it is in the book: the d6 face the façade shows gives the kind of
+room and a d4 gives which one, so `floorDetails` row *n* belongs to `floorTypes` face *n* and the
+two must stay aligned. The d6 is not rolled per floor — it is read off a stacked die, which can only
+present four of its six faces — so `Towers` throws each storey's die once, remembers how it landed,
+and reads whichever side the façade asks for. `dungeon.json`'s `stocking` is the odd one out —
+FLAIL! gives nine keying concepts to choose from rather than a table with one outcome per face, so
+the generator picks across all nine. Rolling a d6 over it would leave the last three unreachable.
 
 The face tables are read by `Rolls.Face`, which rolls the die and indexes the row directly, so a
 table shorter than its die silently yields an empty string rather than an error. They must stay
@@ -266,6 +271,15 @@ Generation logic lives in Core and never in a `.razor` file, so it can be tested
 Built on [Structed.Inkwell](https://github.com/Structed/inkwell), a game-agnostic seeded generator
 engine. If something needs to change in the engine, it changes there and ships as a new version
 rather than being bent around a FLAIL! problem.
+
+Wizard towers are the one exception to that, and they bypass the engine's map entirely for
+`Mapping/TowerElevation.cs`. FLAIL! gives towers no cartography at all — no plans, no connections,
+not even an entrance — so a view from above would have to invent everything it drew. What the book
+does give is the stack of dice the tower is built from, so that is what gets drawn: an elevation,
+one storey per die, each showing the pips its façade reads and named with what the façade made of
+them. Numbers run down one side and names down the other, so a floor can be found without counting
+rows in the list beside it. It borrows the engine's palette, ink and keying conventions so the two
+drawings sit on the same page.
 
 ## Licence
 

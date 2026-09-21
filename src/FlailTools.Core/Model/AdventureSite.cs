@@ -43,8 +43,31 @@ public sealed record SiteArea
     /// <summary>What this area is structurally: see <see cref="AreaRoles"/>.</summary>
     public string Role { get => field ?? ""; init; } = "";
 
+    /// <summary>
+    /// What this area is, in the fewest words — <c>Library</c> where <see cref="Value"/> reads
+    /// <c>Library: occult tomes</c>. Empty where nothing rolled a short name.
+    /// </summary>
+    /// <remarks>
+    /// Kept beside <see cref="Value"/> rather than recovered from it, because a drawing that names
+    /// its parts by splitting a sentence would quietly stop naming them the day a table row gained
+    /// a colon. Distinct from <see cref="Role"/>, which is what an area does for the site rather
+    /// than what it is: a tower's top floor is a <c>top</c> that happens to be an observatory.
+    /// </remarks>
+    public string Kind { get => field ?? ""; init; } = "";
+
     /// <summary>What is in it.</summary>
     public string Value { get => field ?? ""; init; } = "";
+
+    /// <summary>
+    /// The number on the die this area was read from, or <c>0</c> where no die was read.
+    /// </summary>
+    /// <remarks>
+    /// A tower's floors are a stack of real dice in FLAIL!, and the number a floor shows to the
+    /// chosen façade is the floor — so it is kept rather than discarded once the table has been
+    /// looked up. The map draws it as pips, which is the only way a drawing can show that the place
+    /// came off a stack of dice rather than out of a list.
+    /// </remarks>
+    public int Face { get => field is >= 0 ? field : 0; init; }
 }
 
 /// <summary>

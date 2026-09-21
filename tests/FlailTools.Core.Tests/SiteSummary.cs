@@ -45,7 +45,15 @@ internal static class SiteSummary
                 .Append(area.Role).Append('\t')
                 .Append(area.Path).Append('\t')
                 .Append(site.PinValues.GetValueOrDefault(area.Path, "-")).Append('\t')
-                .Append(area.Value).Append('\n');
+                .Append(area.Value);
+
+            // Only towers read their areas off a die, and only they have a face worth pinning.
+            if (area.Face > 0)
+            {
+                text.Append("\tface ").Append(area.Face);
+            }
+
+            text.Append('\n');
         }
     }
 }
