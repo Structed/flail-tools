@@ -419,6 +419,47 @@ input[type="number"]:hover {
     color: var(--accent);
 }
 
+/* Names rather than a headcount: a table that has gone quiet still shows who is sitting at it. */
+.dice-present {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+}
+
+.dice-roster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.dice-seat {
+    padding: 0.1rem 0.5rem;
+    border: 1px solid var(--rule);
+    border-radius: 0.9rem;
+    font-size: 0.85rem;
+}
+
+.dice-seat-mine {
+    border-color: var(--ink);
+}
+
+/* Connected, not yet introduced: dashed rather than missing, so the count and the list agree. */
+.dice-seat-waiting {
+    border-style: dashed;
+    color: var(--ink-faint);
+}
+
+.dice-you {
+    margin-left: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+}
+
 .dice-hint,
 .dice-notes p {
     margin: 0.5rem 0 0;
