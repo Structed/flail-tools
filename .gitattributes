@@ -11,6 +11,8 @@
 *.html text
 *.css text
 *.js text
+*.svg text
+*.ps1 text
 
 *.png binary
 *.ico binary

@@ -244,20 +244,77 @@ with its opaque paper background to PNG when changing it:
 Review the favicon at **16 x 16** as well as native size. Keep the broad ink strokes and simple
 folds readable without relying on colour, lettering or details from the game's artwork.
 
-### Sharing card
+### Sharing cards
 
-`src/FlailTools.Web/wwwroot/open-graph.png` is the **1200 x 630** Open Graph and Twitter large-image
-card. Its editable source is `open-graph.svg`, which references `icon.svg`; keep both SVG files
-together when editing or exporting. Export the full canvas with its opaque paper background and
-review at a reduced sharing-preview size. Keep the prominent **UNOFFICIAL TOOL** label and
-non-affiliation notice in the image, not just in surrounding page text.
+Each page unfurls as its own **1200 x 630** Open Graph and Twitter large-image card, so a link to
+the dice table does not arrive looking like the front page:
 
-Sharing metadata lives in the static `wwwroot/index.html` so crawlers do not need to run Blazor.
-It uses absolute URLs under **https://flail-tools.pages.dev/**. If the public host changes, update
-those URLs, the address printed in the card, and the expectations in `ArtworkTests`. Every shared
-site uses this generic card; it does not depict the particular seed encoded in a link. There is
-deliberately no fixed `og:url` or canonical link: a crawler should use the shared URL, including
-its seed, locks and re-roll counters, rather than treating every generated site as the home page.
+| Card (in `wwwroot`) | Page | Drawing |
+| --- | --- | --- |
+| `open-graph.png` | the landing page | the folded map from `icon.svg` |
+| `open-graph-site.png` | `/site`, the generator | the folded map from `icon.svg` |
+| `open-graph-dice.png` | `/dice`, the dice table | an original twenty-sided die and a d6 |
+
+Every PNG is an export of the `.svg` beside it, and the two map cards reference `icon.svg`, so keep
+the SVGs together. Re-export after any edit:
+
+```
+pwsh ./tools/Export-ShareCards.ps1
+```
+
+That screenshots each card at its declared size with headless Edge or Chrome, and fails if what it
+wrote is not that size. Review the result at a reduced sharing-preview size. Keep the prominent
+**UNOFFICIAL TOOL** label and the non-affiliation notice in every image, not just in surrounding
+page text — `ArtworkTests` will not let a card ship without them.
+
+The card is generic to its tool. It does not depict the particular seed encoded in a link.
+
+#### Where the metadata comes from
+
+A crawler does not run Blazor, and this is one page, so every route would otherwise serve the
+landing card. `tools/share-cards.json` is the list of what each page says, and it is used twice:
+
+- The landing entry is written by hand into `wwwroot/index.html`, which is also the SPA fallback.
+- Each tool gets a copy of that file at its own address — `wwwroot/site/index.html`,
+  `wwwroot/dice/index.html` — with the card swapped. Regenerate them after editing either
+  `index.html` or the manifest, and commit the result:
+
+```
+pwsh ./tools/New-ShareShells.ps1
+```
+
+The shells are committed rather than generated during a deployment because the site is built by
+more than one host, and only one of them runs this repository's workflow. Anything sitting in
+`wwwroot` is published by whoever runs `dotnet publish`. Copying `index.html` is safe because the
+host-specific parts are resolved later: the boot script keeps its `#[.{fingerprint}]` placeholder,
+which the Blazor SDK rewrites in every HTML file it publishes, and `<base href>` is absolute, so a
+shell one directory down loads exactly the same assets.
+
+What is left is the risk of a stale copy, so `ShareCardTests` rebuilds each shell from `index.html`
+and fails the build on any difference beyond that page's own card. It also pins the manifest to the
+images beside it, to the routes the app actually serves, and to the tags already in `index.html`.
+
+#### Previewing a new card
+
+`og:image` has to be an absolute URL, so every card points at `flail-tools.pages.dev` no matter
+which deployment is serving the page. A preview deployment therefore asks production for its
+images, and a card whose PNG has not been merged yet resolves to nothing. The host answers a
+missing file with the SPA fallback — `200`, but `text/html` — so a preview tool draws it as a
+broken image rather than a missing one.
+
+That is expected, and it clears the moment the branch lands. To check a new card before then, open
+the image on the preview deployment itself rather than trusting the unfurl.
+
+Adding a shell means the route is served from a directory. A static host answers `/site` either by
+serving `site/index.html` directly or by redirecting to `/site/`, keeping the query string — which
+is what carries the seed. Blazor routes `/site/` to the same page as `/site`, so a shared link works
+either way.
+
+Absolute URLs use **https://flail-tools.pages.dev/**. If the public host changes, update `baseUrl`
+in the manifest, the tags in `index.html`, the address printed in each card, and the expectations in
+`ArtworkTests`. There is deliberately no fixed `og:url` or canonical link, on the landing page or in
+a shell: a crawler should use the shared URL, including its seed, locks and re-roll counters, rather
+than treating every generated site as the home page.
 
 ## Layout
 
@@ -267,6 +324,7 @@ src/FlailTools.Web/       Blazor WebAssembly, a thin layer over Core
   wwwroot/data/house/     the tables: FLAIL!'s for the five generators, ours for names and maps
   wwwroot/data/ui.json    every word the interface says that is not a table entry
 tests/FlailTools.Core.Tests/
+tools/                    the sharing cards: what each page says, and how it is exported
 ```
 
 Generation logic lives in Core and never in a `.razor` file, so it can be tested without a browser.

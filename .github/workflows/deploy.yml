@@ -31,7 +31,8 @@ jobs:
       - name: Publish
         run: dotnet publish ${{ env.PROJECT_PATH }} --configuration Release --no-restore --output publish
 
-      # Pages serves a project site from /<repo>/, so the app has to be told where it lives.
+      # Pages serves a project site from /<repo>/, so the app has to be told where it lives. The
+      # per-route sharing shells are copies of index.html, so they need telling as well.
       - name: Rewrite base href for GitHub Pages
         run: |
           repo_name='${{ github.repository }}'
@@ -42,9 +43,12 @@ jobs:
             base_href="/$repo_name/"
           fi
           echo "Using base href: $base_href"
-          sed -i "s|<base href=\"/\" />|<base href=\"$base_href\" />|g" publish/wwwroot/index.html
-          grep -qF "<base href=\"$base_href\" />" publish/wwwroot/index.html \
-            || { echo "::error::Failed to rewrite <base href> in index.html"; exit 1; }
+          while IFS= read -r -d '' page; do
+            sed -i "s|<base href=\"/\" />|<base href=\"$base_href\" />|g" "$page"
+            grep -qF "<base href=\"$base_href\" />" "$page" \
+              || { echo "::error::Failed to rewrite <base href> in $page"; exit 1; }
+            echo "  rewrote $page"
+          done < <(find publish/wwwroot -name index.html -print0)
 
       # Pages has no SPA rewrite, so a deep link has to be served the app shell as the 404 page.
       - name: Add SPA fallback and disable Jekyll

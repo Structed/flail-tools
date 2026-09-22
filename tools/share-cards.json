@@ -1,0 +1,49 @@
+{
+  "_comment": [
+    "What each page says when somebody pastes its link somewhere.",
+    "",
+    "Crawlers do not run Blazor, so the landing card's tags are written by hand into",
+    "wwwroot/index.html, and each tool gets a committed copy of that file at its own address with",
+    "the card swapped, written by tools/New-ShareShells.ps1. This file is the one list both of",
+    "those agree with, and ShareCardTests fails if any of them drift apart.",
+    "",
+    "There is deliberately no og:url and no canonical link: a shared address carries the seed,",
+    "the locks and the re-roll counters, and a crawler should keep them rather than collapse",
+    "every generated site onto the home page.",
+    "",
+    "Change 'baseUrl' if the public host moves, and re-export the cards afterwards, because the",
+    "address is printed in the artwork as well."
+  ],
+
+  "baseUrl": "https://flail-tools.pages.dev/",
+
+  "cards": [
+    {
+      "route": "/",
+      "shell": null,
+      "documentTitle": "FLAIL! Tools",
+      "title": "FLAIL! Tools - Unofficial adventure site generator",
+      "description": "An unofficial browser-based location generator for the FLAIL! tabletop roleplaying game.",
+      "image": "open-graph.png",
+      "imageAlt": "FLAIL! Tools - Unofficial adventure site generator. An original ink-drawn folded map on paper. Not affiliated with Games Omnivorous."
+    },
+    {
+      "route": "/site",
+      "shell": "site",
+      "documentTitle": "Roll a site \u2014 FLAIL! Tools",
+      "title": "Adventure sites - Unofficial FLAIL! Tools",
+      "description": "Roll a dungeon, a cave, a wizard tower or a hexcrawl location for FLAIL!, each one drawn its own map. Lock the parts you like, roll the rest again, and share a link that rebuilds exactly what you saw.",
+      "image": "open-graph-site.png",
+      "imageAlt": "Adventure sites - Unofficial FLAIL! Tools. An original ink-drawn folded map on paper. Not affiliated with Games Omnivorous."
+    },
+    {
+      "route": "/dice",
+      "shell": "dice",
+      "documentTitle": "Dice \u2014 FLAIL! Tools",
+      "title": "The dice table - Unofficial FLAIL! Tools",
+      "description": "Roll where the whole party can see it: To Hit pools, saves at or under an attribute, and anything else in ordinary notation. The dice go straight between browsers, with nothing hosted and nothing stored.",
+      "image": "open-graph-dice.png",
+      "imageAlt": "The dice table - Unofficial FLAIL! Tools. An original ink drawing of a twenty-sided die beside a six-sided die on paper. Not affiliated with Games Omnivorous."
+    }
+  ]
+}

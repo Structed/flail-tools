@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Roll a site — FLAIL! Tools</title>
+    <meta name="description" content="Roll a dungeon, a cave, a wizard tower or a hexcrawl location for FLAIL!, each one drawn its own map. Lock the parts you like, roll the rest again, and share a link that rebuilds exactly what you saw." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Adventure sites - Unofficial FLAIL! Tools" />
+    <meta property="og:description" content="Roll a dungeon, a cave, a wizard tower or a hexcrawl location for FLAIL!, each one drawn its own map. Lock the parts you like, roll the rest again, and share a link that rebuilds exactly what you saw." />
+    <!-- Leave og:url unset: the query string carries each shared site's seed and locks. -->
+    <meta property="og:image" content="https://flail-tools.pages.dev/open-graph-site.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Adventure sites - Unofficial FLAIL! Tools. An original ink-drawn folded map on paper. Not affiliated with Games Omnivorous." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://flail-tools.pages.dev/open-graph-site.png" />
+    <meta name="twitter:image:alt" content="Adventure sites - Unofficial FLAIL! Tools. An original ink-drawn folded map on paper. Not affiliated with Games Omnivorous." />
+    <base href="/" />
+    <link rel="preload" id="webassembly" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link href="FlailTools.Web.styles.css" rel="stylesheet" />
+    <script type="importmap"></script>
+</head>
+
+<body>
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+    <script src="js/flail.js"></script>
+    <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
+</body>
+
+</html>
