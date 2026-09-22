@@ -15,6 +15,8 @@ public sealed class ArtworkTests
     [InlineData("icon-192.png", 192, 192)]
     [InlineData("apple-touch-icon.png", 180, 180)]
     [InlineData("open-graph.png", 1200, 630)]
+    [InlineData("open-graph-site.png", 1200, 630)]
+    [InlineData("open-graph-dice.png", 1200, 630)]
     public void ArtworkIsPngAtItsDeclaredSize(string file, int width, int height)
     {
         byte[] png = File.ReadAllBytes(Path.Combine(WebRoot, file));
@@ -87,21 +89,48 @@ public sealed class ArtworkTests
             Content("property", "og:image:alt"), StringComparison.Ordinal);
     }
 
-    [Fact]
-    public void SharingArtworkReusesOurMapAndCarriesItsOwnUnofficialNotice()
+    [Theory]
+    [InlineData("open-graph.svg")]
+    [InlineData("open-graph-site.svg")]
+    [InlineData("open-graph-dice.svg")]
+    public void EverySharingCardCarriesItsOwnUnofficialNotice(string file)
     {
-        XElement svg = XElement.Load(Path.Combine(WebRoot, "open-graph.svg"));
+        XElement svg = XElement.Load(Path.Combine(WebRoot, file));
         XNamespace ns = "http://www.w3.org/2000/svg";
 
         Assert.Equal("1200", (string?)svg.Attribute("width"));
         Assert.Equal("630", (string?)svg.Attribute("height"));
-        XElement map = Assert.Single(svg.Descendants(ns + "image"));
-        Assert.Equal("icon.svg", (string?)map.Attribute("href"));
-        Assert.True(File.Exists(Path.Combine(WebRoot, "icon.svg")));
 
         string[] visibleText = svg.Descendants(ns + "text").Select(text => text.Value).ToArray();
         Assert.Contains("UNOFFICIAL TOOL", visibleText);
         Assert.Contains("Independent production. Not affiliated with Games Omnivorous.", visibleText);
         Assert.Contains("flail-tools.pages.dev", visibleText);
+    }
+
+    [Theory]
+    [InlineData("open-graph.svg")]
+    [InlineData("open-graph-site.svg")]
+    public void TheMapCardsReuseOurOwnIcon(string file)
+    {
+        XElement svg = XElement.Load(Path.Combine(WebRoot, file));
+        XNamespace ns = "http://www.w3.org/2000/svg";
+
+        XElement map = Assert.Single(svg.Descendants(ns + "image"));
+        Assert.Equal("icon.svg", (string?)map.Attribute("href"));
+        Assert.True(File.Exists(Path.Combine(WebRoot, "icon.svg")));
+    }
+
+    /// <summary>
+    /// The dice are drawn in the card rather than borrowed from anywhere, which is the whole point
+    /// of them: a die is the one picture a game tool is most tempted to lift.
+    /// </summary>
+    [Fact]
+    public void TheDiceCardDrawsItsOwnArtwork()
+    {
+        XElement svg = XElement.Load(Path.Combine(WebRoot, "open-graph-dice.svg"));
+        XNamespace ns = "http://www.w3.org/2000/svg";
+
+        Assert.Empty(svg.Descendants(ns + "image"));
+        Assert.NotEmpty(svg.Descendants(ns + "path"));
     }
 }

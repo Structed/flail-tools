@@ -66,10 +66,13 @@ icon are PNG exports of that drawing. It uses the site's ink-and-paper palette a
 traced or adapted from the FLAIL! logo, book artwork or trade dress. It identifies this unofficial
 tool, not the game or its publisher.
 
-`src/FlailTools.Web/wwwroot/open-graph.svg` is an original sharing-card layout under the same MIT
-licence, reusing that folded-map drawing. `open-graph.png` is its raster export. Both the card and
-its sharing metadata identify the tool as unofficial; the card also carries a non-affiliation
-notice. Its title is ordinary typeset text, not the FLAIL! logo.
+`src/FlailTools.Web/wwwroot/open-graph.svg` and `open-graph-site.svg` are original sharing-card
+layouts under the same MIT licence, reusing that folded-map drawing. `open-graph-dice.svg` is the
+same layout with its own original drawing of a twenty-sided die and a six-sided die: broad ink
+outlines in the site's palette, not copied, traced or adapted from FLAIL!'s dice, artwork or trade
+dress. The `.png` files beside them are their raster exports. Every card and the sharing metadata
+around it identify the tool as unofficial; each card also carries a non-affiliation notice. Their
+titles are ordinary typeset text, not the FLAIL! logo.
 
 ## Code
 

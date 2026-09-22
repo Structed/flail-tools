@@ -46,6 +46,12 @@ jobs:
           grep -qF "<base href=\"$base_href\" />" publish/wwwroot/index.html \
             || { echo "::error::Failed to rewrite <base href> in index.html"; exit 1; }
 
+      # A crawler does not run Blazor, so without its own HTML each tool unfurls as the landing
+      # card. Generated from the published index.html, once its base href is settled.
+      - name: Write the per-route sharing shells
+        shell: pwsh
+        run: ./tools/New-ShareShells.ps1 -PublishRoot publish/wwwroot
+
       # Pages has no SPA rewrite, so a deep link has to be served the app shell as the 404 page.
       - name: Add SPA fallback and disable Jekyll
         run: |

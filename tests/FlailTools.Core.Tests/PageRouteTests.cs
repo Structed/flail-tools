@@ -47,4 +47,7 @@ public sealed partial class PageRouteTests
             .Select(match => match.Groups[1].Value)
             .ToArray();
     }
+
+    /// <summary>The addresses the app serves, for tests that have to agree with them.</summary>
+    internal static IReadOnlyCollection<string> Served() => Routes();
 }

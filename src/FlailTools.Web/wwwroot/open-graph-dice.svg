@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <title>FLAIL! Tools - The dice table</title>
+  <desc>Original sharing artwork by the flail-tools contributors, with an ink-drawn twenty-sided die and a six-sided die. Not derived from the game's artwork or logo.</desc>
+  <path fill="#f4efe4" d="M0 0H1200V630H0Z"/>
+  <path fill="none" stroke="#7c2d12" stroke-width="3" d="M72 49Q560 46 1128 49"/>
+  <rect x="72" y="81" width="306" height="55" rx="3" fill="#7c2d12"/>
+  <text x="96" y="119" fill="#f4efe4" font-family="Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="2">UNOFFICIAL TOOL</text>
+  <text x="404" y="119" fill="#7c2d12" font-family="Georgia, 'Times New Roman', serif" font-size="30">FLAIL! Tools</text>
+  <g fill="#1c1a17" font-family="Georgia, 'Times New Roman', serif">
+    <text x="68" y="252" font-size="86">The dice table</text>
+    <text x="72" y="312" font-size="30">Roll where the whole party can see it.</text>
+  </g>
+  <g fill="#5b544b" font-family="Arial, sans-serif" font-size="24">
+    <text x="72" y="384">To Hit pools, saves, ordinary notation.</text>
+    <text x="72" y="422">Straight between browsers. Nothing stored.</text>
+  </g>
+  <g transform="translate(750,124)">
+    <g fill="none" stroke="#1c1a17" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke-width="15" d="M200 25L299.59 82.5L299.59 197.5L200 255L100.41 197.5L100.41 82.5Z"/>
+      <path stroke-width="10" d="M138.45 104.47H261.55L200 211.07Z"/>
+      <path stroke-width="10" d="M261.55 104.47L299.59 82.5M138.45 104.47L100.41 82.5M200 211.07V255"/>
+    </g>
+    <text x="200" y="152" fill="#1c1a17" font-family="Georgia, 'Times New Roman', serif" font-size="46" text-anchor="middle">20</text>
+    <g transform="rotate(-9 74 266)">
+      <rect x="18" y="210" width="112" height="112" rx="14" fill="#f4efe4" stroke="#1c1a17" stroke-width="15" stroke-linejoin="round"/>
+      <g fill="#1c1a17">
+        <circle cx="46" cy="238" r="9"/>
+        <circle cx="102" cy="238" r="9"/>
+        <circle cx="46" cy="294" r="9"/>
+        <circle cx="102" cy="294" r="9"/>
+      </g>
+      <circle cx="74" cy="266" r="9" fill="#7c2d12"/>
+    </g>
+  </g>
+  <path fill="none" stroke="#ddd4c2" stroke-width="2" d="M72 500H1128"/>
+  <g font-family="Arial, sans-serif">
+    <text x="72" y="546" fill="#1c1a17" font-size="24">Independent production. Not affiliated with Games Omnivorous.</text>
+    <text x="72" y="586" fill="#7c2d12" font-size="22">flail-tools.pages.dev</text>
+  </g>
+</svg>
