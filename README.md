@@ -272,14 +272,24 @@ A crawler does not run Blazor, and this is one page, so every route would otherw
 landing card. `tools/share-cards.json` is the list of what each page says, and it is used twice:
 
 - The landing entry is written by hand into `wwwroot/index.html`, which is also the SPA fallback.
-- The rest are stamped into per-route shells — `site/index.html`, `dice/index.html` — by
-  `tools/New-ShareShells.ps1`, which the deploy workflow runs against the *published* output.
+- Each tool gets a copy of that file at its own address — `wwwroot/site/index.html`,
+  `wwwroot/dice/index.html` — with the card swapped. Regenerate them after editing either
+  `index.html` or the manifest, and commit the result:
 
-The shells are generated rather than committed because the published `index.html` already carries a
-fingerprinted boot script and a `<base href>` rewritten for wherever it is being hosted. A committed
-shell would duplicate both and rot the first time either changed. `ShareCardTests` pins the manifest
-to the images beside it, to the routes the app actually serves, and to the tags already in
-`index.html`.
+```
+pwsh ./tools/New-ShareShells.ps1
+```
+
+The shells are committed rather than generated during a deployment because the site is built by
+more than one host, and only one of them runs this repository's workflow. Anything sitting in
+`wwwroot` is published by whoever runs `dotnet publish`. Copying `index.html` is safe because the
+host-specific parts are resolved later: the boot script keeps its `#[.{fingerprint}]` placeholder,
+which the Blazor SDK rewrites in every HTML file it publishes, and `<base href>` is absolute, so a
+shell one directory down loads exactly the same assets.
+
+What is left is the risk of a stale copy, so `ShareCardTests` rebuilds each shell from `index.html`
+and fails the build on any difference beyond that page's own card. It also pins the manifest to the
+images beside it, to the routes the app actually serves, and to the tags already in `index.html`.
 
 Adding a shell means the route is served from a directory. A static host answers `/site` either by
 serving `site/index.html` directly or by redirecting to `/site/`, keeping the query string — which

@@ -10,14 +10,16 @@ namespace FlailTools.Core.Tests;
 /// <remarks>
 /// <para>
 /// A crawler does not run Blazor, so a single-page app has one card unless it is given more. The
-/// landing card is written by hand into <c>wwwroot/index.html</c>; the rest are stamped into
-/// per-route shells at publish time by <c>tools/New-ShareShells.ps1</c>. Neither half is visible
-/// from the other, and neither fails when it goes stale: a shell built from a manifest entry that
-/// no longer matches the art still deploys, and still looks fine, and is simply wrong.
+/// landing card is written by hand into <c>wwwroot/index.html</c>, and each tool gets a copy of
+/// that file under its own address, with the card swapped, written by
+/// <c>tools/New-ShareShells.ps1</c> and committed. Neither half is visible from the other, and
+/// neither fails when it goes stale: a shell built from a manifest entry that no longer matches
+/// the art still deploys, and still looks fine, and is simply wrong.
 /// </para>
 /// <para>
 /// So the manifest is pinned to the things it claims — the images beside it, the routes the app
-/// actually serves, and the tags already in <c>index.html</c>.
+/// actually serves, and the tags already in <c>index.html</c> — and each shell is pinned to being
+/// index.html with nothing but its own card changed.
 /// </para>
 /// </remarks>
 public sealed class ShareCardTests
@@ -50,6 +52,9 @@ public sealed class ShareCardTests
     }
 
     public static TheoryData<string> Routes() => [.. Manifest.Cards.Select(card => card.Route)];
+
+    public static TheoryData<string> ToolRoutes() =>
+        [.. Manifest.Cards.Where(card => card.Shell is not null).Select(card => card.Route)];
 
     private static ShareCard Card(string route) =>
         Manifest.Cards.Single(card => card.Route == route);
@@ -167,21 +172,92 @@ public sealed class ShareCardTests
     }
 
     /// <summary>
-    /// Everything above is only true of the deployment if the shells are actually written, and
-    /// written before the SPA fallback is taken, so the 404 page keeps the generic card.
+    /// The whole point of a shell is that it is the app, reachable at the tool's own address, with
+    /// only the card changed. Rebuilding it here from <c>index.html</c> catches both halves of the
+    /// drift: a manifest value that never reached the committed copy, and an edit to index.html
+    /// itself — a new stylesheet, a changed loading screen — that the copies never learned about.
+    /// </summary>
+    [Theory]
+    [MemberData(nameof(ToolRoutes))]
+    public void EveryShellIsIndexHtmlWithNothingButItsOwnCardChanged(string route)
+    {
+        ShareCard card = Card(route);
+        string shellPath = Path.Combine(WebRoot, card.Shell!, "index.html");
+
+        Assert.True(
+            File.Exists(shellPath),
+            $"'{route}' has no '{card.Shell}/index.html', so it unfurls as the landing page. "
+                + "Run tools/New-ShareShells.ps1 and commit what it writes.");
+
+        string[] index = File.ReadAllLines(Path.Combine(WebRoot, "index.html"));
+        string[] expected = [.. index.Select(line => Restamp(line, card))];
+
+        Assert.Equal(expected, File.ReadAllLines(shellPath));
+    }
+
+    /// <summary>
+    /// A shell is a copy of index.html, so it carries the same relative <c>base href</c> and needs
+    /// the same rewriting when Pages serves the app from a subdirectory. Rewriting only the root
+    /// index.html would leave every tool loading its assets from the wrong place.
     /// </summary>
     [Fact]
-    public void TheDeploymentWritesTheShellsBeforeTakingTheFallback()
+    public void TheDeploymentGivesEveryShellTheHostsBaseHref()
     {
         string workflow = File.ReadAllText(
             Path.Combine(TestData.RepositoryRoot, ".github", "workflows", "deploy.yml"));
 
-        int shells = workflow.IndexOf("New-ShareShells.ps1", StringComparison.Ordinal);
-        int fallback = workflow.IndexOf("404.html", StringComparison.Ordinal);
+        Assert.Contains("find publish/wwwroot -name index.html", workflow, StringComparison.Ordinal);
 
-        Assert.True(shells >= 0, "deploy.yml no longer writes the per-route sharing shells.");
-        Assert.True(fallback >= 0, "deploy.yml no longer writes the SPA fallback.");
-        Assert.True(shells < fallback, "The shells must be written before index.html becomes 404.html.");
+        // The rewrite is a literal substitution, so the tag has to keep the shape it looks for.
+        Assert.Contains(
+            "<base href=\"/\" />",
+            File.ReadAllText(Path.Combine(WebRoot, "index.html")),
+            StringComparison.Ordinal);
+    }
+
+    /// <summary>Applies one card to a line of index.html, the way the generator does.</summary>
+    private static string Restamp(string line, ShareCard card)
+    {
+        string image = $"{Manifest.BaseUrl}{card.Image}";
+
+        if (line.Contains("<title>", StringComparison.Ordinal))
+        {
+            return Replace(line, "<title>", "</title>", card.DocumentTitle);
+        }
+
+        // The closing quote matters: og:image must not also match og:image:alt.
+        return line switch
+        {
+            _ when Carries(line, "name=\"description\"") => Content(line, card.Description),
+            _ when Carries(line, "property=\"og:title\"") => Content(line, card.Title),
+            _ when Carries(line, "property=\"og:description\"") => Content(line, card.Description),
+            _ when Carries(line, "property=\"og:image\"") => Content(line, image),
+            _ when Carries(line, "property=\"og:image:alt\"") => Content(line, card.ImageAlt),
+            _ when Carries(line, "name=\"twitter:image\"") => Content(line, image),
+            _ when Carries(line, "name=\"twitter:image:alt\"") => Content(line, card.ImageAlt),
+            _ => line,
+        };
+    }
+
+    private static bool Carries(string line, string attribute) =>
+        line.Contains("<meta", StringComparison.Ordinal)
+            && line.Contains(attribute, StringComparison.Ordinal);
+
+    private static string Content(string line, string value) =>
+        Replace(line, "content=\"", "\"", Escape(value));
+
+    private static string Escape(string value) => value
+        .Replace("&", "&amp;", StringComparison.Ordinal)
+        .Replace("<", "&lt;", StringComparison.Ordinal)
+        .Replace(">", "&gt;", StringComparison.Ordinal)
+        .Replace("\"", "&quot;", StringComparison.Ordinal);
+
+    private static string Replace(string line, string opening, string closing, string value)
+    {
+        int from = line.IndexOf(opening, StringComparison.Ordinal) + opening.Length;
+        int to = line.IndexOf(closing, from, StringComparison.Ordinal);
+
+        return string.Concat(line.AsSpan(0, from), value, line.AsSpan(to));
     }
 
     private static string MetaContent(string html, string attribute, string name)

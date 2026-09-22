@@ -8,31 +8,37 @@
     Sharing metadata has to be in the served HTML, because a crawler does not run Blazor. The app
     is one page, so every route would otherwise share the landing card.
 
-    The shells are generated from the *published* index.html rather than committed beside it. That
-    file already has its fingerprinted boot script resolved and its <base href> rewritten for
-    wherever it is being hosted, and because the base href is absolute a shell one directory down
-    loads exactly the same assets. A committed shell would have to duplicate all of that and would
-    rot the first time any of it changed.
+    The shells are committed beside index.html rather than generated during a deployment, because
+    the site is built by more than one host and only one of them runs this repository's workflow.
+    A shell that exists in wwwroot is published by whoever runs dotnet publish, wherever that is.
+
+    Copying index.html is safe because the two parts that look host-specific are resolved during
+    publish, not written here: the boot script keeps its #[.{fingerprint}] placeholder, which the
+    Blazor SDK rewrites in every HTML file it publishes, and <base href> is absolute, so a shell
+    one directory down loads exactly the same assets. What is left is the risk of the copy going
+    stale, and ShareCardTests fails the build if a shell stops matching index.html.
 
     Only the head is touched: title, description, and the og: and twitter: pairs. Every tag the
     manifest names must already exist in index.html, so a tag that is renamed or dropped fails here
     rather than leaving a shell quietly serving the wrong card. og:url and canonical stay absent on
     purpose; the shared address carries the seed.
 
-.PARAMETER PublishRoot
-    The published wwwroot, holding index.html and the card images.
+    Run this after editing index.html or the manifest, and commit what it writes.
+
+.PARAMETER Wwwroot
+    The app's static root, holding index.html and the card images. Defaults to the one in this
+    repository.
 
 .PARAMETER Manifest
     The share-card manifest. Defaults to the one beside this script.
 
 .EXAMPLE
-    pwsh ./tools/New-ShareShells.ps1 -PublishRoot publish/wwwroot
+    pwsh ./tools/New-ShareShells.ps1
 #>
 
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory)]
-    [string]$PublishRoot,
+    [string]$Wwwroot,
 
     [string]$Manifest
 )
@@ -112,33 +118,37 @@ if (-not $Manifest) {
     $Manifest = Join-Path $PSScriptRoot 'share-cards.json'
 }
 
-foreach ($path in $PublishRoot, $Manifest) {
+if (-not $Wwwroot) {
+    $Wwwroot = Join-Path $PSScriptRoot '..' 'src' 'FlailTools.Web' 'wwwroot'
+}
+
+foreach ($path in $Wwwroot, $Manifest) {
     if (-not (Test-Path -LiteralPath $path)) {
         throw "'$path' does not exist."
     }
 }
 
-$PublishRoot = (Resolve-Path -LiteralPath $PublishRoot).Path
+$Wwwroot = (Resolve-Path -LiteralPath $Wwwroot).Path
 $cards = Get-Content -LiteralPath $Manifest -Raw | ConvertFrom-Json
-$indexPath = Join-Path $PublishRoot 'index.html'
+$indexPath = Join-Path $Wwwroot 'index.html'
 
 if (-not (Test-Path -LiteralPath $indexPath)) {
-    throw "No index.html in '$PublishRoot'."
+    throw "No index.html in '$Wwwroot'."
 }
 
 $index = Get-Content -LiteralPath $indexPath -Raw
 $baseUrl = $cards.baseUrl
 
 $written = foreach ($card in $cards.cards) {
-    if (-not (Test-Path -LiteralPath (Join-Path $PublishRoot $card.image))) {
-        throw "'$($card.route)' names '$($card.image)', which was not published."
+    if (-not (Test-Path -LiteralPath (Join-Path $Wwwroot $card.image))) {
+        throw "'$($card.route)' names '$($card.image)', which is not in wwwroot."
     }
 
     $imageUrl = "$baseUrl$($card.image)"
 
     if (-not $card.shell) {
         # The landing card is written by hand into index.html. Check the two still say the same
-        # thing, so a manifest edit that never reached index.html fails the deployment.
+        # thing, so a manifest edit that never reached index.html fails here.
         $mismatches = @(
             @{ Attribute = 'property'; Name = 'og:title';      Expected = $card.title }
             @{ Attribute = 'property'; Name = 'og:description'; Expected = $card.description }
@@ -167,7 +177,7 @@ $written = foreach ($card in $cards.cards) {
     $shell = Set-MetaContent -Html $shell -Attribute 'name' -Name 'twitter:image' -Value $imageUrl
     $shell = Set-MetaContent -Html $shell -Attribute 'name' -Name 'twitter:image:alt' -Value $card.imageAlt
 
-    $directory = Join-Path $PublishRoot $card.shell
+    $directory = Join-Path $Wwwroot $card.shell
     New-Item -ItemType Directory -Path $directory -Force | Out-Null
     $destination = Join-Path $directory 'index.html'
     [IO.File]::WriteAllText($destination, $shell, [Text.UTF8Encoding]::new($false))
