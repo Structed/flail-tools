@@ -140,7 +140,9 @@ The five generator tables are FLAIL!'s own, reproduced in face order: the Dungeo
 Towers themes from the Adventure Sites chapter, and the d20 Locations and Landmarks tables from the
 hexcrawl chapter. Each of those files names FLAIL! in its `_source` header, and `ProvenanceTests`
 fails the build if one of them stops naming it — or if any other file starts to. Games Omnivorous
-[publish the rulebook free](https://gamesomnivorous.com/pages/flail).
+[publish the rulebook free](https://gamesomnivorous.com/pages/flail), as a
+[PDF](https://drive.google.com/file/d/1DzgJUzvWPekIpeZKVZrPhG1r7umsiHf-/view), which is what these
+were read off.
 
 Two things are still ours, because the book has no equivalent: the site names, and the silhouettes
 the maps are drawn from.
@@ -177,8 +179,9 @@ deliberately keep separate tables and separate field paths even where an axis na
 with the name tables, append rather than reorder: a lock is a position, not a phrase.
 
 This is a tool for people who are playing the game. Games Omnivorous [publish the rulebook
-free](https://gamesomnivorous.com/pages/flail), and sell it as a physical boxset — buy it, it is
-very good, and none of this works without it.
+free](https://gamesomnivorous.com/pages/flail) as a
+[PDF](https://drive.google.com/file/d/1DzgJUzvWPekIpeZKVZrPhG1r7umsiHf-/view), and sell it as a
+physical boxset — buy it, it is very good, and none of this works without it.
 
 ## Running it
 
