@@ -1,8 +1,8 @@
-@page "/"
+@page "/site"
 @inject NavigationManager Nav
 @inject IJSRuntime Js
 
-<PageTitle>@Ui.App.Title</PageTitle>
+<PageTitle>@Ui.Action("generate") — @Ui.App.Title</PageTitle>
 
 <h1 class="visually-hidden">@Ui.App.Title — @Ui.App.Tagline</h1>
 
@@ -129,6 +129,17 @@
 
     private UiText Ui => Data.Ui;
 
+    /// <summary>
+    /// The address this page is at, seed and locks and all.
+    /// </summary>
+    /// <remarks>
+    /// The page's own route has to be in here. The generator does not live at the root any more, and
+    /// a query hung off the base address alone would rewrite the address bar to the landing page
+    /// on the first roll — and hand out copied links that show the recipient a front page rather
+    /// than the site they were sent.
+    /// </remarks>
+    private string Address => $"{Nav.BaseUri}site{_workspace.Query}";
+
     protected override void OnInitialized() =>
         _workspace = new SiteWorkspace(Data, SiteUrl.FromQuery(new Uri(Nav.Uri).Query));
 
@@ -154,7 +165,7 @@
     {
         try
         {
-            await Js.InvokeVoidAsync("flailTools.setUrl", Nav.BaseUri + _workspace.Query);
+            await Js.InvokeVoidAsync("flailTools.setUrl", Address);
         }
         catch (JSException)
         {
@@ -166,7 +177,7 @@
     {
         try
         {
-            _copied = await Js.InvokeAsync<bool>("flailTools.copyText", Nav.BaseUri + _workspace.Query);
+            _copied = await Js.InvokeAsync<bool>("flailTools.copyText", Address);
         }
         catch (JSException)
         {

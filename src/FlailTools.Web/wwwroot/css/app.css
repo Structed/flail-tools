@@ -303,6 +303,57 @@ select:hover {
     gap: 0 1.5rem;
 }
 
+/* The landing page. Neither tool is the front door any more, so the two cards are equal weight and
+   the page says what each one is for before asking anybody to choose. */
+
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.75rem;
+}
+
+.tool-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 1.1rem 1.25rem 1.25rem;
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--ink);
+    background: var(--paper-raised);
+}
+
+.tool-card h2 {
+    margin: 0;
+    color: var(--ink);
+    font-size: 1.05rem;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.tool-card p {
+    flex: 1 0 auto;
+    margin: 0;
+    color: var(--ink-soft);
+}
+
+/* The call to action is an anchor rather than a button, because it goes somewhere. */
+.tool-card .button {
+    display: inline-block;
+    margin-top: 0.3rem;
+    text-decoration: none;
+}
+
+.landing-about {
+    max-width: 44rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+}
+
 .prose {
     max-width: 44rem;
     margin-bottom: 2rem;

@@ -92,6 +92,7 @@
     "about": "About",
 
     "dice": "Dice",
+    "openDice": "Open the dice table",
     "startTable": "Start a table",
     "joinTable": "Join",
     "leaveTable": "Leave",
@@ -109,6 +110,14 @@
 
   "messages": {
     "seed": "Seed",
+
+    "landingLede": "Tools for running FLAIL! at the table. Free, in the browser, with no account to make and nothing kept anywhere.",
+    "landingSiteTitle": "Adventure sites",
+    "landingSiteBody": "Roll a dungeon, a cave, a wizard tower or a hexcrawl location, each one drawn its own map. Lock the parts you like and roll the rest again; the link rebuilds exactly what you were looking at, locks and all.",
+    "landingDiceTitle": "The dice table",
+    "landingDiceBody": "Roll where the whole party can see it — To Hit pools, saves at or under an attribute, and anything else in ordinary notation. The dice go straight between browsers, so nobody is hosting it: close the tab and the table is gone.",
+    "landingAboutBody": "where the tables come from, how the dice reach the other players, and the licence all of this is published under.",
+
     "fieldsHeading": "Details",
     "areasHeading": "Areas",
     "mapAlt": "A hand-drawn map of the site",
