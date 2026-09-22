@@ -291,6 +291,17 @@ What is left is the risk of a stale copy, so `ShareCardTests` rebuilds each shel
 and fails the build on any difference beyond that page's own card. It also pins the manifest to the
 images beside it, to the routes the app actually serves, and to the tags already in `index.html`.
 
+#### Previewing a new card
+
+`og:image` has to be an absolute URL, so every card points at `flail-tools.pages.dev` no matter
+which deployment is serving the page. A preview deployment therefore asks production for its
+images, and a card whose PNG has not been merged yet resolves to nothing. The host answers a
+missing file with the SPA fallback — `200`, but `text/html` — so a preview tool draws it as a
+broken image rather than a missing one.
+
+That is expected, and it clears the moment the branch lands. To check a new card before then, open
+the image on the preview deployment itself rather than trusting the unfurl.
+
 Adding a shell means the route is served from a directory. A static host answers `/site` either by
 serving `site/index.html` directly or by redirecting to `/site/`, keeping the query string — which
 is what carries the seed. Blazor routes `/site/` to the same page as `/site`, so a shared link works
