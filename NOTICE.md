@@ -41,8 +41,9 @@ in face order: the Dungeons, Caves and Wizard Towers themes from the Adventure S
 the d20 Locations and Landmarks tables from the hexcrawl chapter. Section 1 of the licence permits
 this expressly — it covers rules text, random tables, table entries and terminology.
 
-Games Omnivorous publish the rulebook free at <https://gamesomnivorous.com/pages/flail>, which is
-where these were taken from.
+Games Omnivorous publish the rulebook free at <https://gamesomnivorous.com/pages/flail>, as a PDF at
+<https://drive.google.com/file/d/1DzgJUzvWPekIpeZKVZrPhG1r7umsiHf-/view>, which is where these were
+taken from.
 
 No prose came with them. The book's introductions, descriptions, adventure text and setting text are
 not reproduced here, and neither is any artwork; section 2 still forbids both. Nor is this a
