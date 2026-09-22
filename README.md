@@ -32,6 +32,11 @@ anything that bounces off the paper has to be reached some other way.
 
 ## Using it
 
+The front page lists the tools and does nothing else. The generator is at `/site` and the dice
+table at `/dice`; nothing is the default, and the wordmark goes back to the list. Links shared
+before the generator moved off the root address now open the front page rather than the site they
+described — repaste them from `/site` if you still want them.
+
 Every field has a lock and a re-roll. Lock the ones you like and press **Roll a site** again: the
 locked fields stay put and everything else changes around them. Re-rolling a single field works on
 its own stream, so it cannot disturb anything else on the page.

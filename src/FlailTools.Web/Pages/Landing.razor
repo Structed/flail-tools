@@ -1,0 +1,32 @@
+@page "/"
+
+<PageTitle>@Ui.App.Title</PageTitle>
+
+<h1>@Ui.App.Title</h1>
+
+<p class="lede">@Ui.Message("landingLede")</p>
+
+<div class="tool-grid">
+    <article class="tool-card">
+        <h2>@Ui.Message("landingSiteTitle")</h2>
+        <p>@Ui.Message("landingSiteBody")</p>
+        <a class="button button-primary" href="site">@Ui.Action("generate")</a>
+    </article>
+
+    <article class="tool-card">
+        <h2>@Ui.Message("landingDiceTitle")</h2>
+        <p>@Ui.Message("landingDiceBody")</p>
+        <a class="button button-primary" href="dice">@Ui.Action("openDice")</a>
+    </article>
+</div>
+
+<p class="landing-about">
+    <a href="about">@Ui.Action("about")</a> — @Ui.Message("landingAboutBody")
+</p>
+
+@code {
+    [CascadingParameter]
+    public GameData Data { get; set; } = default!;
+
+    private UiText Ui => Data.Ui;
+}
