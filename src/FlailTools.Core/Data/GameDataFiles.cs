@@ -154,9 +154,13 @@ public sealed record HexLocationFile : DataFile
 /// </summary>
 /// <remarks>
 /// Its Biome, Condition, Key Feature and Occupant axes are kept on their own paths and their own
-/// tables rather than shared with <see cref="HexLocationFile"/>. Sharing would be convenient and is
-/// irreversible: once a path is published, discovering that the two generators want different rows
-/// cannot be fixed without orphaning every lock already saved.
+/// tables rather than shared with <see cref="HexLocationFile"/>. Condition and Key Feature have no
+/// row in common between the two in the book, and Occupant shares only its face-20 catch-all. Biome
+/// is a different matter: the book prints the same twenty rows in both tables, and that column is
+/// <em>copied</em> here rather than shared. Sharing it would be convenient and is irreversible — a
+/// lock stores a table position, so one shared path would let a Biome locked on a Landmark resolve
+/// against the Locations rows on switching kind, and unpicking that later cannot be done without
+/// orphaning every lock already saved.
 /// </remarks>
 public sealed record HexLandmarkFile : DataFile
 {

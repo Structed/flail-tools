@@ -2,7 +2,7 @@
   "_source": {
     "describes": "The hexcrawl Locations generator: FLAIL!'s five d20 axes.",
     "status": "Unofficial. Not affiliated with Games Omnivorous.",
-    "rationale": "FLAIL!'s own Locations table, reproduced in face order, which the Third-Party Licence permits. Kept on its own field paths rather than sharing Biome, Condition, Key Feature and Occupant with the Landmarks generator: the two differ row for row in the book, and once a path is published, discovering that cannot be fixed without orphaning every lock already saved against it. The Biome column repeats entries deliberately — the book spans each biome across two or four rows, so a d20 is weighted towards the commoner ones.",
+    "rationale": "FLAIL!'s own Locations table, reproduced in face order, which the Third-Party Licence permits. Kept on its own field paths rather than sharing Biome, Condition, Key Feature and Occupant with the Landmarks generator. Checked against the book, column by column: Condition and Key Feature have no row in common with the Landmarks table, Occupant shares only the face-20 catch-all, and Biome is identical throughout. The identical rows are copied here rather than shared, because a lock stores a table position and not a phrase — one shared path would let a Biome locked on a Landmark resolve, on switching to a Location, against whichever row sat at that index, with nothing on screen to show it. The Biome column repeats entries deliberately — the book spans each biome across two or four rows, so a d20 is weighted towards the commoner ones.",
     "work": "FLAIL!",
     "url": "https://gamesomnivorous.com/pages/flail",
     "licence": "Games Omnivorous Third-Party Licence",

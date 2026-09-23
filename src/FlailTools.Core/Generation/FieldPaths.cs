@@ -17,7 +17,9 @@ namespace FlailTools.Core.Generation;
 /// stores a table position rather than words, so if two different tables ever shared a path, a pin
 /// taken under one would resolve silently to an unrelated row of the other. That is why dungeons
 /// and caves have separate paths despite sharing all five axis names, and why the two hexcrawl
-/// generators do not share their Biome or Condition axes.
+/// generators do not share their Biome or Condition axes — not even Biome, whose twenty rows the
+/// book prints identically in both tables. Matching content is not a reason to merge two paths; it
+/// is the case where merging looks harmless and still breaks every lock that crosses the two kinds.
 /// </para>
 /// <para>
 /// Conventions: a subject gets a top-level prefix rather than a strict containment tree, which

@@ -149,7 +149,7 @@ public sealed class GameData
     /// <remarks>
     /// Structure is required; entries are not. A file may legitimately have an empty table — that is
     /// the state this project ships in first — but it may not name a kind that does not exist, leave
-    /// a kind undrawable, or give a six-face roll anything other than six outcomes.
+    /// a kind undrawable, or give a die roll anything other than one outcome per face.
     /// </remarks>
     public void Validate()
     {
@@ -233,6 +233,23 @@ public sealed class GameData
                 RequireFaces(DataPaths.Tower, $"floorDetails[{index}]", Tower.FloorDetails[index], 4);
             }
         }
+
+        // The ten hexcrawl axes are read by RollContext.Text, which picks uniformly over whatever
+        // length it is handed, so — unlike the cave and tower tables above — a short one would not
+        // fail, roll blank, or look wrong. It would quietly reweight the generator away from the
+        // book, and the Biome columns make that unreadable by eye: they repeat entries on purpose,
+        // spanning each biome across two or four faces, so a dropped row looks like the spans.
+        RequireFaces(DataPaths.Location, "locations", Location.Locations, 20);
+        RequireFaces(DataPaths.Location, "biomes", Location.Biomes, 20);
+        RequireFaces(DataPaths.Location, "conditions", Location.Conditions, 20);
+        RequireFaces(DataPaths.Location, "keyFeatures", Location.KeyFeatures, 20);
+        RequireFaces(DataPaths.Location, "occupants", Location.Occupants, 20);
+
+        RequireFaces(DataPaths.Landmark, "landmarks", Landmark.Landmarks, 20);
+        RequireFaces(DataPaths.Landmark, "biomes", Landmark.Biomes, 20);
+        RequireFaces(DataPaths.Landmark, "conditions", Landmark.Conditions, 20);
+        RequireFaces(DataPaths.Landmark, "keyFeatures", Landmark.KeyFeatures, 20);
+        RequireFaces(DataPaths.Landmark, "occupants", Landmark.Occupants, 20);
     }
 
     /// <summary>A table read by a die must have exactly one outcome per face, or none at all yet.</summary>
