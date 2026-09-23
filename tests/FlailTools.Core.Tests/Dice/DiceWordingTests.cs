@@ -1,5 +1,6 @@
 using FlailTools.Core.Data;
 using FlailTools.Core.Dice;
+using Structed.Inkwell.Dice;
 
 namespace FlailTools.Core.Tests.Dice;
 

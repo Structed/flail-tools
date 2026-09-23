@@ -1,15 +1,17 @@
 using System.Globalization;
+using Structed.Inkwell.Dice;
 
 namespace FlailTools.Core.Dice;
 
 /// <summary>
-/// The two rolls FLAIL! actually asks for, and what the dice mean when they land.
+/// The two rolls FLAIL! actually asks for, what the dice mean when they land, and the name this
+/// game answers to on the wire.
 /// </summary>
 /// <remarks>
 /// <para>
-/// Everything else under <c>Dice</c> is arithmetic and could belong to any game. This file is the
-/// one that knows which game it is playing, and if the rest of this ever moves to the shared engine,
-/// this is the file that stays behind.
+/// The arithmetic that used to sit beside this file now lives in <c>Structed.Inkwell</c>, where it
+/// is shared with other games. This is the file that stayed behind: the one that knows which game
+/// it is playing. Nothing else in this repository is allowed to, and a test says so.
 /// </para>
 /// <para>
 /// FLAIL! settles risky actions with a d20 rolled at or under an attribute, and fights with a pool
@@ -27,6 +29,22 @@ namespace FlailTools.Core.Dice;
 /// </remarks>
 public static class FlailRolls
 {
+    /// <summary>The name this app answers to when two browsers look for each other.</summary>
+    /// <remarks>
+    /// <para>
+    /// Load-bearing, and it does not look it. The channel namespaces its signalling by this string,
+    /// so two tables only meet if their app ids match exactly. Every table code anybody has written
+    /// on a character sheet was handed out under this one; change it and those codes stop finding
+    /// their tables, with no error at either end — the far side simply never arrives.
+    /// </para>
+    /// <para>
+    /// It reads like configuration and belongs with the rest of the transport, which is exactly why
+    /// it is kept here instead: this is the file that is allowed to know which game this is, and the
+    /// engine that does the connecting deliberately does not.
+    /// </para>
+    /// </remarks>
+    public const string PartyAppId = "structed-flail-tools-dice";
+
     /// <summary>Identifies the To Hit preset.</summary>
     public const string HitId = "hit";
 

@@ -1,4 +1,4 @@
-using FlailTools.Core.Party;
+using Structed.Inkwell.Party;
 
 namespace FlailTools.Core.Tests.Party;
 
