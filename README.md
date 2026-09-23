@@ -115,19 +115,26 @@ Worth knowing before you rely on it:
   browser says it is called. Two players may pick the same name, and the person who gave you the
   code could pick yours. The connection a message arrived on is what keeps the seats apart.
 
-The dice themselves are C# in `FlailTools.Core/Dice`, and the table in `FlailTools.Core/Party`;
-neither knows what a browser is, which is what makes them testable without one. The channel carries
-two kinds of message and no others — a roll, and a hail saying what a player is called — each with
-its own strict reader, because a channel that can only carry dice and names cannot be talked into
-carrying anything else. `party.js` opens the room and passes those as opaque strings. It has no
-vocabulary of its own — no dice, no FLAIL!, no wording — so the transport could be replaced without
-touching a rule.
+The dice themselves are C#, and no longer live here: they are
+[Structed.Inkwell](https://github.com/Structed/inkwell) — the notation, the reading and the poker
+hand in `Structed.Inkwell.Dice`, the table in `Structed.Inkwell.Party`, and the channel and its
+transport in `Structed.Inkwell.Party.Blazor`. Only the last of those knows what a browser is, which
+is what makes the rest testable without one. The channel carries two kinds of message and no
+others — a roll, and a hail saying what a player is called — each with its own strict reader,
+because a channel that can only carry dice and names cannot be talked into carrying anything else.
+`party.js` opens the room and passes those as opaque strings. It has no vocabulary of its own — no
+dice, no FLAIL!, no wording — so the transport could be replaced without touching a rule.
 
-`PortabilityTests` enforces that split: nothing in those two folders may reference the generator,
-the data loader or the site's model, and `FlailRolls.cs` is the single file allowed to know what
-game this is. That is the groundwork for lifting the dice and the table into
-[Structed.Inkwell](https://github.com/Structed/inkwell) once they have proven themselves here, so a
-sibling tool can share them.
+What the engine cannot supply is the app id. `structed-flail-tools-dice` namespaces the signalling,
+so a FLAIL! table and a table run by some other tool on the same relays never meet even if both
+happen to pick the same code. It is passed in from here, and it is load-bearing: change it and every
+code already written down stops finding the table it was written down for.
+
+`FlailRolls.cs` is what stayed behind — the two rolls FLAIL! actually asks for, and what the dice
+mean when they land. While the rest was still here, `PortabilityTests` enforced that it was the only
+file allowed to know what game this is; that rule was the groundwork for the lift, and now that the
+lift has happened the same test guards the other direction, so the extraction cannot quietly
+un-happen. The sibling Mausritter tool gets the same dice table by adding the same two packages.
 
 ## On content, and where the tables come from
 
@@ -213,21 +220,18 @@ CI runs the suite on Linux *and* Windows for the same reason.
 
 ### The vendored Trystero bundle
 
-`src/FlailTools.Web/wwwroot/js/party/trystero-nostr.js` is
-[Trystero](https://github.com/dmotz/trystero) 0.25.4, MIT licensed, committed verbatim rather than
-fetched from a CDN so the dice table keeps working when a CDN does not and nothing third-party can
-change under the page between sessions. It is marked `linguist-vendored` and pinned to LF.
-
-To refresh it, download
-`https://esm.sh/trystero@<version>/es2022/trystero.bundle.mjs`, replace everything below the banner
-comment, keep the banner, and check the bundle still declares no imports of its own. It is saved as
-`.js` and not `.mjs` because GitHub Pages serves `.mjs` with a MIME type browsers refuse to import.
+The dice table's transport is [Trystero](https://github.com/dmotz/trystero) 0.25.4, MIT licensed,
+committed verbatim rather than fetched from a CDN so the table keeps working when a CDN does not and
+nothing third-party can change under the page between sessions. It no longer lives in this
+repository: it is vendored in `Structed.Inkwell.Party.Blazor` and arrives as a static web asset at
+`_content/Structed.Inkwell.Party.Blazor/js/trystero-nostr.js`. The refresh procedure lives with it,
+in the banner at the top of the file, and so does the bump.
 
 Trystero's action API is settable properties rather than callbacks — `action.onMessage = handler`,
 `action.send(payload, { target })`, `room.onPeerJoin = handler` — and handlers are called with
 `(payload, { peerId })`. A version that changes this will break `party.js` loudly rather than
 quietly, but there are no unit tests behind that boundary, so the dice table wants opening in two
-browsers after any bump.
+browsers after any bump — including a bump of the package that carries it.
 
 ### Icon artwork
 
