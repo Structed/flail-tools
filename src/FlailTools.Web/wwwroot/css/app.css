@@ -391,6 +391,39 @@ select:hover {
     color: var(--ink-soft);
 }
 
+/* The Games Omnivorous compatibility badge, which section 1 of the licence requires and forbids
+   altering. Only the height is set, so the browser derives the width from the file's own 564:511 —
+   a second dimension here is all it would take to squash a mark we are not allowed to change, and
+   it would look like a typo rather than a licence breach. The file itself is pinned by checksum in
+   ArtworkTests; this rule is the other half of leaving it alone.
+
+   The logo is a lead-in, not a stamp: it ends in the words "SWINGS HARD WITH", set low inside its
+   frame, and the product name finishes the sentence. So the two are aligned on that bottom line
+   rather than centred on the block, and the padding is what drops the name onto the same optical
+   baseline as the logo's own last row of type. */
+
+.compat-badge {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.6rem;
+    margin: 0 0 0.9rem;
+}
+
+.compat-logo {
+    height: 3rem;
+    width: auto;
+    max-width: 100%;
+}
+
+.compat-name {
+    padding-bottom: 0.27rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+}
+
 /* The dice table. Rolls are read at a glance, across the room, by somebody who is also holding a
    character sheet — so the faces are large, the dropped ones are dimmed rather than hidden, and the
    reading gets a line of its own rather than being tucked beside the total. */

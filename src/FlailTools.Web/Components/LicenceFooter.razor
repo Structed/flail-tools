@@ -1,12 +1,25 @@
 @*
-    The licence's two notices, verbatim, on every page.
+    The licence's two notices, verbatim, on every page — and the compatibility logo beside them.
 
-    They are required to appear on the tool itself and not only in the repository, so they live in
-    the layout rather than on the about page. The markup comes from ui.json but the words are
+    The notices are required to appear on the tool itself and not only in the repository, so they
+    live in the layout rather than on the about page. The markup comes from ui.json but the words are
     checked against Attribution in a test, so a future translation cannot quietly replace them.
+
+    The badge is here for the same reason and under the same licence. Section 1 requires the
+    compatibility logo Games Omnivorous publish, unaltered; it is a lead-in rather than a stamp,
+    reading "FLAIL swings hard with", so the product name is set beside it as real text and the two
+    are wrapped together so a line break cannot strand the phrase. The logo is not a link: the notice
+    below it already points at the licence, and an anchor on a publisher's mark leans towards
+    suggesting a relationship that same section forbids implying.
 *@
 
 <footer class="colophon">
+    <p class="compat-badge">
+        <img class="compat-logo" src="flail-compatible-logo.png" alt="@CompatibleAlt"
+             width="564" height="511" />
+        <span class="compat-name">@CompatibleWith</span>
+    </p>
+
     @if (Data is null)
     {
         <p class="notice-line">@Attribution.PlainText(Attribution.IndependentNotice)</p>
@@ -23,4 +36,10 @@
     /// <summary><c>null</c> until the files load, which must not delay the notices.</summary>
     [Parameter]
     public GameData? Data { get; set; }
+
+    private string CompatibleAlt =>
+        Data?.Ui.Licence.CompatibleAlt is { Length: > 0 } text ? text : "FLAIL swings hard with";
+
+    private string CompatibleWith =>
+        Data?.Ui.Licence.CompatibleWith is { Length: > 0 } text ? text : "FLAIL! Tools";
 }
