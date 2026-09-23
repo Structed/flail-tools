@@ -1,4 +1,5 @@
 using System.Buffers.Binary;
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
@@ -214,5 +215,56 @@ public sealed class ArtworkTests
 
         Assert.False(string.IsNullOrWhiteSpace(rule), "The compatibility logo needs a .compat-logo rule.");
         Assert.Matches(@"(?<!max-)width\s*:\s*auto\s*;", rule);
+    }
+
+    /// <summary>
+    /// The badge must be big enough to read the half of its sentence that is inside the picture.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The logo is a lead-in ending in "SWINGS HARD WITH", and the product name beside it finishes
+    /// the thought. That only works if both halves can be read as one line — but the phrase is a
+    /// small part of a picture that is mostly flail. Its capitals occupy rows 402-445 of the file's
+    /// 511, measured off the PNG, so they come out at 8.61% of whatever height the stylesheet sets.
+    /// </para>
+    /// <para>
+    /// At the 3rem this badge first shipped at, that is 4.1px of capital standing next to an 11px
+    /// product name: the logo's own words were a smudge, the sentence could not be read, and no
+    /// test minded. Shrinking a logo is exactly the sort of tidy-up that looks harmless in a diff,
+    /// so the floor is held here instead — the words inside the picture may not come out smaller
+    /// than the capitals of the name they run into.
+    /// </para>
+    /// </remarks>
+    [Fact]
+    public void TheLogoIsLargeEnoughToReadTheWordsInsideIt()
+    {
+        const double PhraseShareOfHeight = 44.0 / 511.0;
+        const double CapHeightOfFontSize = 0.7;
+
+        string css = File.ReadAllText(Path.Combine(WebRoot, "css", "app.css"));
+        string rule = Regex.Match(css, @"\.compat-logo\s*\{(?<body>[^}]*)\}").Groups["body"].Value;
+
+        Assert.Contains("var(--compat-logo-height)", rule, StringComparison.Ordinal);
+
+        double phraseCaps = RemValue(css, @"--compat-logo-height\s*:\s*(?<rem>[\d.]+)rem") * PhraseShareOfHeight;
+        double nameCaps = RemValue(css, @"\.compat-name\s*\{[^}]*?font-size\s*:\s*(?<rem>[\d.]+)rem") * CapHeightOfFontSize;
+
+        Assert.True(
+            phraseCaps >= nameCaps * 0.9,
+            string.Create(
+                CultureInfo.InvariantCulture,
+                $"The logo would render its own words at {phraseCaps * 16:0.0}px beside a " +
+                $"{nameCaps * 16:0.0}px product name, so the badge no longer reads as one sentence. " +
+                $"Raise --compat-logo-height rather than relaxing this."));
+    }
+
+    /// <summary>Reads a single <c>rem</c> measurement out of the stylesheet.</summary>
+    private static double RemValue(string css, string pattern)
+    {
+        Match match = Regex.Match(css, pattern, RegexOptions.Singleline);
+
+        Assert.True(match.Success, $"app.css no longer declares a value matching {pattern}.");
+
+        return double.Parse(match.Groups["rem"].Value, CultureInfo.InvariantCulture);
     }
 }

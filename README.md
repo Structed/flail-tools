@@ -12,7 +12,7 @@ machine.
 > FLAIL is copyright of Games Omnivorous.
 
 <p>
-  <img src="src/FlailTools.Web/wwwroot/flail-compatible-logo.png" alt="FLAIL swings hard with" height="52" align="middle">
+  <img src="src/FlailTools.Web/wwwroot/flail-compatible-logo.png" alt="FLAIL swings hard with" height="128" align="bottom">
   <strong>FLAIL! Tools</strong>
 </p>
 
