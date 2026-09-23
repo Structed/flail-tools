@@ -224,6 +224,19 @@ public sealed class GameData
         RequireFaces(DataPaths.Tower, "floorTypes", Tower.FloorTypes, 6);
         RequireFaces(DataPaths.Tower, "topFloorTypes", Tower.TopFloorTypes, 4);
 
+        // A chamber face either carries the book's d4 or carries nothing, so an empty row here means
+        // "this face has no second roll" rather than "not written yet". Both read as zero, which is
+        // why the outer count is checked: four rows would silently unpair the two that do have one.
+        if (Cave.ChamberDetails.Count is not 0)
+        {
+            RequireFaces(DataPaths.Cave, "chamberDetails", Cave.ChamberDetails, 6);
+
+            for (int index = 0; index < Cave.ChamberDetails.Count; index++)
+            {
+                RequireFaces(DataPaths.Cave, $"chamberDetails[{index}]", Cave.ChamberDetails[index], 4);
+            }
+        }
+
         if (Tower.FloorDetails.Count is not 0)
         {
             RequireFaces(DataPaths.Tower, "floorDetails", Tower.FloorDetails, 6);
