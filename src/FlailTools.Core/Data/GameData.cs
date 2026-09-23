@@ -149,7 +149,8 @@ public sealed class GameData
     /// <remarks>
     /// Structure is required; entries are not. A file may legitimately have an empty table — that is
     /// the state this project ships in first — but it may not name a kind that does not exist, leave
-    /// a kind undrawable, or give a die roll anything other than one outcome per face.
+    /// a kind undrawable, give a die roll anything other than one outcome per face, or hand a
+    /// checklist a length the book does not print.
     /// </remarks>
     public void Validate()
     {
@@ -220,6 +221,18 @@ public sealed class GameData
             }
         }
 
+        // The dungeon axes are read by RollContext.Text rather than by a die, so — like the
+        // hexcrawl tables below — a short one would not throw, would not roll blank, and would not
+        // look wrong on screen. It would quietly reweight the generator away from the page. The
+        // book prints six rows per column and says to roll d6 on each, so six is the shape.
+        RequireFaces(DataPaths.Dungeon, "flavours", Dungeon.Flavours, 6);
+        RequireFaces(DataPaths.Dungeon, "types", Dungeon.Types, 6);
+        RequireFaces(DataPaths.Dungeon, "locations", Dungeon.Locations, 6);
+        RequireFaces(DataPaths.Dungeon, "keyFeatures", Dungeon.KeyFeatures, 6);
+        RequireFaces(DataPaths.Dungeon, "creatures", Dungeon.Creatures, 6);
+
+        RequireChecklist(DataPaths.Dungeon, "stocking", Dungeon.Stocking, 9);
+
         RequireFaces(DataPaths.Cave, "chambers", Cave.Chambers, 6);
         RequireFaces(DataPaths.Tower, "floorTypes", Tower.FloorTypes, 6);
         RequireFaces(DataPaths.Tower, "topFloorTypes", Tower.TopFloorTypes, 4);
@@ -273,6 +286,27 @@ public sealed class GameData
             throw new GameDataException(
                 $"'{file}' gives '{table}' {rows.Count} entries, but it is read by a d{faces} and so " +
                 $"needs exactly {faces}.");
+        }
+    }
+
+    /// <summary>
+    /// A checklist is picked across rather than rolled on, and is held to its own length.
+    /// </summary>
+    /// <remarks>
+    /// Kept separate from <see cref="RequireFaces"/> because here the wording matters more than the
+    /// arithmetic. FLAIL! gives nine keying concepts to choose from, not one outcome per face, so a
+    /// message ending "it is read by a d9" would be untrue and would invite the one edit this guard
+    /// exists to stop: trimming nine rows to six because six is what the columns beside it hold.
+    /// Rolling a d6 over the nine is silent — the first six read perfectly and the last three simply
+    /// never come up — so the message names the checklist instead of a die.
+    /// </remarks>
+    private static void RequireChecklist<T>(string file, string table, IReadOnlyList<T> rows, int concepts)
+    {
+        if (rows.Count is not 0 && rows.Count != concepts)
+        {
+            throw new GameDataException(
+                $"'{file}' gives '{table}' {rows.Count} entries, but it is a checklist of {concepts} " +
+                $"concepts picked across rather than a table rolled on, so it needs exactly {concepts}.");
         }
     }
 
