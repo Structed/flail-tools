@@ -26,9 +26,9 @@ FLAIL! calls them Adventure Sites, and there are five sorts:
 | Landmark | d20 | Landmark · Biome · Condition · Key Feature · Occupant |
 
 Dungeons are stocked room by room on a d6 and keyed from the entrance to the final area. Towers are
-a stack of d6s with a d4 balanced on top, each die a floor. Caves are a handful of dice dropped on
-a page: the one nearest the edge is the way in, the one nearest the middle is the heart of it, and
-anything that bounces off the paper has to be reached some other way.
+a stack of four to six d6s with a d4 balanced on top, each die a floor. Caves are a handful of dice
+dropped on a page: the one nearest the edge is the way in, the one nearest the middle is the heart
+of it, and anything that bounces off the paper has to be reached some other way.
 
 ## Using it
 
