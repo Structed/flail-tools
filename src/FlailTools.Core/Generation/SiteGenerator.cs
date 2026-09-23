@@ -212,16 +212,26 @@ public static class SiteGenerator
     }
 
     /// <summary>
-    /// A stack of d6s with a d4 balanced on top, each face the floor it stands for.
+    /// A stack of four to six d6s with a d4 balanced on top, each face the floor it stands for.
     /// </summary>
     /// <remarks>
+    /// <para>
     /// The d4 is the top floor and reads from its own four-row table, which is the whole reason the
     /// top floor of a wizard's tower is never merely another storey. Every floor below it is two
     /// rolls, as the book has it: the d6 says what kind of room it is, then a d4 says which one.
+    /// </para>
+    /// <para>
+    /// The stack is <em>four to six</em> d6s, because that is the handful the book asks for, and the
+    /// d4 stands on top of them — so a tower is five to seven floors, never fewer. This used to be
+    /// <c>2 + d4</c> floors in total, which quietly built two-storey wizard towers the book's dice
+    /// cannot produce. A reader choosing "how many levels you want" is the one judgement the tool
+    /// has to make for them, so it is a d3 over the three heights the book offers rather than a
+    /// fixed one.
+    /// </para>
     /// </remarks>
     private static IReadOnlyList<SiteArea> BuildTowerFloors(GameData data, RollContext roll)
     {
-        int count = 2 + roll.Dice(FieldPaths.TowerFloorCount).Roll(4);
+        int count = 4 + roll.Dice(FieldPaths.TowerFloorCount).Roll(3);
         List<SiteArea> floors = new(count);
 
         for (int index = 0; index < count; index++)
@@ -270,11 +280,19 @@ public static class SiteGenerator
     }
 
     /// <summary>How big to draw the place, from what its own procedure already decided.</summary>
+    /// <remarks>
+    /// Each kind divides its own count down into the same 2-6 band, so that a big cave and a big
+    /// dungeon are drawn alike rather than at the mercy of how many parts their procedures happen
+    /// to produce. A tower subtracts rather than divides because its range is narrow. It used to
+    /// pass its floor count straight through, which worked only while a tower was three to six
+    /// floors; once it became the book's five to seven the clamp started biting and two thirds of
+    /// all towers were drawn at the same maximum size.
+    /// </remarks>
     private static int ScaleFor(string kind, int areaCount) => kind switch
     {
         SiteKinds.Dungeon => Math.Clamp((areaCount / 3) + 1, 2, 6),
         SiteKinds.Cave => Math.Clamp((areaCount / 2) + 1, 2, 6),
-        SiteKinds.Tower => Math.Clamp(areaCount, 2, 6),
+        SiteKinds.Tower => Math.Clamp(areaCount - 2, 2, 6),
         SiteKinds.Location => 3,
         SiteKinds.Landmark => 2,
         _ => 3

@@ -199,17 +199,21 @@ area	7	entry	cave/chamber/6/chamber	#2	Obstacle: roll or choose a fitting dungeo
 area	8	plain	cave/chamber/7/chamber	#0	Treasure: buried chest, weapons cache, spellbook or Unique Item
 == tower 1
 name	Hungry Wake
-silhouette	boxy-compact	boxy	dry	3
+silhouette	boxy-compact	boxy	dry	5
 field	tower/shape	#3	Forsaken Lighthouse
 field	tower/occupant	#9	Geomancer
 field	tower/reaction	#2	Befriend characters
 field	tower/goal	#2	Open portal
 area	1	plain	tower/floor/0/type	#2	Lab: potions brewery
 area	2	plain	tower/floor/1/type	#0	Chamber: shrine
-area	3	top	tower/floor/2/type	#1	Meditation pod
+area	3	plain	tower/floor/2/type	#1	Hall: dining hall
+area	4	plain	tower/floor/3/type	#1	Hall: dining hall
+area	5	plain	tower/floor/4/type	#4	Gallery: trophies
+area	6	plain	tower/floor/5/type	#3	Library: occult tomes
+area	7	top	tower/floor/6/type	#1	Meditation pod
 == tower 7
 name	Ashen Lull
-silhouette	vessel-tall	vessel	dry	6
+silhouette	vessel-tall	vessel	dry	4
 field	tower/shape	#8	Stonework Tower
 field	tower/occupant	#9	Geomancer
 field	tower/reaction	#9	Steal characters
@@ -222,17 +226,20 @@ area	5	plain	tower/floor/4/type	#2	Lab: medicine lab
 area	6	top	tower/floor/5/type	#0	Astronomical observatory
 == tower 42
 name	Amber Heart
-silhouette	vessel-tall	vessel	dry	3
+silhouette	vessel-tall	vessel	dry	4
 field	tower/shape	#2	Arcane Obelisk
 field	tower/occupant	#9	Geomancer
 field	tower/reaction	#6	Imprison characters
 field	tower/goal	#1	Raise army
 area	1	plain	tower/floor/0/type	#2	Lab: construct workshop
 area	2	plain	tower/floor/1/type	#5	Leisure: arboretum
-area	3	top	tower/floor/2/type	#3	Eldritch lookout
+area	3	plain	tower/floor/2/type	#5	Leisure: reptilarium
+area	4	plain	tower/floor/3/type	#1	Hall: dining hall
+area	5	plain	tower/floor/4/type	#0	Chamber: bedroom
+area	6	top	tower/floor/5/type	#2	Light-prism beacon
 == tower 1337
 name	Ivory Shiver
-silhouette	vessel-moated	vessel	water	5
+silhouette	vessel-moated	vessel	water	4
 field	tower/shape	#4	Hollow Tree
 field	tower/occupant	#2	Conjurer
 field	tower/reaction	#5	Lure characters
@@ -241,10 +248,11 @@ area	1	plain	tower/floor/0/type	#3	Library: weird inventions
 area	2	plain	tower/floor/1/type	#5	Leisure: reptilarium
 area	3	plain	tower/floor/2/type	#4	Gallery: cabinet of curiosities
 area	4	plain	tower/floor/3/type	#2	Lab: potions brewery
-area	5	top	tower/floor/4/type	#0	Astronomical observatory
+area	5	plain	tower/floor/4/type	#4	Gallery: cabinet of curiosities
+area	6	top	tower/floor/5/type	#2	Light-prism beacon
 == tower 65535
 name	Hollow Mark
-silhouette	boxy-compact	boxy	dry	6
+silhouette	boxy-compact	boxy	dry	3
 field	tower/shape	#5	Twisted Spire
 field	tower/occupant	#6	Sorcerer
 field	tower/reaction	#4	Help characters
@@ -253,8 +261,7 @@ area	1	plain	tower/floor/0/type	#3	Library: spellbooks
 area	2	plain	tower/floor/1/type	#3	Library: cookbooks
 area	3	plain	tower/floor/2/type	#5	Leisure: music chamber
 area	4	plain	tower/floor/3/type	#5	Leisure: reptilarium
-area	5	plain	tower/floor/4/type	#1	Hall: armoury
-area	6	top	tower/floor/5/type	#3	Eldritch lookout
+area	5	top	tower/floor/4/type	#3	Eldritch lookout
 == tower 2147483647
 name	Blind Eye
 silhouette	vessel-tall	vessel	dry	5
@@ -266,7 +273,9 @@ area	1	plain	tower/floor/0/type	#3	Library: cookbooks
 area	2	plain	tower/floor/1/type	#3	Library: occult tomes
 area	3	plain	tower/floor/2/type	#2	Lab: potions brewery
 area	4	plain	tower/floor/3/type	#0	Chamber: shrine
-area	5	top	tower/floor/4/type	#3	Eldritch lookout
+area	5	plain	tower/floor/4/type	#3	Library: spellbooks
+area	6	plain	tower/floor/5/type	#1	Hall: dining hall
+area	7	top	tower/floor/6/type	#0	Astronomical observatory
 == location 1
 name	Hungry Wake
 silhouette	linear-channel	linear	water	3

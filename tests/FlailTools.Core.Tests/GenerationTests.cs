@@ -110,6 +110,14 @@ public sealed class GenerationTests
         }
     }
 
+    /// <summary>
+    /// A tower is the book's handful of d6s with a d4 on top, so it is never a two-storey cottage.
+    /// </summary>
+    /// <remarks>
+    /// The range is pinned at both ends because only one end is obvious. A tower that grew too tall
+    /// would be noticed the moment anybody read one; a tower one floor too short reads perfectly
+    /// well and simply is not the tower the book's dice build.
+    /// </remarks>
     [Fact]
     public async Task ATowerIsAStackOfFloorsWithADifferentOneOnTop()
     {
@@ -119,9 +127,80 @@ public sealed class GenerationTests
         {
             AdventureSite site = SiteGenerator.Generate(data, new SitePlan { Seed = seed, Kind = SiteKinds.Tower });
 
-            Assert.InRange(site.Areas.Count, 3, 6);
+            Assert.InRange(site.Areas.Count, 5, 7);
+            Assert.InRange(site.Areas.Count - 1, 4, 6);
             Assert.Equal(AreaRoles.Top, site.Areas[^1].Role);
             Assert.All(site.Areas.Take(site.Areas.Count - 1), floor => Assert.Equal(AreaRoles.Plain, floor.Role));
+        }
+    }
+
+    /// <summary>
+    /// Every floor below the top names one of the four details belonging to its own kind of room.
+    /// </summary>
+    /// <remarks>
+    /// <c>floorDetails</c> row <em>n</em> is only meaningful beside <c>floorTypes</c> face <em>n</em>,
+    /// and nothing about a mismatch looks wrong: swap two rows and a library is stocked with a
+    /// laboratory's four options, which reads as a perfectly plausible tower and passes every other
+    /// test in the repository. So the pairing is checked on generated towers rather than in the file,
+    /// where the alignment is an assumption rather than a fact.
+    /// </remarks>
+    [Fact]
+    public async Task EveryFloorsDetailBelongsToItsOwnKindOfRoom()
+    {
+        GameData data = await TestData.LoadAsync();
+
+        for (uint seed = 1; seed <= 60; seed++)
+        {
+            AdventureSite site = SiteGenerator.Generate(data, new SitePlan { Seed = seed, Kind = SiteKinds.Tower });
+
+            foreach (SiteArea floor in site.Areas.Take(site.Areas.Count - 1))
+            {
+                string[] parts = floor.Value.Split(": ", 2, StringSplitOptions.None);
+
+                Assert.Equal(2, parts.Length);
+
+                int face = data.Tower.FloorTypes
+                    .Select((type, index) => (type, index))
+                    .Single(row => row.type == parts[0])
+                    .index;
+
+                Assert.Contains(parts[1], data.Tower.FloorDetails[face], StringComparer.Ordinal);
+            }
+
+            Assert.Contains(site.Areas[^1].Value, data.Tower.TopFloorTypes, StringComparer.Ordinal);
+        }
+    }
+
+    /// <summary>
+    /// Every kind is drawn somewhere inside the map's band, and no kind pins itself to one end.
+    /// </summary>
+    /// <remarks>
+    /// Scale is derived from a count, so widening a procedure can push it against the clamp without
+    /// any test noticing: the maps still draw, they just all come out the same size. That is what
+    /// happened to towers when the stack grew to the book's five to seven floors, so the spread is
+    /// checked rather than only the bounds.
+    /// </remarks>
+    [Fact]
+    public async Task NoKindWithAVaryingSizeIsAlwaysDrawnAtTheSameScale()
+    {
+        GameData data = await TestData.LoadAsync();
+
+        foreach (string kind in new[] { SiteKinds.Dungeon, SiteKinds.Cave, SiteKinds.Tower })
+        {
+            HashSet<int> scales = [];
+
+            for (uint seed = 1; seed <= 60; seed++)
+            {
+                AdventureSite site = SiteGenerator.Generate(data, new SitePlan { Seed = seed, Kind = kind });
+
+                Assert.InRange(site.Scale, 2, 6);
+                scales.Add(site.Scale);
+            }
+
+            Assert.True(
+                scales.Count >= 3,
+                $"Across 60 seeds a {kind} was only ever drawn at {scales.Count} distinct scale(s): " +
+                $"{string.Join(", ", scales.Order())}.");
         }
     }
 
