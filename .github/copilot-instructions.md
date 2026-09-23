@@ -54,11 +54,10 @@ reader who still needs the book.
 
 ```
 src/FlailTools.Core/      generation, data, dice, mapping, serialisation — all the logic
-  Dice/  Party/           portable: see "The portability rule" below
+  Dice/FlailRolls.cs      the only file here that knows which game this is; the rest was extracted
 src/FlailTools.Web/       Blazor WebAssembly, a thin layer over Core
   wwwroot/data/house/     the tables: FLAIL!'s for the five generators, ours for names and maps
   wwwroot/data/ui.json    every word the interface says that is not a table entry
-  wwwroot/js/party/       the WebRTC transport, and a vendored Trystero bundle
 tests/FlailTools.Core.Tests/
 ```
 
@@ -66,8 +65,11 @@ Generation logic lives in Core and **never** in a `.razor` file, so it can be te
 browser.
 
 The seeded generator engine is [Structed.Inkwell](https://github.com/Structed/inkwell), consumed as
-a NuGet package. If something needs to change in the engine, it changes *there* and ships as a new
-version rather than being bent around a FLAIL! problem.
+a NuGet package, and so is the shared dice table — `Structed.Inkwell.Dice` and
+`Structed.Inkwell.Party` for the rolls and the table, `Structed.Inkwell.Party.Blazor` for the
+channel and the WebRTC transport, which arrives as a static web asset rather than as a file here. If
+something needs to change in any of it, it changes *there* and ships as a new version rather than
+being bent around a FLAIL! problem.
 
 ## Build, test, run
 
@@ -96,7 +98,7 @@ read what it is protecting before changing anything — the fix is almost never 
 | Test | What it protects |
 | --- | --- |
 | `ProvenanceTests` | Only the five generator tables may name FLAIL! as their source; no other file may start to. Every data file needs a complete `_source`, lives under `house/`, and must be one the app actually loads. |
-| `PortabilityTests` | `Core/Dice` and `Core/Party` must not reference the rest of Core. See below. |
+| `PortabilityTests` | The extraction of the dice table into Inkwell has not quietly un-happened. See below. |
 | `AttributionTests` | The rendered interface, `README.md` and `NOTICE.md` all still carry both notices **verbatim**, once markup is stripped. |
 | `GoldenBaselineTests` | Six fixed seeds across every site kind still produce byte-identical output. |
 | `FieldPathTests` | The inventory of field paths has not changed. A path seeds its own roll stream *and* keys a lock, so renaming one changes what old seeds produce and orphans every saved lock — with no error at either end. |
@@ -105,18 +107,32 @@ read what it is protecting before changing anything — the fix is almost never 
 | `SiteNameTests` | Name tables stay large, distinct, and joinable into short names. |
 | `JsonDefaultsTests` | The `System.Text.Json` source generator discards property initialisers, so every non-nullable property must coerce in its **getter**. Easy to forget on the next property added. |
 | `ArtworkTests` | The icons and sharing card are PNGs at their declared sizes, linked relative to the deployment base, with absolute public URLs and the unofficial labelling intact. |
+| `WireFormatTests` | The exact bytes one browser says to another, in both directions, plus the table code's alphabet and the protocol versions. Every round trip changes both ends at once, so nothing else notices when the spelling on the wire moves — the people it breaks are the player who has not reloaded and the player on yesterday's deployment. |
 
-### The portability rule
+### The portability rule, and what became of it
 
-Nothing in `src/FlailTools.Core/Dice` or `src/FlailTools.Core/Party` may mention
-`FlailTools.Core.Data`, `.Generation`, `.Mapping`, `.Model` or `.Serialization` — not even in an
-unused `using`. That code is meant to move into the shared engine one day, and the thing that turns
-a cheap move into a rewrite is one innocent import added months from now by somebody who just needed
-a bit of wording.
+`Core/Dice`, `Core/Party` and the channel were written here under a rule that they must not
+reference the rest of Core, because they were always meant to move into the shared engine and the
+thing that turns a cheap move into a rewrite is one innocent import added months later by somebody
+who just needed a bit of wording. They have now moved: they are
+`Structed.Inkwell.Dice`, `Structed.Inkwell.Party` and `Structed.Inkwell.Party.Blazor`, and
+[mausritter-tools](https://github.com/structed/mausritter-tools) sits at the same table.
+
+So the rule is inverted rather than retired, and `PortabilityTests` now enforces the new one:
+`Core/Dice` holds `FlailRolls.cs` and nothing else, there is no `Core/Party`, and nobody re-grows a
+local copy of either. Reach for the package.
 
 `Dice/FlailRolls.cs` is the **single** file allowed to know which game this is, and it must stay
 under 130 lines of code. If the presets grow into a rules engine, that is a conversation to have,
 not a limit to raise.
+
+Two values crossing that boundary are load-bearing, and neither of them looks it:
+
+- The **app id** `structed-flail-tools-dice`, passed to the channel from `Dice.razor`. It namespaces
+  the signalling. Change it and every table code already written down stops finding its table.
+- The **wire format** — `RollMessage`, `Hail`, and the table code alphabet. A player on the deployed
+  build and a player on a local one must be able to sit at the same table, so a package bump that
+  changes any of it has to be a deliberate act. `WireFormatTests` is where it becomes one.
 
 ## Data tables
 
@@ -178,7 +194,7 @@ distinct, non-blank entries per table and every joined name at 32 characters or 
   and usually with the incident that caused it. That is the house style, not decoration. A rule
   written where it fails loudly beats a rule in a document nobody rereads.
 - Tests are named as sentences describing the rule they protect
-  (`TheDiceAndPartyCodeKnowsNothingAboutThisGame`), and their failure messages tell the reader what
+  (`ARollIsWrittenExactlyLikeThis`), and their failure messages tell the reader what
   to do next.
 - No interface wording is hard-coded in a `.razor` file. It goes in `ui.json` and is asked for by
   key.
@@ -186,9 +202,10 @@ distinct, non-blank entries per table and every joined name at 32 characters or 
 
 ## Files that need special care
 
-- **`wwwroot/js/party/trystero-nostr.js`** — Trystero 0.25.4, MIT, vendored verbatim and pinned to
-  LF. Refresh it by the procedure in its banner, keeping the banner. There are no unit tests behind
-  that boundary, so open the dice table in two browsers after any bump.
+- **The dice table's transport** — Trystero 0.25.4, MIT, vendored verbatim in
+  `Structed.Inkwell.Party.Blazor` and served from `_content/`. It is bumped over there, not here.
+  There are no unit tests behind that boundary, so open the dice table in two browsers after any
+  bump of that package.
 - **`tests/FlailTools.Core.Tests/Fixtures/*.txt`** — pinned to LF in `.gitattributes`. Leave them
   that way.
 - **`wwwroot/index.html`** — sharing metadata lives here, in static HTML, so crawlers need not run
@@ -213,5 +230,6 @@ Work on a feature branch and open a pull request. **Never commit or push to `mai
 - Reword, shorten or translate the two licence notices.
 - Copy the book's prose, descriptions, adventure text or artwork into this repository.
 - Add a Games Omnivorous logo from anywhere but Games Omnivorous.
-- Give `Core/Dice` or `Core/Party` a dependency on the rest of Core.
+- Re-grow a local copy of the dice, the table or the channel; they come from Inkwell now.
+- Change the app id, the wire format or the table code alphabet without meaning to split a table.
 - Put generation logic in a `.razor` file, or an English sentence anywhere but `ui.json`.

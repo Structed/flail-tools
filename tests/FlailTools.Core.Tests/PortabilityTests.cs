@@ -1,35 +1,29 @@
 namespace FlailTools.Core.Tests;
 
 /// <summary>
-/// The dice and party code is meant to move house one day, so it must not put down roots.
+/// The dice, the table and the channel have moved out. This is the test that stops them moving back.
 /// </summary>
 /// <remarks>
 /// <para>
-/// This tool and the Mausritter one both want a shared dice table, and the plan is to build it here,
-/// prove it at a real table, and then lift it into the shared engine. That only stays cheap if the
-/// lift is a move rather than a rewrite — and the thing that quietly makes it a rewrite is one
-/// innocent <c>using FlailTools.Core.Data;</c> added months from now by somebody who just needed a
-/// bit of wording.
+/// They were built here, proved at a real table, and then lifted into <c>Structed.Inkwell</c> so the
+/// Mausritter tool could have the same table without a second implementation of it. The lift was
+/// cheap because the code had been kept free of this repository's furniture from the start; what
+/// makes it expensive to keep is the opposite pressure. A roll needs one more field, the package is
+/// not cut yet, and the quickest way forward is a small local copy "just for now".
 /// </para>
 /// <para>
-/// So the rule is written down here, where it fails loudly, instead of in a document nobody rereads.
-/// Reading the source text rather than the compiled types is deliberate: a <c>using</c> that is
-/// there but unused still signals the intent to reach for this tool's furniture, and catching it at
-/// that point is kinder than catching it after the dependency is load-bearing.
+/// A local copy does not announce itself. Both versions compile, both look right, and the two
+/// implementations drift until one browser is saying something the other cannot read — which the
+/// people at the table experience as the dice table silently not working with a friend. So the rule
+/// is written down here, where it fails loudly: the engine's, or nobody's.
+/// </para>
+/// <para>
+/// Reading the file system rather than the compiled types is deliberate. A file that merely
+/// <em>exists</em> is the whole problem, whether or not anything references it yet.
 /// </para>
 /// </remarks>
 public sealed class PortabilityTests
 {
-    /// <summary>The namespaces the portable code may not reach into.</summary>
-    private static readonly string[] Forbidden =
-    [
-        "FlailTools.Core.Data",
-        "FlailTools.Core.Generation",
-        "FlailTools.Core.Mapping",
-        "FlailTools.Core.Model",
-        "FlailTools.Core.Serialization"
-    ];
-
     /// <summary>
     /// The one file that is allowed to know which game it is playing.
     /// </summary>
@@ -39,50 +33,88 @@ public sealed class PortabilityTests
     /// </remarks>
     private const string StaysBehind = "FlailRolls.cs";
 
-    public static TheoryData<string> PortableSources
+    /// <summary>
+    /// Nothing but the FLAIL!-specific presets may live under <c>Dice</c> any more.
+    /// </summary>
+    /// <remarks>
+    /// The rest of what used to be here is <c>Structed.Inkwell.Dice</c>. A new file appearing beside
+    /// this one is either game-specific — in which case it belongs to the constant above, and to a
+    /// conversation about whether two files still counts as "the file that stays behind" — or it is
+    /// engine work that has been started in the wrong repository.
+    /// </remarks>
+    [Fact]
+    public void OnlyTheGameSpecificFileIsLeftUnderDice()
     {
-        get
-        {
-            TheoryData<string> sources = [];
+        string root = Path.Combine(TestData.RepositoryRoot, "src", "FlailTools.Core", "Dice");
 
-            foreach (string folder in new[] { "Dice", "Party" })
-            {
-                string root = Path.Combine(TestData.RepositoryRoot, "src", "FlailTools.Core", folder);
+        string[] strays = [.. Directory.EnumerateFiles(root, "*.cs", SearchOption.AllDirectories)
+            .Select(path => Path.GetFileName(path))
+            .Where(name => !string.Equals(name, StaysBehind, StringComparison.Ordinal))];
 
-                foreach (string path in Directory.EnumerateFiles(root, "*.cs", SearchOption.AllDirectories))
-                {
-                    sources.Add(Path.GetRelativePath(TestData.RepositoryRoot, path));
-                }
-            }
-
-            return sources;
-        }
-    }
-
-    [Theory]
-    [MemberData(nameof(PortableSources))]
-    public void TheDiceAndPartyCodeKnowsNothingAboutThisGame(string relativePath)
-    {
-        if (Path.GetFileName(relativePath) == StaysBehind)
-        {
-            return;
-        }
-
-        string source = File.ReadAllText(Path.Combine(TestData.RepositoryRoot, relativePath));
-
-        foreach (string forbidden in Forbidden)
-        {
-            Assert.DoesNotContain(forbidden, source, StringComparison.Ordinal);
-        }
+        Assert.True(
+            strays.Length == 0,
+            $"The dice live in Structed.Inkwell.Dice now. Found here as well: {string.Join(", ", strays)}.");
     }
 
     /// <summary>
-    /// The game-specific file has to stay small enough to be worth leaving behind.
+    /// The party code is gone from both projects, and so is the transport it talked through.
     /// </summary>
     /// <remarks>
     /// <para>
-    /// Not a style rule. If the FLAIL! presets grow into a rules engine, the extraction stops being
-    /// a move and the plan needs revisiting — this is where that conversation gets scheduled.
+    /// Three folders, because the table came apart into three pieces: the messages and the roster in
+    /// <c>Core/Party</c>, the JS interop wrapper in <c>Web/Party</c>, and the Trystero bundle in
+    /// <c>wwwroot/js/party</c>. All three ship in <c>Structed.Inkwell.Party.Blazor</c> now, the last
+    /// of them served out of <c>_content/</c>.
+    /// </para>
+    /// <para>
+    /// A stale copy of the bundle under <c>wwwroot</c> is the nastiest of the three: it would still
+    /// be published, still be fetchable, and be shadowed by the packaged one at a path nobody is
+    /// looking at — a dead file that looks maintained.
+    /// </para>
+    /// </remarks>
+    [Theory]
+    [InlineData("src/FlailTools.Core/Party")]
+    [InlineData("src/FlailTools.Web/Party")]
+    [InlineData("src/FlailTools.Web/wwwroot/js/party")]
+    public void ThePartyCodeIsNotHereAnyMore(string folder)
+    {
+        string path = Path.Combine(TestData.RepositoryRoot, folder.Replace('/', Path.DirectorySeparatorChar));
+
+        Assert.False(
+            Directory.Exists(path),
+            $"'{folder}' has grown back. The dice table ships in Structed.Inkwell.Party.Blazor.");
+    }
+
+    /// <summary>
+    /// The app id has to be exactly the string the table codes were handed out under.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// It namespaces the signalling, so two browsers only find each other if theirs match. It used
+    /// to be a constant buried in this repository's JavaScript; it is now an argument handed to a
+    /// channel that knows nothing about this game, which makes it look far more like configuration
+    /// than it is.
+    /// </para>
+    /// <para>
+    /// Written out as a literal here rather than referenced, so the test compares the value against
+    /// the intent rather than against itself. Tidying it — renaming the app, dropping the vendor
+    /// prefix — would quietly invalidate every table code already written on a character sheet, and
+    /// the failure looks like the other player simply never joining.
+    /// </para>
+    /// </remarks>
+    [Fact]
+    public void TheTableIsStillCalledWhatItWasCalled()
+    {
+        Assert.Equal("structed-flail-tools-dice", Core.Dice.FlailRolls.PartyAppId);
+    }
+
+    /// <summary>
+    /// The game-specific file has to stay small enough to be worth having left behind.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Not a style rule. If the FLAIL! presets grow into a rules engine, the split stops making
+    /// sense and the shape of it needs revisiting — this is where that conversation gets scheduled.
     /// </para>
     /// <para>
     /// Counted in code rather than in lines, because this repository explains itself at length and a
@@ -102,11 +134,5 @@ public sealed class PortabilityTests
             .Count(line => line.Length > 0 && !line.StartsWith("//", StringComparison.Ordinal));
 
         Assert.True(code < 130, $"'{StaysBehind}' is growing into a rules engine.");
-    }
-
-    [Fact]
-    public void ThereIsPortableCodeToCheckInTheFirstPlace()
-    {
-        Assert.True(PortableSources.Count > 4);
     }
 }
