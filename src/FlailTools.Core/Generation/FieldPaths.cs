@@ -110,6 +110,16 @@ public static class FieldPaths
     /// </remarks>
     public static string CaveDrop(int index) => $"cave/chamber/{index}/drop";
 
+    /// <summary>
+    /// The stream a cave chamber's d4 detail is drawn from.
+    /// </summary>
+    /// <remarks>
+    /// Kept apart from <see cref="CaveChamber"/> for the same reason a tower's floor detail is:
+    /// the book rolls it separately, so locking a chamber to hold treasure should not also decide
+    /// which treasure, and re-rolling the treasure should not be able to turn it into a shrine.
+    /// </remarks>
+    public static string CaveChamberDetail(int index) => $"cave/chamber/{index}/detail";
+
     /// <summary>The stream a tower floor's die is drawn from.</summary>
     public static string TowerFloor(int index) => $"tower/floor/{index}/type";
 

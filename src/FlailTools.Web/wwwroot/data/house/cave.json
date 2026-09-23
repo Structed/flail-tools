@@ -2,7 +2,7 @@
   "_source": {
     "describes": "The Caves generator: FLAIL!'s five d6 theme axes, and what a dropped d6 makes of a chamber.",
     "status": "Unofficial. Not affiliated with Games Omnivorous.",
-    "rationale": "FLAIL!'s own Caves tables, reproduced in face order, which the Third-Party Licence permits. The axes share their names with the Dungeons generator but deliberately not their field paths: a lock stores a row's position, so sharing a path between two different tables would let a lock taken on a dungeon resolve silently against a cave. 'chambers' is the d6 read off each dropped die, so the same number really does mean the same content the book says it does.",
+    "rationale": "FLAIL!'s own Caves tables, reproduced in face order, which the Third-Party Licence permits. The axes share their names with the Dungeons generator but deliberately not their field paths: a lock stores a row's position, so sharing a path between two different tables would let a lock taken on a dungeon resolve silently against a cave. 'chambers' is the d6 read off each dropped die, so the same number really does mean the same content the book says it does. Faces 1 and 2 are two rolls rather than one, as the book prints them: the d6 says Treasure or Vestiges and a d4 says which, so 'chamberDetails' holds those four options against the face they belong to. Faces 3 to 6 have no second roll in the book and their rows are left empty rather than invented.",
     "work": "FLAIL!",
     "url": "https://gamesomnivorous.com/pages/flail",
     "licence": "Games Omnivorous Third-Party Licence",
@@ -55,11 +55,19 @@
   ],
 
   "chambers": [
-    "Treasure: buried chest, weapons cache, spellbook or Unique Item",
-    "Vestiges: bone altar, makeshift shelter, burial mound or warding totem",
+    "Treasure",
+    "Vestiges",
     "Obstacle: roll or choose a fitting dungeon obstacle",
     "Weak encounter: pick or create a weak creature matching the rolled theme",
     "Average encounter: pick or create an average creature matching the rolled theme",
     "Strong encounter: pick or create a powerful creature matching the rolled theme"
+  ],
+  "chamberDetails": [
+    ["buried chest", "weapons cache", "spellbook", "Unique Item"],
+    ["bone altar", "makeshift shelter", "burial mound", "warding totem"],
+    [],
+    [],
+    [],
+    []
   ]
 }

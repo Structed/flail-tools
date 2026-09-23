@@ -135,6 +135,11 @@ public static class SiteGenerator
     /// number near each other are one connected group. The drop is simulated rather than asked for,
     /// but it is drawn from the same seeded streams as everything else, so a given seed lands the
     /// same dice on the same part of the page on every machine.
+    /// <para>
+    /// Where a die landed and what it shows are independent: the landing assigns the role, the face
+    /// reads the table. So the hidden chamber is not a different kind of chamber — it is whichever
+    /// chamber the drop lost off the edge of the paper.
+    /// </para>
     /// </remarks>
     private static IReadOnlyList<SiteArea> BuildCaveChambers(GameData data, RollContext roll)
     {
@@ -159,7 +164,7 @@ public static class SiteGenerator
             roles[index] = offPaper[index] ? AreaRoles.Hidden : AreaRoles.Plain;
 
             string path = FieldPaths.CaveChamber(index);
-            (face[index], values[index]) = Rolls.Face(roll, path, data.Cave.Chambers, sides: 6);
+            (face[index], values[index]) = ChamberWithDetail(data, roll, path, index);
         }
 
         int entry = NearestOnPaper(count, offPaper, index => EdgeDistance(x[index], y[index]), exclude: -1);
@@ -209,6 +214,46 @@ public static class SiteGenerator
         }
 
         return chambers;
+    }
+
+    /// <summary>
+    /// One chamber's contents: the d6 read off the die, then the d4 the book pairs with it.
+    /// </summary>
+    /// <remarks>
+    /// Only faces 1 and 2 have a second roll in the book, so a face whose detail row is empty keeps
+    /// the single row the book prints rather than being given a sub-table it never had. The detail
+    /// is also skipped when the d6 did not land on a row of the table at all — which happens when
+    /// somebody has pinned the chamber to words of their own. Skipping costs nothing, because each
+    /// path draws from its own stream and so no other chamber shifts.
+    /// <para>
+    /// Returns the <em>d6</em> face, not the d4, because that is the number painted on the die that
+    /// was dropped: it is what decides whether two neighbouring chambers form a cluster. Returning
+    /// the detail's face instead would cluster chambers that merely drew the same treasure.
+    /// </para>
+    /// </remarks>
+    private static (int Face, string Value) ChamberWithDetail(
+        GameData data,
+        RollContext roll,
+        string path,
+        int index)
+    {
+        (int face, string chamber) = Rolls.Face(roll, path, data.Cave.Chambers, sides: 6);
+
+        if (string.IsNullOrEmpty(chamber) || face < 0 || face >= data.Cave.ChamberDetails.Count)
+        {
+            return (face, chamber);
+        }
+
+        IReadOnlyList<string> options = data.Cave.ChamberDetails[face];
+
+        if (options.Count == 0)
+        {
+            return (face, chamber);
+        }
+
+        string detail = Rolls.Face(roll, FieldPaths.CaveChamberDetail(index), options, sides: 4).Value;
+
+        return (face, string.IsNullOrEmpty(detail) ? chamber : $"{chamber}: {detail}");
     }
 
     /// <summary>

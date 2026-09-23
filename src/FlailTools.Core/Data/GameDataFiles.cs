@@ -104,6 +104,18 @@ public sealed record CaveFile : DataFile
 
     /// <summary>The six d6 chamber outcomes, in face order.</summary>
     public IReadOnlyList<string> Chambers { get => field ?? []; init; } = [];
+
+    /// <summary>
+    /// The d4 outcomes for each chamber face, in the same order as <see cref="Chambers"/>.
+    /// </summary>
+    /// <remarks>
+    /// Faces 1 and 2 are two rolls in FLAIL!, not one: the d6 says Treasure or Vestiges and a d4
+    /// says which of four. Held as six rows so the pairing cannot drift — row <c>n</c> here belongs
+    /// to face <c>n</c> there. Faces 3 to 6 have no second roll in the book, so their rows are
+    /// empty; that is the absence of a die, not a table waiting to be written, and the generator
+    /// leaves those chambers reading as the single row the book prints.
+    /// </remarks>
+    public IReadOnlyList<IReadOnlyList<string>> ChamberDetails { get => field ?? []; init; } = [];
 }
 
 /// <summary>The Wizard Towers generator: four d10 axes, plus the stacked-dice floor procedure.</summary>

@@ -121,7 +121,7 @@ area	3	hidden	cave/chamber/2/chamber	#2	Obstacle: roll or choose a fitting dunge
 area	4	cluster	cave/chamber/3/chamber	#2	Obstacle: roll or choose a fitting dungeon obstacle
 area	5	core	cave/chamber/4/chamber	#5	Strong encounter: pick or create a powerful creature matching the rolled theme
 area	6	cluster	cave/chamber/5/chamber	#2	Obstacle: roll or choose a fitting dungeon obstacle
-area	7	entry	cave/chamber/6/chamber	#1	Vestiges: bone altar, makeshift shelter, burial mound or warding totem
+area	7	entry	cave/chamber/6/chamber	#1	Vestiges: warding totem
 area	8	cluster	cave/chamber/7/chamber	#2	Obstacle: roll or choose a fitting dungeon obstacle
 == cave 7
 name	Ashen Lull
@@ -133,8 +133,8 @@ field	cave/key-feature	#2	Flooded to the waist
 field	cave/creatures	#2	Birds
 area	1	hidden	cave/chamber/0/chamber	#2	Obstacle: roll or choose a fitting dungeon obstacle
 area	2	plain	cave/chamber/1/chamber	#3	Weak encounter: pick or create a weak creature matching the rolled theme
-area	3	core	cave/chamber/2/chamber	#1	Vestiges: bone altar, makeshift shelter, burial mound or warding totem
-area	4	entry	cave/chamber/3/chamber	#0	Treasure: buried chest, weapons cache, spellbook or Unique Item
+area	3	core	cave/chamber/2/chamber	#1	Vestiges: warding totem
+area	4	entry	cave/chamber/3/chamber	#0	Treasure: Unique Item
 area	5	hidden	cave/chamber/4/chamber	#2	Obstacle: roll or choose a fitting dungeon obstacle
 area	6	hidden	cave/chamber/5/chamber	#5	Strong encounter: pick or create a powerful creature matching the rolled theme
 == cave 42
@@ -147,7 +147,7 @@ field	cave/key-feature	#0	Freezing fog
 field	cave/creatures	#4	Giants
 area	1	core	cave/chamber/0/chamber	#5	Strong encounter: pick or create a powerful creature matching the rolled theme
 area	2	plain	cave/chamber/1/chamber	#5	Strong encounter: pick or create a powerful creature matching the rolled theme
-area	3	plain	cave/chamber/2/chamber	#0	Treasure: buried chest, weapons cache, spellbook or Unique Item
+area	3	plain	cave/chamber/2/chamber	#0	Treasure: spellbook
 area	4	hidden	cave/chamber/3/chamber	#3	Weak encounter: pick or create a weak creature matching the rolled theme
 area	5	entry	cave/chamber/4/chamber	#3	Weak encounter: pick or create a weak creature matching the rolled theme
 area	6	hidden	cave/chamber/5/chamber	#5	Strong encounter: pick or create a powerful creature matching the rolled theme
@@ -164,8 +164,8 @@ area	1	entry	cave/chamber/0/chamber	#3	Weak encounter: pick or create a weak cre
 area	2	core	cave/chamber/1/chamber	#4	Average encounter: pick or create an average creature matching the rolled theme
 area	3	cluster	cave/chamber/2/chamber	#4	Average encounter: pick or create an average creature matching the rolled theme
 area	4	plain	cave/chamber/3/chamber	#5	Strong encounter: pick or create a powerful creature matching the rolled theme
-area	5	hidden	cave/chamber/4/chamber	#0	Treasure: buried chest, weapons cache, spellbook or Unique Item
-area	6	plain	cave/chamber/5/chamber	#1	Vestiges: bone altar, makeshift shelter, burial mound or warding totem
+area	5	hidden	cave/chamber/4/chamber	#0	Treasure: buried chest
+area	6	plain	cave/chamber/5/chamber	#1	Vestiges: makeshift shelter
 area	7	plain	cave/chamber/6/chamber	#3	Weak encounter: pick or create a weak creature matching the rolled theme
 == cave 65535
 name	Hollow Mark
@@ -189,14 +189,14 @@ field	cave/type	#2	Grotto
 field	cave/location	#0	Dormant volcano
 field	cave/key-feature	#5	Stalactite-choked
 field	cave/creatures	#0	Reptiles
-area	1	hidden	cave/chamber/0/chamber	#1	Vestiges: bone altar, makeshift shelter, burial mound or warding totem
-area	2	core	cave/chamber/1/chamber	#1	Vestiges: bone altar, makeshift shelter, burial mound or warding totem
+area	1	hidden	cave/chamber/0/chamber	#1	Vestiges: makeshift shelter
+area	2	core	cave/chamber/1/chamber	#1	Vestiges: makeshift shelter
 area	3	plain	cave/chamber/2/chamber	#4	Average encounter: pick or create an average creature matching the rolled theme
 area	4	plain	cave/chamber/3/chamber	#3	Weak encounter: pick or create a weak creature matching the rolled theme
 area	5	plain	cave/chamber/4/chamber	#2	Obstacle: roll or choose a fitting dungeon obstacle
 area	6	hidden	cave/chamber/5/chamber	#4	Average encounter: pick or create an average creature matching the rolled theme
 area	7	entry	cave/chamber/6/chamber	#2	Obstacle: roll or choose a fitting dungeon obstacle
-area	8	plain	cave/chamber/7/chamber	#0	Treasure: buried chest, weapons cache, spellbook or Unique Item
+area	8	plain	cave/chamber/7/chamber	#0	Treasure: Unique Item
 == tower 1
 name	Hungry Wake
 silhouette	boxy-compact	boxy	dry	5
