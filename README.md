@@ -11,6 +11,11 @@ machine.
 >
 > FLAIL is copyright of Games Omnivorous.
 
+<p>
+  <img src="src/FlailTools.Web/wwwroot/flail-compatible-logo.png" alt="FLAIL swings hard with" height="128" align="bottom">
+  <strong>FLAIL! Tools</strong>
+</p>
+
 The licence is published [here](https://gamesomnivorous.com/pages/flail-license).
 
 ## What it generates
@@ -341,3 +346,9 @@ rather than being bent around a FLAIL! problem.
 
 The code is MIT. See [NOTICE.md](NOTICE.md) for the attribution the Games Omnivorous Third-Party
 Licence requires.
+
+`src/FlailTools.Web/wwwroot/flail-compatible-logo.png` is the exception. It is the compatibility
+logo Games Omnivorous publish for third parties, section 1 of the licence requires a work like this
+one to carry it, and it may not be altered — so it is shipped byte for byte as downloaded, the
+stylesheet sets only its height, and a test pins its checksum. It is Games Omnivorous's artwork, not
+ours, and the MIT licence above does not cover it.

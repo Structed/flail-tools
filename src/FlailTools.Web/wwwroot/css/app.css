@@ -391,6 +391,55 @@ select:hover {
     color: var(--ink-soft);
 }
 
+/* The Games Omnivorous compatibility badge, which section 1 of the licence requires and forbids
+   altering. Only the height is set, so the browser derives the width from the file's own 564:511 —
+   a second dimension here is all it would take to squash a mark we are not allowed to change, and
+   it would look like a typo rather than a licence breach. The file itself is pinned by checksum in
+   ArtworkTests; this rule is the other half of leaving it alone.
+
+   The logo is a lead-in, not a stamp: it ends in the words "SWINGS HARD WITH", set low inside its
+   frame, and the product name finishes the sentence. So the two are aligned on that bottom line
+   rather than centred on the block, and the padding is what drops the name onto the same optical
+   baseline as the logo's own last row of type.
+
+   Both numbers below are measured off the file rather than chosen, because the phrase is a small
+   part of a picture that is mostly flail: its capitals occupy rows 402-445 of 511, so they render
+   at 8.61% of whatever height this rule sets, and its baseline sits 12.72% of the height above the
+   bottom edge. That first figure decides the size. The badge first shipped at 3rem, which put the
+   logo's own words at 4.1px against an 11px product name beside them — more than two and a half
+   times the size, so the sentence the badge is built around could not be read at all. The height is
+   set instead at the point where the two halves match: 8rem x 8.61% is 11.02px of capital, against
+   the name's 11px.
+
+   Both are expressed against one custom property so that stays true. Resizing the badge by editing
+   --compat-logo-height alone keeps the name on the baseline; a hand-tuned padding would silently
+   come adrift the next time somebody nudged the height. The trailing 1.79px is the part of the
+   name's own line box that already sits below its baseline, which the padding must not pay for
+   twice. */
+
+.compat-badge {
+    --compat-logo-height: 8rem;
+    display: flex;
+    align-items: flex-end;
+    gap: 0.75rem;
+    margin: 0 0 0.9rem;
+}
+
+.compat-logo {
+    height: var(--compat-logo-height);
+    width: auto;
+    max-width: 100%;
+}
+
+.compat-name {
+    padding-bottom: calc(var(--compat-logo-height) * 0.1272 - 1.79px);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+}
+
 /* The dice table. Rolls are read at a glance, across the room, by somebody who is also holding a
    character sheet — so the faces are large, the dropped ones are dimmed rather than hidden, and the
    reading gets a line of its own rather than being tucked beside the total. */

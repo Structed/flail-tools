@@ -25,14 +25,46 @@ it.
   prose, using official logos, implying official status, and reproducing a licensed product whole or
   building a replacement for one.
 
-## Outstanding obligation
+## Compatibility logo
 
-The licence **requires** the relevant Games Omnivorous compatibility logo to identify a work as
-compatible with FLAIL!. This tool does not carry one yet, so that requirement is currently unmet.
+Section 1 of the licence **requires** a work like this one to carry the relevant Games Omnivorous
+compatibility logo, and forbids altering it or using it to suggest the work is official, approved or
+endorsed:
 
-The asset has to come from Games Omnivorous — it is one of the logos the licence otherwise forbids
-reproducing, and it may not be altered or used to suggest the tool is official, approved or
-endorsed. It cannot be drawn from scratch here; the published file has to be obtained and added.
+> You must use the relevant compatibility logo(s) made publicly available by Games Omnivorous to
+> identify your work as compatible with one or more of the licensed products. The logo(s) may not be
+> altered or used to suggest that your work is official, approved or endorsed by Games Omnivorous.
+
+`src/FlailTools.Web/wwwroot/flail-compatible-logo.png` is that logo. It is
+`FLAIL compatible logo black.png`, downloaded from the folder Games Omnivorous link from the licence
+page itself under "Click image to download logos"
+(<https://drive.google.com/drive/folders/17hyivYz58scI0ZlRpXtc0YWn8s_vwMix>), and it is shipped
+exactly as it arrived: 564 × 511, SHA-256
+`88149DAAFF1D7C37E2C3435F009BDA6BF8E702CC062C7DB0A1B35FDC22B1794E`. It has not been re-exported,
+recoloured, cropped, padded or run through an optimiser, and it must not be. `ArtworkTests` pins
+that checksum, because "we shrank the PNGs" is exactly the sort of well-meant change that would
+breach a licence without looking like it had.
+
+The stylesheet sets only the logo's height, so its proportions come from the file. Drawing it at
+another size is display scaling, not alteration; giving it a second dimension, a colour or a border
+would be alteration.
+
+It is a lead-in rather than a stamp — it reads "FLAIL swings hard with" — so the footer and the
+README set the tool's name beside it and let the sentence finish. The two required notices sit
+directly beneath it, and nothing in the badge claims the tool is anything but unofficial.
+
+This is not a contradiction of the restriction below it. Section 2 forbids using the official Games
+Omnivorous, FLAIL, Undying Sands, Bottled Sea, Boreal Frostlands and Hexcrawl Toolbox logos: the
+product and company marks. The compatibility logo is the one mark section 1 obliges a third party to
+use, and it is published for that purpose. Do not "resolve" the apparent conflict by removing the
+badge — that would put the tool back in breach.
+
+The logo is Games Omnivorous's artwork. The MIT licence covering this repository's code does not
+cover it, and it is the only file here that is neither ours nor MIT.
+
+Only the black variant is included. The site is a single ink-on-paper theme with no dark mode, and
+the black artwork has a transparent field, so it sits on the page without a white card behind it.
+The white variant is in the same folder should a dark theme ever be added.
 
 ## Content
 

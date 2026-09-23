@@ -87,6 +87,60 @@ public sealed class AttributionTests
         }
     }
 
+    /// <summary>
+    /// The compatibility badge must say what it is for and nothing more.
+    /// </summary>
+    /// <remarks>
+    /// Section 1 of the licence requires the logo and forbids using it "to suggest that your work is
+    /// official, approved or endorsed". The artwork itself cannot break that rule; the words set
+    /// beside it can, and they are the part somebody will one day rewrite to sound more impressive.
+    /// The masthead already says <em>Unofficial</em> and the notice beneath the badge already
+    /// disclaims affiliation, so a badge that hinted otherwise would contradict its own footer.
+    /// </remarks>
+    [Theory]
+    [InlineData("official")]
+    [InlineData("approved")]
+    [InlineData("endorsed")]
+    [InlineData("partner")]
+    public async Task TheCompatibilityBadgeNeverClaimsOfficialStatus(string forbidden)
+    {
+        GameData data = await TestData.LoadAsync();
+
+        foreach (string wording in new[] { data.Ui.Licence.CompatibleAlt, data.Ui.Licence.CompatibleWith })
+        {
+            Assert.DoesNotContain(forbidden, wording, StringComparison.OrdinalIgnoreCase);
+        }
+    }
+
+    /// <summary>
+    /// The logo is a lead-in, so both halves of its sentence have to be there.
+    /// </summary>
+    /// <remarks>
+    /// The artwork ends in the words "swings hard with" and the product name finishes it. Lose
+    /// either half and the badge reads as a dangling phrase rather than the compatibility statement
+    /// the licence asks for — and because a missing interface string renders as nothing at all
+    /// rather than throwing, it would survive every build and review.
+    /// </remarks>
+    [Fact]
+    public async Task TheCompatibilityBadgeStillReadsAsASentence()
+    {
+        GameData data = await TestData.LoadAsync();
+
+        Assert.False(string.IsNullOrWhiteSpace(data.Ui.Licence.CompatibleAlt));
+        Assert.False(string.IsNullOrWhiteSpace(data.Ui.Licence.CompatibleWith));
+    }
+
+    /// <summary>
+    /// The licence requires the badge wherever the notices go, so the README carries it too.
+    /// </summary>
+    [Fact]
+    public void TheCompatibilityLogoAppearsInTheReadme()
+    {
+        string readme = File.ReadAllText(Path.Combine(TestData.RepositoryRoot, "README.md"));
+
+        Assert.Contains("flail-compatible-logo.png", readme, StringComparison.Ordinal);
+    }
+
     [Theory]
     [InlineData("<p>Hello  world.</p>", "Hello world.")]
     [InlineData("A <a href=\"x\">link</a>.", "A link.")]

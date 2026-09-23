@@ -10,7 +10,9 @@
     "copyrightHtml": "FLAIL is copyright of <a href=\"https://gamesomnivorous.com\" target=\"_blank\" rel=\"noopener noreferrer\">Games Omnivorous</a>.",
     "unofficial": "Unofficial",
     "contentHtml": "The Games Omnivorous Third-Party Licence permits reusing FLAIL!'s rules, mechanics, terminology and random tables, table entries included, and still forbids reproducing its artwork or its written prose. The five generator tables here are the book's own, reproduced in face order. Its prose and its artwork are not, and this is no substitute for the rules: it builds the bones of a site and leaves every judgement the procedures ask for to you. Games Omnivorous publish the rulebook free and sell it as a physical boxset. You will want it.",
-    "licenceLinkText": "Games Omnivorous Third-Party Licence"
+    "licenceLinkText": "Games Omnivorous Third-Party Licence",
+    "compatibleAlt": "FLAIL swings hard with",
+    "compatibleWith": "FLAIL! Tools"
   },
 
   "kinds": {
