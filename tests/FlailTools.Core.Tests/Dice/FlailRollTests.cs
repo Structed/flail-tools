@@ -113,7 +113,7 @@ public sealed class FlailRollTests
 
         Assert.NotNull(reading);
         Assert.Equal("save/critical", reading.Key);
-        Assert.Equal(face, reading.Value);
+        Assert.Equal(score, reading.Value);
     }
 
     [Theory]
@@ -125,7 +125,31 @@ public sealed class FlailRollTests
 
         Assert.NotNull(reading);
         Assert.Equal("save/fumble", reading.Key);
-        Assert.Equal(face, reading.Value);
+        Assert.Equal(score, reading.Value);
+    }
+
+    /// <summary>
+    /// Every save says which attribute it was rolled against, whatever it came up.
+    /// </summary>
+    /// <remarks>
+    /// The reading is the only thing that crosses the wire carrying the score, and the dice table
+    /// shows it beside the notation so the rest of the party can judge the roll. A d20 showing 11
+    /// means nothing on its own. So this holds for all twenty faces, including the natural 1 and
+    /// the natural 20 that used to report their own face here and leave the score nowhere.
+    /// </remarks>
+    [Fact]
+    public void ASaveAlwaysSaysWhatItWasRolledAgainst()
+    {
+        for (int face = 1; face <= 20; face++)
+        {
+            for (int score = 1; score <= 20; score++)
+            {
+                RollReading? reading = FlailRolls.Save.Read(Fake("1d20", [face]), score);
+
+                Assert.NotNull(reading);
+                Assert.Equal(score, reading.Value);
+            }
+        }
     }
 
     /// <summary>An edge on a save is another d20 with one of them kept.</summary>

@@ -710,6 +710,17 @@ input[type="number"]:hover {
     margin-left: auto;
 }
 
+/* The attribute a save was rolled against, kept beside the notation because it is part of what was
+   rolled rather than part of what came up. Monospaced with the notation so "1d20 ≤14" reads as one
+   statement. */
+.dice-target {
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-soft);
+    white-space: nowrap;
+}
+
 .dice-faces {
     display: inline-flex;
     flex-wrap: wrap;
