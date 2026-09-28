@@ -122,11 +122,51 @@ public sealed class RelayCheckTests
 
         foreach (string state in RelayCheck.States)
         {
-            string key = RelayCheck.Label(state);
-
-            Assert.True(ui.Messages.ContainsKey(key), $"'{key}' is missing from ui.json.");
-            Assert.NotEqual("", ui.Message(key));
+            foreach (string key in (string[])[RelayCheck.Label(state), RelayCheck.Note(state)])
+            {
+                Assert.True(ui.Messages.ContainsKey(key), $"'{key}' is missing from ui.json.");
+                Assert.NotEqual("", ui.Message(key));
+            }
         }
+    }
+
+    /// <summary>
+    /// The key explains the states that turned up, and only those.
+    /// </summary>
+    /// <remarks>
+    /// Explaining all four every time would bury the row the player is actually looking at under
+    /// three that did not happen, and one of those would be an apology for a state the transport
+    /// never reported.
+    /// </remarks>
+    [Fact]
+    public void TheKeyExplainsWhatTurnedUpAndNothingElse()
+    {
+        Assert.Equal(
+            [RelayCheck.Open, RelayCheck.Blocked],
+            RelayCheck.Present(Relays(RelayCheck.Blocked, RelayCheck.Open, RelayCheck.Blocked)));
+
+        Assert.Empty(RelayCheck.Present(null));
+        Assert.Empty(RelayCheck.Present(Relays()));
+    }
+
+    /// <summary>
+    /// The key reads in the same order however the relays happened to answer.
+    /// </summary>
+    /// <remarks>
+    /// Ordering it by arrival would reshuffle the explanations between two runs a few seconds
+    /// apart, which reads as the page changing its mind rather than the relays changing theirs.
+    /// </remarks>
+    [Fact]
+    public void TheKeyIsInTheSameOrderEveryTime()
+    {
+        Assert.Equal(
+            RelayCheck.Present(Relays(RelayCheck.Blocked, RelayCheck.Reachable, RelayCheck.Open)),
+            RelayCheck.Present(Relays(RelayCheck.Open, RelayCheck.Blocked, RelayCheck.Reachable)));
+
+        Assert.Equal(
+            [.. RelayCheck.States],
+            RelayCheck.Present(
+                Relays(RelayCheck.Unknown, RelayCheck.Blocked, RelayCheck.Reachable, RelayCheck.Open)));
     }
 
     /// <summary>

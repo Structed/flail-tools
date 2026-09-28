@@ -571,6 +571,11 @@ input[type="number"]:hover {
     margin-top: 0.75rem;
 }
 
+/* Once the check has run, its answer stops being a hint and becomes the thing to go and do. */
+.dice-verdict {
+    color: var(--ink-soft);
+}
+
 .dice-relays {
     display: flex;
     flex-direction: column;
@@ -594,17 +599,51 @@ input[type="number"]:hover {
     color: var(--ink-soft);
 }
 
+/* The faint default, and the green and rust the status dot uses so the two agree at a glance. Both
+   the row and the key below it carry these same two classes, because a key printed in a different
+   colour from the thing it explains is worse than no key: the reader takes the difference for
+   meaning. Single class each, so the state wins on source order rather than on specificity. */
 .dice-relay-state {
     color: var(--ink-faint);
 }
 
-/* The same green and the same rust the status dot uses, so the two agree at a glance. */
-.dice-relay-open .dice-relay-state {
+.dice-state-open {
     color: #3f6212;
 }
 
-.dice-relay-blocked .dice-relay-state {
+.dice-state-blocked {
     color: var(--accent);
+}
+
+/* The key. Three words are scannable but not actionable, and the row that reads worst — a relay
+   answering nothing — is the one whose meaning flips entirely depending on how many others did. */
+.dice-legend {
+    margin: 0.65rem 0 0;
+    max-width: 44rem;
+    font-size: 0.85rem;
+}
+
+.dice-legend dt {
+    margin-top: 0.4rem;
+}
+
+.dice-legend dd {
+    margin: 0.1rem 0 0;
+    color: var(--ink-faint);
+}
+
+@media (min-width: 40rem) {
+    .dice-legend dt {
+        float: left;
+        clear: left;
+        width: 15rem;
+        margin-top: 0;
+    }
+
+    .dice-legend dd {
+        margin: 0 0 0.5rem 15.5rem;
+        min-height: 1.4em;
+    }
 }
 
 .dice-table {

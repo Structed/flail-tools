@@ -94,20 +94,32 @@
                 @(_checking ? Ui.Action("checking") : Ui.Action("checkConnection"))
             </button>
 
+            <p class="dice-hint @(_verdict is { Length: > 0 } ? "dice-verdict" : "")">
+                @(_verdict is { Length: > 0 } ? Ui.Message(_verdict) : Ui.Message("diceCheckHint"))
+            </p>
+
             @if (_relays is { Count: > 0 })
             {
                 <ul class="dice-relays" aria-label="@Ui.Message("diceCheckHeading")">
                     @foreach (KeyValuePair<string, string> relay in _relays)
                     {
-                        <li class="dice-relay dice-relay-@RelayCheck.Settle(relay.Value)" @key="relay.Key">
+                        <li class="dice-relay" @key="relay.Key">
                             <span class="dice-relay-host">@RelayCheck.Host(relay.Key)</span>
-                            <span class="dice-relay-state">@Ui.Message(RelayCheck.Label(relay.Value))</span>
+                            <span class="dice-relay-state dice-state-@RelayCheck.Settle(relay.Value)">
+                                @Ui.Message(RelayCheck.Label(relay.Value))
+                            </span>
                         </li>
                     }
                 </ul>
-            }
 
-            <p class="dice-hint">@(_verdict is { Length: > 0 } ? Ui.Message(_verdict) : Ui.Message("diceCheckHint"))</p>
+                <dl class="dice-legend" aria-label="@Ui.Message("diceCheckKeyHeading")">
+                    @foreach (string state in RelayCheck.Present(_relays))
+                    {
+                        <dt class="dice-relay-state dice-state-@state" @key="state">@Ui.Message(RelayCheck.Label(state))</dt>
+                        <dd @key="@($"{state}-note")">@Ui.Message(RelayCheck.Note(state))</dd>
+                    }
+                </dl>
+            }
         </div>
     }
 </section>

@@ -98,6 +98,51 @@ public static class RelayCheck
     };
 
     /// <summary>
+    /// What one relay's state means, for a reader who has never seen this list before.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The states are three words each, because a list five rows long has to be scannable. Three
+    /// words are not enough to act on, though, and the row that needs explaining most is the one
+    /// that looks worst: a single relay reporting nothing is the ordinary condition of the public
+    /// relay network and costs the table nothing, while every relay reporting nothing is the whole
+    /// problem. Same two words, opposite meanings, and no way to tell from the row itself.
+    /// </para>
+    /// <para>
+    /// Separate from <see cref="Verdict"/> on purpose. The verdict is the one thing to go and do;
+    /// these explain the evidence it was drawn from, so a player who wants to check the reasoning
+    /// can, and a player who does not can ignore them.
+    /// </para>
+    /// </remarks>
+    public static string Note(string? state) => Settle(state) switch
+    {
+        Open => "diceRelayOpenNote",
+        Reachable => "diceRelayReachableNote",
+        Blocked => "diceRelayBlockedNote",
+        _ => "diceRelayUnknownNote"
+    };
+
+    /// <summary>
+    /// Which states actually turned up, so only those need explaining.
+    /// </summary>
+    /// <remarks>
+    /// Ordered by <see cref="States"/> rather than by the order the relays came back in, so the key
+    /// reads the same way every time however the relays happened to answer. Explaining all four
+    /// regardless would bury the one the player is looking at.
+    /// </remarks>
+    public static IReadOnlyList<string> Present(IReadOnlyDictionary<string, string>? relays)
+    {
+        if (relays is null || relays.Count == 0)
+        {
+            return [];
+        }
+
+        HashSet<string> found = [.. relays.Values.Select(Settle)];
+
+        return [.. States.Where(found.Contains)];
+    }
+
+    /// <summary>
     /// Reads the whole check as one thing to go and do.
     /// </summary>
     /// <remarks>
