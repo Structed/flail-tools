@@ -85,6 +85,44 @@
     @if (_channel.IsJoined)
     {
         <p class="dice-hint">@Ui.Message("diceInviteHint")</p>
+
+        <details class="dice-check">
+            <summary>@Ui.Message("diceCheckSummary")</summary>
+
+            <button type="button"
+                    class="button button-quiet"
+                    disabled="@_checking"
+                    @onclick="CheckConnection">
+                @(_checking ? Ui.Action("checking") : Ui.Action("checkConnection"))
+            </button>
+
+            <p class="dice-hint @(_verdict is { Length: > 0 } ? "dice-verdict" : "")">
+                @(_verdict is { Length: > 0 } ? Ui.Message(_verdict) : Ui.Message("diceCheckHint"))
+            </p>
+
+            @if (_relays is { Count: > 0 })
+            {
+                <ul class="dice-relays" aria-label="@Ui.Message("diceCheckHeading")">
+                    @foreach (KeyValuePair<string, string> relay in _relays)
+                    {
+                        <li class="dice-relay" @key="relay.Key">
+                            <span class="dice-relay-host">@RelayCheck.Host(relay.Key)</span>
+                            <span class="dice-relay-state dice-state-@RelayCheck.Settle(relay.Value)">
+                                @Ui.Message(RelayCheck.Label(relay.Value))
+                            </span>
+                        </li>
+                    }
+                </ul>
+
+                <dl class="dice-legend" aria-label="@Ui.Message("diceCheckKeyHeading")">
+                    @foreach (string state in RelayCheck.Present(_relays))
+                    {
+                        <dt class="dice-relay-state dice-state-@state" @key="state">@Ui.Message(RelayCheck.Label(state))</dt>
+                        <dd @key="@($"{state}-note")">@Ui.Message(RelayCheck.Note(state))</dd>
+                    }
+                </dl>
+            }
+        </details>
     }
 </section>
 
@@ -267,6 +305,10 @@
     private string _notice = "";
     private bool _secret;
     private bool _copied;
+
+    private bool _checking;
+    private string _verdict = "";
+    private IReadOnlyDictionary<string, string>? _relays;
 
     private UiText Ui => Data.Ui;
 
@@ -465,6 +507,8 @@
         _notice = "";
         _copied = false;
         _code = parsed;
+        _relays = null;
+        _verdict = "";
 
         await Write(TableKey, parsed);
         await _channel.JoinAsync(parsed);
@@ -475,6 +519,39 @@
     {
         await _channel.LeaveAsync();
         await SetUrl(Nav.BaseUri + "dice");
+    }
+
+    /// <summary>
+    /// Asks every relay carrying this table whether it is there, and says what the answer means.
+    /// </summary>
+    /// <remarks>
+    /// The status line above can only say whether anything is answering. That is the right amount
+    /// of detail while a table is working and useless the moment one is not, because the two things
+    /// that stop it — a network that will not reach the relays, and a page that has given up on
+    /// them — read identically from here and want opposite things done about them. This is the
+    /// button that tells them apart, and it is on the page rather than in a console because the
+    /// person who needs it is sitting down to play.
+    /// </remarks>
+    private async Task CheckConnection()
+    {
+        _checking = true;
+        _relays = null;
+        _verdict = "";
+
+        try
+        {
+            _relays = await Js.InvokeAsync<Dictionary<string, string>?>(
+                "flailTools.relays",
+                RelayCheck.ProbeMilliseconds);
+        }
+        catch (JSException)
+        {
+            // A check that cannot run says so through the verdict, like any other outcome.
+            _relays = null;
+        }
+
+        _checking = false;
+        _verdict = RelayCheck.Verdict(_relays);
     }
 
     private string Invite => $"{Nav.BaseUri}dice?t={_channel.Code}";
