@@ -566,9 +566,26 @@ input[type="number"]:hover {
     color: var(--ink-faint);
 }
 
-/* The relay check: which half of the connection is failing, in one line per relay. */
+/* The relay check: which half of the connection is failing, in one line per relay. Shut by default,
+   because almost every table works and a page that leads with its own diagnostics reads like a page
+   expecting to fail. The people who need it are already looking for something to press. */
 .dice-check {
     margin-top: 0.75rem;
+}
+
+.dice-check > summary {
+    width: fit-content;
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+    cursor: pointer;
+}
+
+.dice-check > summary:hover {
+    color: var(--ink-soft);
+}
+
+.dice-check[open] > summary {
+    margin-bottom: 0.5rem;
 }
 
 /* Once the check has run, its answer stops being a hint and becomes the thing to go and do. */

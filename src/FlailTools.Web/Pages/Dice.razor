@@ -86,7 +86,9 @@
     {
         <p class="dice-hint">@Ui.Message("diceInviteHint")</p>
 
-        <div class="dice-check">
+        <details class="dice-check">
+            <summary>@Ui.Message("diceCheckSummary")</summary>
+
             <button type="button"
                     class="button button-quiet"
                     disabled="@_checking"
@@ -120,7 +122,7 @@
                     }
                 </dl>
             }
-        </div>
+        </details>
     }
 </section>
 

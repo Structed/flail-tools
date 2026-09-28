@@ -194,6 +194,7 @@
     "diceNatHint": "Some networks will not let two browsers talk directly, and there is no relay to fall back on. If somebody never appears, paste them the seed beside a roll — it rebuilds the same dice anywhere.",
 
     "diceCheckHeading": "Relays",
+    "diceCheckSummary": "Trouble connecting?",
     "diceCheckHint": "If nobody arrives, this says whether the trouble is your network or this page.",
     "diceRelayOpen": "carrying this table",
     "diceRelayReachable": "answering, but this page is not using it",

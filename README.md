@@ -126,10 +126,12 @@ Sitting alone at a table looks the same whatever is wrong with it: the code is o
 in the roster, and the status line keeps looking for the others. Being "at a table" is a local
 fact — true the moment the channel opens, and no promise that anybody can reach you.
 
-**Check the connection**, under the invite hint, asks every relay twice: once for what the page
-currently holds, and once directly, then and there. It says what to do, lists what each relay
-answered, and explains the answers underneath — because three words are scannable but not
-actionable, and one of the three means opposite things depending on how many others said it.
+**Trouble connecting?**, under the invite hint, opens a check that asks every relay twice: once for
+what the page currently holds, and once directly, then and there. It is shut until you open it,
+because almost every table works and a page that leads with its own diagnostics reads like one
+expecting to fail. Inside, it says what to do, lists what each relay answered, and explains the
+answers underneath — because three words are scannable but not actionable, and one of the three
+means opposite things depending on how many others said it.
 
 - **Carrying this table.** Signalling works and you can be found. One is enough. If somebody still
   never appears, it is the direct browser-to-browser leg that will not form — the first bullet
