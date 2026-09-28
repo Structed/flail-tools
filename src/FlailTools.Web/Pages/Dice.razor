@@ -200,6 +200,11 @@
 
                         <span class="dice-notation">@roll.Notation</span>
 
+                        @if (Target(roll) is { } score)
+                        {
+                            <span class="dice-target" title="@Ui.Message("diceTarget")">@($"≤{score}")</span>
+                        }
+
                         <span class="dice-faces">
                             @for (int index = 0; index < roll.Faces.Count; index++)
                             {
@@ -333,6 +338,20 @@
     /// <summary>What to call whoever rolled, when they did not say.</summary>
     private string Who(RollMessage roll) =>
         roll.Player is { Length: > 0 } name ? name : Ui.Message("emptyField");
+
+    /// <summary>
+    /// The attribute a save was rolled against, for a roll that was a save.
+    /// </summary>
+    /// <remarks>
+    /// A save is the one preset whose parameter cannot be inferred from the dice beside it: a To Hit
+    /// pool says how many dice it asked for by showing them, while a d20 showing 11 says nothing
+    /// about whether 11 was good enough. The sender puts the score on the reading, so it is read
+    /// back off the reading here rather than being sent a second time in a field of its own.
+    /// </remarks>
+    private static int? Target(RollMessage roll) =>
+        roll.Preset == FlailRolls.SaveId && roll.ReadingKey is { Length: > 0 }
+            ? roll.ReadingValue
+            : null;
 
     private string SeedOf(RollMessage roll) =>
         Structed.Inkwell.Randomness.SeedCodec.Encode(roll.Seed);

@@ -160,6 +160,7 @@
     "diceYou": "you",
     "diceWhoWaiting": "still saying hello",
 
+    "diceTarget": "Rolled at or under this attribute",
     "dicePrivately": "rolled privately",
     "dicePrivateMine": "privately",
     "diceDropped": "dropped",

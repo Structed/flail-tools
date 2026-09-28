@@ -113,6 +113,13 @@ public static class FlailRolls
     /// Advantage here is not a bonus but a second die with the kinder of the two kept, and the
     /// stacking rule caps at three dice however many advantages pile up.
     /// </para>
+    /// <para>
+    /// Every reading carries the attribute, including the natural 1 and the natural 20 that outrank
+    /// it. The face is already on the table for everyone to see; the score is not, and without it a
+    /// d20 showing 11 is a number nobody else at the table can judge. A critical used to report its
+    /// own face here, which said nothing the dice had not already said and left the one useful
+    /// number nowhere to be found.
+    /// </para>
     /// </remarks>
     public static RollPreset Save { get; } = new()
     {
@@ -133,12 +140,14 @@ public static class FlailRolls
             // is still a critical and a 1 that disadvantage threw away is not.
             int rolled = outcome.Dice.FirstOrDefault(die => die.IsKept).Face;
 
-            return rolled switch
-            {
-                1 => new RollReading("save/critical", rolled),
-                20 => new RollReading("save/fumble", rolled),
-                _ => new RollReading(rolled <= score ? "save/pass" : "save/fail", score)
-            };
+            return new RollReading(
+                rolled switch
+                {
+                    1 => "save/critical",
+                    20 => "save/fumble",
+                    _ => rolled <= score ? "save/pass" : "save/fail"
+                },
+                score);
         }
     };
 

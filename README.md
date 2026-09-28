@@ -69,6 +69,10 @@ Both presets take an **advantage or disadvantage**, in the steps the rules use: 
 loses a die, a save rolls a second d20 and keeps the kinder result, and stacking stops at three
 dice. Pressing the step you are already on puts the roll back to straight.
 
+A save shows the attribute it was rolled against beside the dice — `1d20 ≤14`. A d20 showing 11
+means nothing on its own, and the number that decides it is the one thing the dice on the table
+cannot show, so it travels with the roll and every player sees what the roller was up against.
+
 Tick **Roll privately** and the table is told you rolled and nothing else. No dice, no total, no
 reading. That entry is a ghost when it leaves the machine, so it is not a matter of the other
 players' browsers politely declining to look: what they receive has nothing in it to look at. Your
