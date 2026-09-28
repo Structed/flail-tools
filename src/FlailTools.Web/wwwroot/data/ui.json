@@ -102,6 +102,8 @@
     "roll": "Roll",
     "rollPrivately": "Roll privately",
     "clearRolls": "Clear the log",
+    "checkConnection": "Check the connection",
+    "checking": "Checking…",
 
     "preset/hit": "Roll to Hit",
     "preset/save": "Roll Save",
@@ -189,6 +191,17 @@
     "diceSecretHint": "A private roll tells the table that you rolled and nothing else. The dice never leave this browser.",
     "dicePokerHint": "A To Hit roll also reports its poker results, because that is what talents, legendary weapons and most of the bestiary trigger on — a Cutthroat rolling two pairs strikes again. What the trigger does is on your sheet; this only tells you it fired.",
     "diceEdgeHint": "Advantage is one more d6 on a To Hit, or a second d20 with the kinder result kept on a save. They stack to three dice and cancel each other out.",
-    "diceNatHint": "Some networks will not let two browsers talk directly, and there is no relay to fall back on. If somebody never appears, paste them the seed beside a roll — it rebuilds the same dice anywhere."
+    "diceNatHint": "Some networks will not let two browsers talk directly, and there is no relay to fall back on. If somebody never appears, paste them the seed beside a roll — it rebuilds the same dice anywhere.",
+
+    "diceCheckHeading": "Relays",
+    "diceCheckHint": "If nobody arrives, this says whether the trouble is your network or this page.",
+    "diceRelayOpen": "carrying this table",
+    "diceRelayReachable": "answering, but this page is not using it",
+    "diceRelayBlocked": "no answer",
+    "diceRelayUnknown": "unclear",
+    "diceCheckOpen": "The signalling works from here, so this browser can be found. If somebody still never appears, it is the direct connection between the two of you that will not form — paste them the seed beside a roll instead.",
+    "diceCheckGaveUp": "The relays answer, but this page has stopped using them and will not go back on its own. Reload the page — leaving the table and rejoining keeps the same dead connection.",
+    "diceCheckBlocked": "Nothing here can reach the relays, so nobody can find this table. A content blocker, a VPN or a filtered network is the usual reason. Try another network — a phone hotspot settles it quickly — or allow this site.",
+    "diceCheckUnknown": "The check found nothing to test. Join a table first, then try again."
   }
 }

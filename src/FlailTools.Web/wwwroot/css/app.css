@@ -566,6 +566,47 @@ input[type="number"]:hover {
     color: var(--ink-faint);
 }
 
+/* The relay check: which half of the connection is failing, in one line per relay. */
+.dice-check {
+    margin-top: 0.75rem;
+}
+
+.dice-relays {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.dice-relay {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.dice-relay-host {
+    min-width: 15rem;
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+}
+
+.dice-relay-state {
+    color: var(--ink-faint);
+}
+
+/* The same green and the same rust the status dot uses, so the two agree at a glance. */
+.dice-relay-open .dice-relay-state {
+    color: #3f6212;
+}
+
+.dice-relay-blocked .dice-relay-state {
+    color: var(--accent);
+}
+
 .dice-table {
     padding-bottom: 1.25rem;
     border-bottom: 1px solid var(--rule);

@@ -1,4 +1,4 @@
-// The two things a generator page cannot do from C# alone.
+// The handful of things the pages cannot do from C# alone.
 window.flailTools = {
     // Replaces the address bar without navigating, so the link always describes what is on screen
     // without pushing a history entry per button press.
@@ -59,5 +59,81 @@ window.flailTools = {
         } catch {
             return false;
         }
+    },
+
+    // Where the dice table's signalling actually stands, relay by relay.
+    //
+    // The channel and the transport under it both ship in Structed.Inkwell.Party.Blazor and neither
+    // is reimplemented here. Which relays are in play is the transport's business and is read back
+    // off it rather than worked out again: the same five would otherwise have to be derived from
+    // the app id a second time, in a second language, and would drift the first time either end
+    // changed.
+    //
+    // The module is addressed against the document base on purpose. party.js imports it as
+    // './trystero-nostr.js' from its own folder under _content/, and the module map is keyed by
+    // resolved URL — arrive at a different spelling of the same file and the import succeeds, hands
+    // back a second copy with no sockets in it, and the check cheerfully reports nothing at all.
+    //
+    // Asking each relay again, directly, is the half that earns this its place. A relay that
+    // answers a fresh socket while the transport's is shut is one this page has given up on and
+    // will not retry; a relay that answers neither is being stopped before it leaves the machine.
+    // The two look the same on screen and want opposite things done about them.
+    relays: async function (patience) {
+        const wait = patience > 0 ? patience : 8000;
+        let sockets;
+
+        try {
+            const module = new URL(
+                '_content/Structed.Inkwell.Party.Blazor/js/trystero-nostr.js',
+                document.baseURI).href;
+
+            sockets = (await import(module)).getRelaySockets();
+        } catch {
+            // No transport loaded, so there is nothing to report and nothing to guess at.
+            return null;
+        }
+
+        const probe = url => new Promise(resolve => {
+            let socket = null;
+
+            const settle = state => {
+                clearTimeout(timer);
+
+                try {
+                    socket?.close();
+                } catch {
+                    // Never opened, or already shut. Either way there is nothing to close.
+                }
+
+                resolve(state);
+            };
+
+            const timer = setTimeout(() => settle('blocked'), wait);
+
+            try {
+                socket = new WebSocket(url);
+            } catch {
+                settle('blocked');
+                return;
+            }
+
+            socket.onopen = () => settle('reachable');
+            socket.onerror = () => settle('blocked');
+        });
+
+        const urls = Object.keys(sockets);
+
+        // Gathered into the original order rather than the order they finished in, so the list does
+        // not reshuffle itself between one press of the button and the next.
+        const states = await Promise.all(urls.map(url =>
+            sockets[url] && sockets[url].readyState === 1 ? 'open' : probe(url)));
+
+        const found = {};
+
+        urls.forEach((url, index) => {
+            found[url] = states[index];
+        });
+
+        return found;
     }
 };

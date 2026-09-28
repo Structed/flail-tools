@@ -120,6 +120,30 @@ Worth knowing before you rely on it:
   browser says it is called. Two players may pick the same name, and the person who gave you the
   code could pick yours. The connection a message arrived on is what keeps the seats apart.
 
+### When somebody never arrives
+
+Sitting alone at a table looks the same whatever is wrong with it: the code is on screen, you are
+in the roster, and the status line keeps looking for the others. Being "at a table" is a local
+fact — true the moment the channel opens, and no promise that anybody can reach you.
+
+**Check the connection**, under the invite hint, asks every relay twice: once for what the page
+currently holds, and once directly, then and there. The three answers mean different things.
+
+- **Carrying this table.** Signalling works and you can be found. If somebody still never appears,
+  it is the direct browser-to-browser leg that will not form — the first bullet above. Paste them
+  the seed beside a roll; it rebuilds the same dice anywhere.
+- **Answering, but this page is not using it.** The relay is fine and the page has given up on it.
+  Trystero retries a relay on a doubling backoff and abandons it for good once that passes a
+  minute, and it remembers having done so against the relay's address rather than the room — so
+  leaving the table and rejoining picks the same dead connection back up. **Reload the page.**
+  That is the only thing that clears it.
+- **No answer.** Nothing here reaches the relays, so nobody can find this table at all. A content
+  blocker, a VPN or a filtered network is the usual reason — Nostr relay domains are routinely
+  caught by DNS filters. Try another network; a phone hotspot settles the question in seconds.
+
+Which relays are in play is read back off the transport rather than worked out again here, so the
+list is always the five actually being used and cannot drift from them.
+
 The dice themselves are C#, and no longer live here: they are
 [Structed.Inkwell](https://github.com/Structed/inkwell) — the notation, the reading and the poker
 hand in `Structed.Inkwell.Dice`, the table in `Structed.Inkwell.Party`, and the channel and its
