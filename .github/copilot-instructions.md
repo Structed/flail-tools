@@ -55,7 +55,9 @@ reader who still needs the book.
 ```
 src/FlailTools.Core/      generation, data, dice, mapping, serialisation — all the logic
   Dice/FlailRolls.cs      the only file here that knows which game this is; the rest was extracted
+  Characters/            the character sheet model, its limits, and the roster
 src/FlailTools.Web/       Blazor WebAssembly, a thin layer over Core
+  Pages/Sheet.razor       the sheet at /character — NOT named Character.razor, see below
   wwwroot/data/house/     the tables: FLAIL!'s for the five generators, ours for names and maps
   wwwroot/data/ui.json    every word the interface says that is not a table entry
 tests/FlailTools.Core.Tests/
@@ -102,10 +104,10 @@ read what it is protecting before changing anything — the fix is almost never 
 | `AttributionTests` | The rendered interface, `README.md` and `NOTICE.md` all still carry both notices **verbatim**, once markup is stripped. |
 | `GoldenBaselineTests` | Six fixed seeds across every site kind still produce byte-identical output. |
 | `FieldPathTests` | The inventory of field paths has not changed. A path seeds its own roll stream *and* keys a lock, so renaming one changes what old seeds produce and orphans every saved lock — with no error at either end. |
-| `PageRouteTests` | `/`, `/site`, `/dice` and `/about` are each served by exactly one page. Routes are what people paste into chat windows. |
+| `PageRouteTests` | `/`, `/site`, `/dice`, `/party`, `/character` and `/about` are each served by exactly one page. Routes are what people paste into chat windows. |
 | `UiWordingTests` | Every literal `Ui.Action("…")` / `Ui.Message("…")` key exists in `ui.json`. A missing key does not throw — it renders the key itself, mid-interface, and survives every build and review. |
 | `SiteNameTests` | Name tables stay large, distinct, and joinable into short names. |
-| `JsonDefaultsTests` | The `System.Text.Json` source generator discards property initialisers, so every non-nullable property must coerce in its **getter**. Easy to forget on the next property added. |
+| `JsonDefaultsTests` | The `System.Text.Json` source generator discards property initialisers, so every non-nullable property must coerce in its **getter**. Easy to forget on the next property added. Covers the document context as well as the data one: a half-null sheet arrives from somebody else's link, on a machine nobody is watching. |
 | `ArtworkTests` | The icons and sharing card are PNGs at their declared sizes, linked relative to the deployment base, with absolute public URLs and the unofficial labelling intact. |
 | `WireFormatTests` | The exact bytes one browser says to another, in both directions, plus the table code's alphabet and the protocol versions. Every round trip changes both ends at once, so nothing else notices when the spelling on the wire moves — the people it breaks are the player who has not reloaded and the player on yesterday's deployment. |
 
@@ -133,6 +135,38 @@ Two values crossing that boundary are load-bearing, and neither of them looks it
 - The **wire format** — `RollMessage`, `Hail`, and the table code alphabet. A player on the deployed
   build and a player on a local one must be able to sit at the same table, so a package bump that
   changes any of it has to be a deliberate act. `WireFormatTests` is where it becomes one.
+
+## Character sheets
+
+A sheet is the opposite of a site: a site is a seed and a handful of locks because generation
+rebuilds it, and a character is the **whole sheet** in the link because nothing can rebuild a
+person's decisions. `?c=` is a version digit followed by base64url(deflate(JSON)); `?id=` is a
+ten-character id naming a sheet this browser already keeps.
+
+Four things here are load-bearing:
+
+- **The page is `Pages/Sheet.razor`, not `Character.razor`.** A Razor page compiles to a class in
+  `FlailTools.Web.Pages`, so a file with that name shadows `FlailTools.Core.Characters.Character` in
+  every page in the namespace, and the errors point everywhere except the cause. The route is still
+  `/character`. Do not rename it back.
+- **`CharacterId.Alphabet` and its length.** The id is what makes re-sharing replace a sheet rather
+  than duplicate it, and it is minted once and kept for life. Changing the alphabet does not break
+  existing ids so much as make them unrecognisable to `IsValid`.
+- **The revision rules in `CharacterSheet.ForSaving`.** A revision rises only when a save actually
+  changes the sheet, and `CharacterDocuments.SameContent` is what decides that — by serialising both
+  sides with `Revision = 0`, because a record's list members compare by reference and field-by-field
+  equality would be forgotten the next time a property is added. A sheet that stopped bumping its
+  revision would be shared as though the other player already had it.
+- **`CharacterLink.Decode` is total.** Every failure returns `null`, deliberately without saying
+  which. Note `Base64Url.TryDecodeFromChars` *throws* on invalid input rather than returning false,
+  which is what `TryUnpick` is for; remove that guard and a mistyped link becomes an error page.
+
+`PartyDocuments.Read` never throws either, for a different reason: a file is something a reader
+chose and can choose again, but the storage key is the contents of their browser, and the useful
+answer to a truncated or hand-edited one is the characters that are still legible.
+
+The class list is terminology, which the licence permits. Do not grow it into what a class can
+**do** — that is the book's prose, and it would make this a rules engine besides.
 
 ## Data tables
 
@@ -232,4 +266,6 @@ Work on a feature branch and open a pull request. **Never commit or push to `mai
 - Add a Games Omnivorous logo from anywhere but Games Omnivorous.
 - Re-grow a local copy of the dice, the table or the channel; they come from Inkwell now.
 - Change the app id, the wire format or the table code alphabet without meaning to split a table.
+- Rename a character id alphabet, or let a save bump a revision that nothing changed.
+- Name a page file after a Core type — `Pages/Character.razor` shadows `Character`.
 - Put generation logic in a `.razor` file, or an English sentence anywhere but `ui.json`.

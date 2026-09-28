@@ -66,7 +66,7 @@ public static class SiteUrl
     /// </remarks>
     public static SitePlan FromQuery(string? query)
     {
-        Dictionary<string, string> parameters = Split(query);
+        Dictionary<string, string> parameters = QueryParts.Split(query);
 
         uint seed = parameters.TryGetValue(SeedKey, out string? encoded)
             ? SeedCodec.DecodeOrRandom(Uri.UnescapeDataString(encoded))
@@ -159,37 +159,5 @@ public static class SiteUrl
                 Uri.UnescapeDataString(entry[..separator]),
                 Uri.UnescapeDataString(entry[(separator + 1)..]));
         }
-    }
-
-    /// <summary>
-    /// Splits a query into its parameters, leaving every value exactly as it arrived.
-    /// </summary>
-    /// <remarks>
-    /// Unescaping here would be a bug rather than a convenience: a packed list has to be split on
-    /// its separators before its halves are unescaped, or an escaped separator inside somebody's
-    /// typed words would reappear and tear the list apart at the wrong place.
-    /// </remarks>
-    private static Dictionary<string, string> Split(string? query)
-    {
-        Dictionary<string, string> parameters = new(StringComparer.Ordinal);
-
-        if (string.IsNullOrWhiteSpace(query))
-        {
-            return parameters;
-        }
-
-        foreach (string pair in query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
-        {
-            int separator = pair.IndexOf('=', StringComparison.Ordinal);
-
-            if (separator <= 0)
-            {
-                continue;
-            }
-
-            parameters[pair[..separator]] = pair[(separator + 1)..];
-        }
-
-        return parameters;
     }
 }

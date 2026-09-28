@@ -2,7 +2,8 @@
 
 An unofficial adventure site generator for **FLAIL!**, in your browser. It rolls dungeons, caves,
 wizard towers and hexcrawl locations, draws each one a hand-inked map, gives you a short link that
-rebuilds exactly what you saw, and runs a shared dice table for the whole party.
+rebuilds exactly what you saw, runs a shared dice table for the whole party, and keeps their
+character sheets.
 
 Free, no account, no tracking, no server — it is a static site and everything happens on your
 machine.
@@ -37,10 +38,10 @@ of it, and anything that bounces off the paper has to be reached some other way.
 
 ## Using it
 
-The front page lists the tools and does nothing else. The generator is at `/site` and the dice
-table at `/dice`; nothing is the default, and the wordmark goes back to the list. Links shared
-before the generator moved off the root address now open the front page rather than the site they
-described — repaste them from `/site` if you still want them.
+The front page lists the tools and does nothing else. The generator is at `/site`, the dice table at
+`/dice`, and the party's character sheets at `/party`; nothing is the default, and the wordmark goes
+back to the list. Links shared before the generator moved off the root address now open the front
+page rather than the site they described — repaste them from `/site` if you still want them.
 
 Every field has a lock and a re-roll. Lock the ones you like and press **Roll a site** again: the
 locked fields stay put and everything else changes around them. Re-rolling a single field works on
@@ -49,6 +50,44 @@ its own stream, so it cannot disturb anything else on the page.
 The address bar always describes what is on screen — seed, kind, locks and all — so copying the
 link is the whole of sharing. **Download** writes the same thing as a file, for when a link is not
 enough.
+
+## Character sheets
+
+`/party` is the list of characters this browser is keeping, and `/character` is one sheet: name,
+class, level, background, the three attributes, hit points, Defence, coins, what is in each of the
+four carrying zones, talents, spells and the rest, conditions, and a notes box.
+
+Nothing is saved as you type. **Save to this browser** is the only thing that writes anything down,
+and it writes to this browser and nowhere else — clearing your site data clears the party, and the
+sheets do not follow you to another device unless you send yourself a link.
+
+**Copy link** gives you an address with the whole sheet inside it, deflated and base64url-encoded
+after a version digit. There is nothing to look up at the other end and nothing hosted anywhere: a
+filled-in sheet comes to about 500 characters, and even a sheet filled to every limit stays well
+under the length a URL can be. **Download** writes the same sheet as a `.flail.json` file, and
+`/party` will open one back up.
+
+Every character carries a ten-character id, minted once and kept for life, which is what makes
+re-sharing work. Send the same character again after levelling them up and the copy the other
+player saved is **replaced** rather than joined by a second one with the same name.
+
+Alongside the id is a revision, which only goes up, and only when a save actually changes the sheet.
+It is there so a sheet arriving from a link can say which copy is which:
+
+- **you do not have this character** — it is new, and saving keeps it.
+- **the same revision you already have** — saving changes nothing.
+- **newer than yours** — the ordinary case after somebody has played a session.
+- **older than yours** — a warning, because saving it would replace your newer sheet with an older
+  one. That happens when somebody sends a link they made before your last save, and it is the one
+  case where the obvious action is the wrong one.
+
+An arriving link never saves itself. If it did, anybody who sent you a sheet could overwrite the one
+you were editing, and the warning would be a report of something already done rather than a
+question.
+
+The class list is the eight from the book, and that is as far as the tool reads the rules: it does
+not know what a Cutthroat can do, roll anything for you, or check a single number. It is a sheet of
+paper that survives being closed, and the book is still the thing you play from.
 
 ## Rolling dice together
 
@@ -267,6 +306,8 @@ the dice table does not arrive looking like the front page:
 | `open-graph.png` | the landing page | the folded map from `icon.svg` |
 | `open-graph-site.png` | `/site`, the generator | the folded map from `icon.svg` |
 | `open-graph-dice.png` | `/dice`, the dice table | an original twenty-sided die and a d6 |
+| `open-graph-party.png` | `/party`, the character list | three original sheets of paper, fanned |
+| `open-graph-character.png` | `/character`, one sheet | an original sheet with three attribute boxes |
 
 Every PNG is an export of the `.svg` beside it, and the two map cards reference `icon.svg`, so keep
 the SVGs together. Re-export after any edit:
@@ -289,8 +330,9 @@ landing card. `tools/share-cards.json` is the list of what each page says, and i
 
 - The landing entry is written by hand into `wwwroot/index.html`, which is also the SPA fallback.
 - Each tool gets a copy of that file at its own address — `wwwroot/site/index.html`,
-  `wwwroot/dice/index.html` — with the card swapped. Regenerate them after editing either
-  `index.html` or the manifest, and commit the result:
+  `wwwroot/dice/index.html`, `wwwroot/party/index.html`, `wwwroot/character/index.html` — with the
+  card swapped. Regenerate them after editing either `index.html` or the manifest, and commit the
+  result:
 
 ```
 pwsh ./tools/New-ShareShells.ps1
@@ -332,7 +374,7 @@ than treating every generated site as the home page.
 ## Layout
 
 ```
-src/FlailTools.Core/      generation, data, mapping, serialisation — all the logic
+src/FlailTools.Core/      generation, data, characters, mapping, serialisation — all the logic
 src/FlailTools.Web/       Blazor WebAssembly, a thin layer over Core
   wwwroot/data/house/     the tables: FLAIL!'s for the five generators, ours for names and maps
   wwwroot/data/ui.json    every word the interface says that is not a table entry

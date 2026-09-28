@@ -60,11 +60,11 @@ public sealed class ShareCardTests
         Manifest.Cards.Single(card => card.Route == route);
 
     [Fact]
-    public void BothToolsAndTheLandingPageHaveACard()
+    public void EveryToolAndTheLandingPageHasACard()
     {
         string[] routes = Manifest.Cards.Select(card => card.Route).ToArray();
 
-        Assert.Equal(new[] { "/", "/site", "/dice" }, routes);
+        Assert.Equal(new[] { "/", "/site", "/dice", "/party", "/character" }, routes);
     }
 
     /// <summary>

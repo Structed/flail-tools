@@ -1,0 +1,403 @@
+@page "/character"
+@inject LocalStore Store
+@inject NavigationManager Nav
+@inject IJSRuntime Js
+
+<PageTitle>@Title — @Ui.App.Title</PageTitle>
+
+<h1 class="visually-hidden">@Title</h1>
+
+@if (_loading)
+{
+    <p class="loading" role="status">@Ui.Message("loading")</p>
+}
+else
+{
+    @if (_arrival is RosterMatch arrival)
+    {
+        <p class="notice @(arrival == RosterMatch.Older ? "notice-bad" : "")" role="alert">
+            @Ui.Message(ArrivalMessage(arrival))
+        </p>
+    }
+
+    @if (_notice is { Length: > 0 })
+    {
+        <p class="notice notice-bad" role="alert">@_notice</p>
+    }
+
+    <section class="controls">
+        <button type="button" class="button button-primary" @onclick="Save">
+            @(IsSaved ? Ui.Action("savedCharacter") : Ui.Action("saveCharacter"))
+        </button>
+
+        <button type="button" class="button" @onclick="CopyLink">
+            @(_copied ? Ui.Action("copied") : Ui.Action("copyLink"))
+        </button>
+
+        <button type="button" class="button" @onclick="Download">
+            @Ui.Action("download")
+        </button>
+
+        <a class="button" href="party">@Ui.Action("party")</a>
+
+        <span class="seed">@Ui.Message("revisionLabel") @_sheet.Character.Revision</span>
+
+        <span class="sheet-state" role="status">
+            @(IsSaved ? Ui.Message("characterSaved")
+                : _stored is null ? Ui.Message("characterUnsaved")
+                : Ui.Message("characterChanged"))
+        </span>
+    </section>
+
+    <section class="sheet">
+        <div class="sheet-identity">
+            <label class="field field-wide">
+                <span class="field-label">@Ui.Message("characterNameLabel")</span>
+                <input type="text"
+                       value="@_sheet.Character.Name"
+                       maxlength="@CharacterLimits.NameLength"
+                       placeholder="@Ui.Message("characterNamePlaceholder")"
+                       @oninput="@(args => Edit(() => _sheet.Rename(args.Value as string)))" />
+            </label>
+
+            <label class="field">
+                <span class="field-label">@Ui.Message("classLabel")</span>
+                <select value="@_sheet.Character.Class"
+                        @onchange="@(args => Edit(() => _sheet.SetClass(args.Value as string)))">
+                    <option value="">@Ui.Action("noClass")</option>
+                    @foreach (string id in CharacterClasses.All)
+                    {
+                        <option value="@id" selected="@(id == _sheet.Character.Class)">@Ui.ClassName(id)</option>
+                    }
+                    @if (_sheet.Character.Class is { Length: > 0 } written && !CharacterClasses.IsKnown(written))
+                    {
+                        <option value="@written" selected="true">@written</option>
+                    }
+                </select>
+            </label>
+
+            <label class="field field-narrow">
+                <span class="field-label">@Ui.Message("levelLabel")</span>
+                <input type="number"
+                       min="0"
+                       max="@CharacterLimits.MostLevel"
+                       value="@_sheet.Character.Level"
+                       @oninput="@(args => Edit(() => _sheet.SetLevel(Sheets.Number(args, _sheet.Character.Level))))" />
+            </label>
+
+            <label class="field field-wide">
+                <span class="field-label">@Ui.Message("backgroundLabel")</span>
+                <input type="text"
+                       value="@_sheet.Character.Background"
+                       maxlength="@CharacterLimits.NameLength"
+                       placeholder="@Ui.Message("backgroundPlaceholder")"
+                       @oninput="@(args => Edit(() => _sheet.SetBackground(args.Value as string)))" />
+            </label>
+
+            <label class="field field-full">
+                <span class="field-label">@Ui.Message("backgroundPerkLabel")</span>
+                <textarea rows="2"
+                          maxlength="@CharacterLimits.ProseLength"
+                          placeholder="@Ui.Message("backgroundPerkPlaceholder")"
+                          @oninput="@(args => Edit(() => _sheet.SetBackgroundPerk(args.Value as string)))">@_sheet.Character.BackgroundPerk</textarea>
+            </label>
+        </div>
+
+        <div class="sheet-scores">
+            <h2>@Ui.Message("attributesHeading")</h2>
+
+            <div class="score-grid">
+                @foreach (string attribute in CharacterAttributes.All)
+                {
+                    string id = attribute;
+
+                    <label class="score">
+                        <span class="score-label">@Ui.AttributeName(id)</span>
+                        <input type="number"
+                               min="0"
+                               max="@CharacterLimits.MostScore"
+                               value="@_sheet.Character.Score(id)"
+                               @oninput="@(args => Edit(() => _sheet.SetScore(id, Sheets.Number(args, _sheet.Character.Score(id)))))" />
+                    </label>
+                }
+
+                <label class="score">
+                    <span class="score-label">@Ui.Message("hitPointsLabel")</span>
+                    <span class="score-pair">
+                        <input type="number"
+                               min="0"
+                               max="@CharacterLimits.MostHitPoints"
+                               value="@_sheet.Character.HitPoints"
+                               @oninput="@(args => Edit(() => _sheet.SetHitPoints(Sheets.Number(args, _sheet.Character.HitPoints))))" />
+                        <span class="score-of">@Ui.Message("maxHitPointsLabel")</span>
+                        <input type="number"
+                               min="0"
+                               max="@CharacterLimits.MostHitPoints"
+                               value="@_sheet.Character.MaxHitPoints"
+                               aria-label="@Ui.Message("maxHitPointsLabel")"
+                               @oninput="@(args => Edit(() => _sheet.SetMaxHitPoints(Sheets.Number(args, _sheet.Character.MaxHitPoints))))" />
+                    </span>
+                </label>
+
+                <label class="score">
+                    <span class="score-label">@Ui.Message("defenceLabel")</span>
+                    <input type="number"
+                           min="0"
+                           max="@CharacterLimits.MostDefence"
+                           value="@_sheet.Character.Defence"
+                           @oninput="@(args => Edit(() => _sheet.SetDefence(Sheets.Number(args, _sheet.Character.Defence))))" />
+                </label>
+
+                <label class="score">
+                    <span class="score-label">@Ui.Message("coinsLabel")</span>
+                    <input type="number"
+                           min="0"
+                           max="@CharacterLimits.MostCoins"
+                           value="@_sheet.Character.Coins"
+                           @oninput="@(args => Edit(() => _sheet.SetCoins(Sheets.Number(args, _sheet.Character.Coins))))" />
+                </label>
+            </div>
+        </div>
+
+        <div class="sheet-carried">
+            <h2>@Ui.Message("inventoryHeading")</h2>
+
+            @foreach (string zone in CharacterZones.All)
+            {
+                <SheetItems Sheet="_sheet" Zone="@zone" OnChanged="OnEdited" />
+            }
+        </div>
+
+        <div class="sheet-abilities">
+            <SheetPowers Sheet="_sheet"
+                         List="@CharacterLists.Talents"
+                         Heading="@Ui.Message("talentsHeading")"
+                         NamePlaceholder="@Ui.Message("talentNamePlaceholder")"
+                         OnChanged="OnEdited" />
+
+            <SheetPowers Sheet="_sheet"
+                         List="@CharacterLists.Powers"
+                         Heading="@Ui.Message("powersHeading")"
+                         NamePlaceholder="@Ui.Message("powerNamePlaceholder")"
+                         ShowKind="true"
+                         OnChanged="OnEdited" />
+        </div>
+
+        <div class="sheet-state-list">
+            <h2>@Ui.Message("conditionsHeading")</h2>
+
+            <ul class="entry-list">
+                @foreach ((string condition, int index) in _sheet.Character.Conditions.Select((c, i) => (c, i)))
+                {
+                    int at = index;
+
+                    <li class="entry-row">
+                        <input class="entry-name"
+                               type="text"
+                               value="@condition"
+                               maxlength="@CharacterLimits.NameLength"
+                               placeholder="@Ui.Message("conditionPlaceholder")"
+                               aria-label="@Ui.Message("conditionPlaceholder")"
+                               @oninput="@(args => Edit(() => _sheet.SetCondition(at, args.Value as string)))" />
+
+                        <button type="button"
+                                class="button button-small"
+                                @onclick="@(() => Edit(() => _sheet.RemoveCondition(at)))">
+                            @Ui.Action("removeRow")
+                        </button>
+                    </li>
+                }
+            </ul>
+
+            <button type="button" class="button button-small" @onclick="@(() => Edit(_sheet.AddCondition))">
+                @Ui.Action("addRow")
+            </button>
+        </div>
+
+        <div class="sheet-notes">
+            <h2>@Ui.Message("notesHeading")</h2>
+
+            <textarea rows="6"
+                      maxlength="@CharacterLimits.ProseLength"
+                      placeholder="@Ui.Message("notesPlaceholder")"
+                      aria-label="@Ui.Message("notesHeading")"
+                      @oninput="@(args => Edit(() => _sheet.SetNotes(args.Value as string)))">@_sheet.Character.Notes</textarea>
+        </div>
+    </section>
+
+    <p class="hint">@Ui.Message("characterShareHint")</p>
+}
+
+@code {
+    [CascadingParameter]
+    public GameData Data { get; set; } = default!;
+
+    private CharacterSheet _sheet = new();
+    private CharacterRoster _roster = CharacterRoster.Empty;
+
+    /// <summary>The copy in this browser's storage, or <c>null</c> if this sheet is not kept yet.</summary>
+    private Character? _stored;
+
+    /// <summary>
+    /// How an arriving sheet stood against the stored copy, or <c>null</c> when none arrived.
+    /// </summary>
+    /// <remarks>
+    /// Read once, when the link is opened, and cleared on the first save. Recomputing it as the
+    /// sheet is edited would turn a warning about somebody else's work into a running commentary
+    /// on your own.
+    /// </remarks>
+    private RosterMatch? _arrival;
+
+    private bool _loading = true;
+    private bool _copied;
+    private string? _notice;
+
+    private UiText Ui => Data.Ui;
+
+    private string Title => _sheet.Character.Name is { Length: > 0 } name
+        ? name
+        : Ui.Message("characterUnnamed");
+
+    private bool IsSaved => _sheet.Matches(_stored);
+
+    /// <summary>
+    /// The address to hand somebody, with the whole sheet inside it.
+    /// </summary>
+    /// <remarks>
+    /// Built when asked for rather than kept in the address bar. The sheet is a kilobyte of
+    /// payload, and rewriting the address on every keystroke would be a deflate and a base64
+    /// encode per letter typed, for an address nobody is looking at.
+    /// </remarks>
+    private string ShareAddress => $"{Nav.BaseUri}character{_sheet.Query}";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _roster = await Store.LoadAsync();
+
+        string query = new Uri(Nav.Uri).Query;
+
+        if (CharacterLink.FromQuery(query) is Character shared)
+        {
+            _sheet = new CharacterSheet(shared);
+            _stored = _roster.Find(shared.Id);
+            _arrival = _roster.Compare(shared);
+        }
+        else if (CharacterLink.IdFromQuery(query) is string id)
+        {
+            _stored = _roster.Find(id);
+
+            if (_stored is null)
+            {
+                _notice = Ui.Message("characterGone");
+            }
+            else
+            {
+                _sheet = new CharacterSheet(_stored);
+            }
+        }
+        else if (query.Contains(CharacterLink.SheetKey + "=", StringComparison.Ordinal))
+        {
+            _notice = Ui.Message("characterLinkBad");
+        }
+
+        _loading = false;
+    }
+
+    private static string ArrivalMessage(RosterMatch match) => match switch
+    {
+        RosterMatch.Older => "arrivedOlder",
+        RosterMatch.Same => "arrivedSame",
+        RosterMatch.Newer => "arrivedNewer",
+        _ => "arrivedUnknown"
+    };
+
+    private Task Edit(Action change)
+    {
+        change();
+
+        return OnEdited();
+    }
+
+    private Task OnEdited()
+    {
+        _copied = false;
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Writes the sheet down, and only then says the arriving link has been dealt with.
+    /// </summary>
+    /// <remarks>
+    /// Nothing reaches storage without this press. A link that saved itself on arrival would let
+    /// anybody who sent you a sheet overwrite the copy you were editing, and the warning above
+    /// would be a report of something already done rather than a question.
+    /// </remarks>
+    private async Task Save()
+    {
+        Character saved = _sheet.ForSaving(_stored);
+
+        _roster = _roster.Save(saved);
+        _sheet.Apply(saved);
+        _stored = saved;
+        _arrival = null;
+        _notice = null;
+
+        if (!await Store.SaveAsync(_roster))
+        {
+            _notice = Ui.Message("characterUnsaved");
+
+            return;
+        }
+
+        await SyncUrl();
+    }
+
+    /// <summary>
+    /// Trades the shared payload in the address bar for the short one naming the stored character.
+    /// </summary>
+    /// <remarks>
+    /// So that a refresh after saving reopens the copy in this browser rather than the sheet as it
+    /// arrived — which would put the warning back, and offer to save work that has already been
+    /// saved.
+    /// </remarks>
+    private async Task SyncUrl()
+    {
+        try
+        {
+            await Js.InvokeVoidAsync("flailTools.setUrl", $"{Nav.BaseUri}character{_sheet.IdQuery}");
+        }
+        catch (JSException)
+        {
+            // An address bar that has stopped agreeing is not worth breaking the page over.
+        }
+    }
+
+    private async Task CopyLink()
+    {
+        try
+        {
+            _copied = await Js.InvokeAsync<bool>("flailTools.copyText", ShareAddress);
+        }
+        catch (JSException)
+        {
+            _copied = false;
+        }
+    }
+
+    private async Task Download()
+    {
+        try
+        {
+            await Js.InvokeVoidAsync(
+                "flailTools.download",
+                _sheet.FileName,
+                _sheet.ToDocument(),
+                "application/json");
+        }
+        catch (JSException)
+        {
+            // Nothing useful to say: the browser refused to save a file it was handed.
+        }
+    }
+}

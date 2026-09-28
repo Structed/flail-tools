@@ -126,4 +126,6 @@ public static class SiteDocuments
     AllowTrailingCommas = true,
     WriteIndented = true)]
 [JsonSerializable(typeof(SiteDocument))]
+[JsonSerializable(typeof(CharacterDocument))]
+[JsonSerializable(typeof(PartyDocument))]
 public sealed partial class DocumentJsonContext : JsonSerializerContext;

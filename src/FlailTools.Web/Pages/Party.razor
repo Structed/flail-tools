@@ -1,0 +1,159 @@
+@page "/party"
+@inject LocalStore Store
+@inject NavigationManager Nav
+
+<PageTitle>@Ui.Action("party") — @Ui.App.Title</PageTitle>
+
+<h1>@Ui.Message("partyHeading")</h1>
+
+<p class="lede">@Ui.Message("partyTagline")</p>
+
+<section class="controls">
+    <a class="button button-primary" href="character">@Ui.Action("newCharacter")</a>
+
+    <label class="button file-button">
+        @Ui.Action("openFile")
+        <InputFile OnChange="OnFileChosen" accept=".json,application/json" />
+    </label>
+</section>
+
+@if (_notice is { Length: > 0 })
+{
+    <p class="notice notice-bad" role="alert">@_notice</p>
+}
+
+@if (_loading)
+{
+    <p class="loading" role="status">@Ui.Message("loading")</p>
+}
+else if (_roster.Count == 0)
+{
+    <p class="notice" role="status">@Ui.Message("partyEmpty")</p>
+}
+else
+{
+    <ul class="party-list">
+        @foreach (Character character in _roster.Characters)
+        {
+            string id = character.Id;
+
+            <li class="party-row">
+                <a class="party-name" href="@($"character?id={id}")">
+                    @(character.Name is { Length: > 0 } name ? name : Ui.Message("characterUnnamed"))
+                </a>
+
+                <span class="party-detail">
+                    @Ui.ClassName(character.Class)
+                    <span class="party-level">@Ui.Message("levelLabel") @character.Level</span>
+                </span>
+
+                <span class="party-revision">@Ui.Message("revisionLabel") @character.Revision</span>
+
+                @if (_removing == id)
+                {
+                    <span class="party-actions">
+                        <button type="button" class="button button-bad" @onclick="() => Remove(id)">
+                            @Ui.Action("confirmRemove")
+                        </button>
+                        <button type="button" class="button" @onclick="() => _removing = null">
+                            @Ui.Action("cancel")
+                        </button>
+                    </span>
+                }
+                else
+                {
+                    <span class="party-actions">
+                        <a class="button" href="@($"character?id={id}")">@Ui.Action("openCharacter")</a>
+                        <button type="button" class="button" @onclick="() => _removing = id">
+                            @Ui.Action("removeCharacter")
+                        </button>
+                    </span>
+                }
+            </li>
+        }
+    </ul>
+}
+
+<p class="hint">@Ui.Message("partyPrivacyHint")</p>
+
+@code {
+    /// <summary>
+    /// How much of a dropped file will be read.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="IBrowserFile.OpenReadStream"/> refuses anything larger than half a megabyte
+    /// unless told otherwise, and a sheet is a couple of kilobytes. This is generous enough that no
+    /// real sheet meets it and small enough that picking a video by mistake fails immediately
+    /// rather than filling a tab's memory.
+    /// </remarks>
+    private const long MostFileBytes = 256 * 1024;
+
+    [CascadingParameter]
+    public GameData Data { get; set; } = default!;
+
+    private CharacterRoster _roster = CharacterRoster.Empty;
+    private bool _loading = true;
+    private string? _removing;
+    private string? _notice;
+
+    private UiText Ui => Data.Ui;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _roster = await Store.LoadAsync();
+        _loading = false;
+    }
+
+    private async Task Remove(string id)
+    {
+        _removing = null;
+        _roster = _roster.Remove(id);
+
+        await Save();
+    }
+
+    /// <summary>
+    /// Opens a downloaded sheet, whoever it came from.
+    /// </summary>
+    /// <remarks>
+    /// The file goes straight to the sheet rather than into the roster. Landing somebody's file in
+    /// the party list without showing it to them first would save over a character of the same id
+    /// silently, which is the one thing the receiving page exists to ask about.
+    /// </remarks>
+    private async Task OnFileChosen(InputFileChangeEventArgs args)
+    {
+        _notice = null;
+
+        IBrowserFile file = args.File;
+
+        if (file.Size > MostFileBytes)
+        {
+            _notice = Ui.Message("characterFileBad");
+
+            return;
+        }
+
+        try
+        {
+            using StreamReader reader = new(file.OpenReadStream(MostFileBytes));
+
+            Character character = CharacterDocuments.Read(await reader.ReadToEndAsync());
+
+            Nav.NavigateTo($"character{CharacterLink.ToQuery(character)}");
+        }
+        catch (Exception error) when (error is Structed.Inkwell.Serialization.DocumentFormatException
+            or System.Text.Json.JsonException
+            or IOException)
+        {
+            _notice = Ui.Message("characterFileBad");
+        }
+    }
+
+    private async Task Save()
+    {
+        if (!await Store.SaveAsync(_roster))
+        {
+            _notice = Ui.Message("characterUnsaved");
+        }
+    }
+}

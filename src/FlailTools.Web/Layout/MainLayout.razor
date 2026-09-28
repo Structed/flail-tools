@@ -10,6 +10,7 @@
         <nav class="masthead-nav">
             <NavLink class="nav-link" href="site">@Generate</NavLink>
             <NavLink class="nav-link" href="dice">@Dice</NavLink>
+            <NavLink class="nav-link" href="party">@Party</NavLink>
             <NavLink class="nav-link" href="about">@About</NavLink>
         </nav>
     </header>
@@ -49,6 +50,8 @@
     private string Generate => _data?.Ui.Action("generate") ?? "Roll a site";
 
     private string Dice => _data?.Ui.Action("dice") ?? "Dice";
+
+    private string Party => _data?.Ui.Action("party") ?? "Party";
 
     private string About => _data?.Ui.Action("about") ?? "About";
 

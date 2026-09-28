@@ -21,6 +21,8 @@ public sealed class ArtworkTests
     [InlineData("open-graph.png", 1200, 630)]
     [InlineData("open-graph-site.png", 1200, 630)]
     [InlineData("open-graph-dice.png", 1200, 630)]
+    [InlineData("open-graph-party.png", 1200, 630)]
+    [InlineData("open-graph-character.png", 1200, 630)]
     public void ArtworkIsPngAtItsDeclaredSize(string file, int width, int height)
     {
         byte[] png = File.ReadAllBytes(Path.Combine(WebRoot, file));
@@ -97,6 +99,8 @@ public sealed class ArtworkTests
     [InlineData("open-graph.svg")]
     [InlineData("open-graph-site.svg")]
     [InlineData("open-graph-dice.svg")]
+    [InlineData("open-graph-party.svg")]
+    [InlineData("open-graph-character.svg")]
     public void EverySharingCardCarriesItsOwnUnofficialNotice(string file)
     {
         XElement svg = XElement.Load(Path.Combine(WebRoot, file));
@@ -125,13 +129,22 @@ public sealed class ArtworkTests
     }
 
     /// <summary>
-    /// The dice are drawn in the card rather than borrowed from anywhere, which is the whole point
-    /// of them: a die is the one picture a game tool is most tempted to lift.
+    /// The cards that draw rather than borrow have to keep drawing.
     /// </summary>
-    [Fact]
-    public void TheDiceCardDrawsItsOwnArtwork()
+    /// <remarks>
+    /// A die and a character sheet are the two pictures a game tool is most tempted to lift, and
+    /// the two the licence is clearest about: the book's artwork is not ours to reproduce, and an
+    /// official sheet is artwork. So these cards are drawn from paths here, and an
+    /// <c>&lt;image&gt;</c> appearing in one of them fails rather than quietly shipping whatever
+    /// it points at.
+    /// </remarks>
+    [Theory]
+    [InlineData("open-graph-dice.svg")]
+    [InlineData("open-graph-party.svg")]
+    [InlineData("open-graph-character.svg")]
+    public void TheDrawnCardsBorrowNothing(string file)
     {
-        XElement svg = XElement.Load(Path.Combine(WebRoot, "open-graph-dice.svg"));
+        XElement svg = XElement.Load(Path.Combine(WebRoot, file));
         XNamespace ns = "http://www.w3.org/2000/svg";
 
         Assert.Empty(svg.Descendants(ns + "image"));

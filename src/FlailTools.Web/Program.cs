@@ -14,5 +14,6 @@ HttpClient http = new() { BaseAddress = new Uri(builder.HostEnvironment.BaseAddr
 builder.Services.AddScoped(_ => http);
 builder.Services.AddScoped<IDataFileReader>(_ => new HttpDataFileReader(http));
 builder.Services.AddScoped<GameDataSource>();
+builder.Services.AddScoped<LocalStore>();
 
 await builder.Build().RunAsync();

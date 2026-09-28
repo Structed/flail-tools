@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Party — FLAIL! Tools</title>
+    <meta name="description" content="Keep your party's FLAIL! character sheets in your own browser and hand one to somebody as a link. Send an updated sheet and it replaces the copy they already had rather than piling up beside it." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Character sheets - Unofficial FLAIL! Tools" />
+    <meta property="og:description" content="Keep your party's FLAIL! character sheets in your own browser and hand one to somebody as a link. Send an updated sheet and it replaces the copy they already had rather than piling up beside it." />
+    <!-- Leave og:url unset: the query string carries each shared site's seed and locks. -->
+    <meta property="og:image" content="https://flail-tools.pages.dev/open-graph-party.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Character sheets - Unofficial FLAIL! Tools. An original ink drawing of three sheets of paper fanned out. Not affiliated with Games Omnivorous." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://flail-tools.pages.dev/open-graph-party.png" />
+    <meta name="twitter:image:alt" content="Character sheets - Unofficial FLAIL! Tools. An original ink drawing of three sheets of paper fanned out. Not affiliated with Games Omnivorous." />
+    <base href="/" />
+    <link rel="preload" id="webassembly" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link href="FlailTools.Web.styles.css" rel="stylesheet" />
+    <script type="importmap"></script>
+</head>
+
+<body>
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+    <script src="js/flail.js"></script>
+    <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
+</body>
+
+</html>

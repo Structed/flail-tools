@@ -1,0 +1,101 @@
+@using FlailTools.Core.Characters
+
+<section class="sheet-powers">
+    <h3>@Heading</h3>
+
+    <ul class="entry-list">
+        @foreach ((PowerEntry entry, int index) in Sheet.Entries(List).Select((entry, index) => (entry, index)))
+        {
+            int at = index;
+
+            <li class="entry-row">
+                @if (ShowKind)
+                {
+                    <select class="entry-kind"
+                            aria-label="@Ui.Message("powersHeading")"
+                            @onchange="@(args => Set(at, entry with { Kind = args.Value as string ?? "" }))">
+                        @foreach (string kind in PowerKinds.All)
+                        {
+                            <option value="@kind" selected="@(kind == entry.Kind)">@Ui.PowerKindName(kind)</option>
+                        }
+                    </select>
+                }
+
+                <input class="entry-name"
+                       type="text"
+                       value="@entry.Name"
+                       maxlength="@CharacterLimits.NameLength"
+                       placeholder="@NamePlaceholder"
+                       aria-label="@NamePlaceholder"
+                       @oninput="@(args => Set(at, entry with { Name = args.Value as string ?? "" }))" />
+
+                <input class="entry-note"
+                       type="text"
+                       value="@entry.Note"
+                       maxlength="@CharacterLimits.NoteLength"
+                       placeholder="@Ui.Message("powerNotePlaceholder")"
+                       aria-label="@Ui.Message("powerNotePlaceholder")"
+                       @oninput="@(args => Set(at, entry with { Note = args.Value as string ?? "" }))" />
+
+                <button type="button"
+                        class="button button-small"
+                        title="@Ui.Action("removeRow")"
+                        @onclick="@(() => Change(() => Sheet.RemoveEntry(List, at)))">
+                    @Ui.Action("removeRow")
+                </button>
+            </li>
+        }
+    </ul>
+
+    <button type="button"
+            class="button button-small"
+            @onclick="@(() => Change(() => Sheet.AddEntry(List, ShowKind ? PowerKinds.Spell : "")))">
+        @Ui.Action("addRow")
+    </button>
+</section>
+
+@code {
+    [CascadingParameter]
+    public GameData Data { get; set; } = default!;
+
+    [Parameter]
+    [EditorRequired]
+    public CharacterSheet Sheet { get; set; } = default!;
+
+    /// <summary>One of <see cref="CharacterLists"/>.</summary>
+    [Parameter]
+    [EditorRequired]
+    public string List { get; set; } = "";
+
+    [Parameter]
+    [EditorRequired]
+    public string Heading { get; set; } = "";
+
+    [Parameter]
+    [EditorRequired]
+    public string NamePlaceholder { get; set; } = "";
+
+    /// <summary>
+    /// Whether each row says what sort of thing it is.
+    /// </summary>
+    /// <remarks>
+    /// Off for talents, which are all the same sort of thing, and a picker offering to call one a
+    /// prayer would only invite filling it in wrongly.
+    /// </remarks>
+    [Parameter]
+    public bool ShowKind { get; set; }
+
+    [Parameter]
+    public EventCallback OnChanged { get; set; }
+
+    private UiText Ui => Data.Ui;
+
+    private Task Set(int index, PowerEntry entry) => Change(() => Sheet.SetEntry(List, index, entry));
+
+    private Task Change(Action change)
+    {
+        change();
+
+        return OnChanged.InvokeAsync();
+    }
+}
