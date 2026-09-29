@@ -163,6 +163,38 @@ Worth knowing before you rely on it:
   browser says it is called. Two players may pick the same name, and the person who gave you the
   code could pick yours. The connection a message arrived on is what keeps the seats apart.
 
+### When somebody never arrives
+
+Sitting alone at a table looks the same whatever is wrong with it: the code is on screen, you are
+in the roster, and the status line keeps looking for the others. Being "at a table" is a local
+fact — true the moment the channel opens, and no promise that anybody can reach you.
+
+**Trouble connecting?**, under the invite hint, opens a check that asks every relay twice: once for
+what the page currently holds, and once directly, then and there. It is shut until you open it,
+because almost every table works and a page that leads with its own diagnostics reads like one
+expecting to fail. Inside, it says what to do, lists what each relay answered, and explains the
+answers underneath — because three words are scannable but not actionable, and one of the three
+means opposite things depending on how many others said it.
+
+- **Carrying this table.** Signalling works and you can be found. One is enough. If somebody still
+  never appears, it is the direct browser-to-browser leg that will not form — the first bullet
+  above. Paste them the seed beside a roll; it rebuilds the same dice anywhere.
+- **Answering, but this page is not using it.** The relay is fine and the page has given up on it.
+  Trystero retries a relay on a doubling backoff and abandons it for good once that passes a
+  minute, and it remembers having done so against the relay's address rather than the room — so
+  leaving the table and rejoining picks the same dead connection back up. **Reload the page.**
+  That is the only thing that clears it.
+- **No answer.** Nothing here reached it. One or two is the ordinary condition of the public relay
+  network and costs the table nothing — `chorus.pjv.me` is in the list Trystero ships and its DNS
+  record no longer exists, so everybody sees that one fail. *All* of them failing at once is the
+  real signal: a content blocker, a VPN or a filtered network, and Nostr relay domains are
+  routinely caught by DNS filters. Try another network; a phone hotspot settles it in seconds.
+
+Which relays are in play is read back off the transport rather than worked out again here, so the
+list is always the five actually being used and cannot drift from them. Which of the five you get
+is a shuffle seeded by the app id alone, so it is the same set in every room — changing tables
+cannot route around a bad one.
+
 The dice themselves are C#, and no longer live here: they are
 [Structed.Inkwell](https://github.com/Structed/inkwell) — the notation, the reading and the poker
 hand in `Structed.Inkwell.Dice`, the table in `Structed.Inkwell.Party`, and the channel and its
