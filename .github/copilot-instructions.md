@@ -126,10 +126,14 @@ local copy of either. Reach for the package.
 under 130 lines of code. If the presets grow into a rules engine, that is a conversation to have,
 not a limit to raise.
 
-Two values crossing that boundary are load-bearing, and neither of them looks it:
+Three values crossing that boundary are load-bearing, and none of them looks it:
 
 - The **app id** `structed-flail-tools-dice`, passed to the channel from `Dice.razor`. It namespaces
   the signalling. Change it and every table code already written down stops finding its table.
+- The **relay list** in `Core/Connection/DiceRelays.cs`, passed to the channel beside the app id.
+  Players only meet if they share a relay, so this is a compatibility surface too — and a quieter
+  one, because a tab opened before a change keeps dialling the old set and has no way to learn
+  otherwise. Prune it freely, but leave something from `Inherited` in it; `DiceRelaysTests` says so.
 - The **wire format** — `RollMessage`, `Hail`, and the table code alphabet. A player on the deployed
   build and a player on a local one must be able to sit at the same table, so a package bump that
   changes any of it has to be a deliberate act. `WireFormatTests` is where it becomes one.
@@ -232,4 +236,5 @@ Work on a feature branch and open a pull request. **Never commit or push to `mai
 - Add a Games Omnivorous logo from anywhere but Games Omnivorous.
 - Re-grow a local copy of the dice, the table or the channel; they come from Inkwell now.
 - Change the app id, the wire format or the table code alphabet without meaning to split a table.
+- Empty the relay list of everything the previous draw used, without meaning to strand open tabs.
 - Put generation logic in a `.razor` file, or an English sentence anywhere but `ui.json`.
