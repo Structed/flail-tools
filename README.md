@@ -149,15 +149,19 @@ means opposite things depending on how many others said it.
   leaving the table and rejoining picks the same dead connection back up. **Reload the page.**
   That is the only thing that clears it.
 - **No answer.** Nothing here reached it. One or two is the ordinary condition of the public relay
-  network and costs the table nothing — `chorus.pjv.me` is in the list Trystero ships and its DNS
-  record no longer exists, so everybody sees that one fail. *All* of them failing at once is the
-  real signal: a content blocker, a VPN or a filtered network, and Nostr relay domains are
-  routinely caught by DNS filters. Try another network; a phone hotspot settles it in seconds.
+  network and costs the table nothing. *All* of them failing at once is the real signal: a content
+  blocker, a VPN or a filtered network, and Nostr relay domains are routinely caught by DNS
+  filters. Try another network; a phone hotspot settles it in seconds.
 
 Which relays are in play is read back off the transport rather than worked out again here, so the
-list is always the five actually being used and cannot drift from them. Which of the five you get
-is a shuffle seeded by the app id alone, so it is the same set in every room — changing tables
-cannot route around a bad one.
+list is always the ones actually being used and cannot drift from them. The relays themselves are
+named in `SignallingRelays.cs` and are the same in every room, so changing tables cannot route
+around a bad one. Left to itself, Trystero would draw five from the list it ships, shuffled by the
+app id alone. That draw put `chorus.pjv.me`, whose DNS record no longer exists, and
+`relay.mostr.pub` in front of every FLAIL! table for good. Naming them replaces the draw outright.
+The list is load-bearing in the same way as the app id: two players only meet through a relay they
+share, so a dead relay can be swapped for a live one, but a change must keep at least one relay the
+deployed build is still using.
 
 The dice themselves are C#, and no longer live here: they are
 [Structed.Inkwell](https://github.com/Structed/inkwell) — the notation, the reading and the poker

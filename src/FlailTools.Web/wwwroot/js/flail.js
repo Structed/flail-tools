@@ -218,10 +218,10 @@ window.flailTools = {
     // Where the dice table's signalling actually stands, relay by relay.
     //
     // The channel and the transport under it both ship in Structed.Inkwell.Party.Blazor and neither
-    // is reimplemented here. Which relays are in play is the transport's business and is read back
-    // off it rather than worked out again: the same five would otherwise have to be derived from
-    // the app id a second time, in a second language, and would drift the first time either end
-    // changed.
+    // is reimplemented here. The relays are named in C# (SignallingRelays), but which ones are in
+    // play is still read back off the transport rather than off that list: what the check reports
+    // should be what the page is actually holding, not what it was asked to hold, and the two would
+    // drift the first time either end changed.
     //
     // The module is addressed against the document base on purpose. party.js imports it as
     // './trystero-nostr.js' from its own folder under _content/, and the module map is keyed by

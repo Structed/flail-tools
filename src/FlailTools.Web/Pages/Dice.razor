@@ -315,7 +315,7 @@
 
     protected override void OnInitialized()
     {
-        _channel = new PartyChannel(Js, FlailRolls.PartyAppId);
+        _channel = new PartyChannel(Js, FlailRolls.PartyAppId, SignallingRelays.All);
         _channel.Changed += OnChannelChanged;
     }
 
