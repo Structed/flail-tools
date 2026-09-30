@@ -180,6 +180,24 @@ file allowed to know what game this is; that rule was the groundwork for the lif
 lift has happened the same test guards the other direction, so the extraction cannot quietly
 un-happen. The sibling Mausritter tool gets the same dice table by adding the same two packages.
 
+## Reporting a problem
+
+**Report a problem**, at the end of the masthead on every page, opens a short note and then a GitHub
+issue form. It needs a GitHub account, and the issue it becomes is **public**. The form arrives with
+the page's address and the build, browser and window size already filled in; what went wrong is left
+to you. Every report is labelled `user reported` and `triage` by the form itself, so the labels apply
+whoever files it.
+
+There is no server, so nothing is uploaded on your behalf. **Take a screenshot** asks the browser for
+a picture of this tab, puts it on the clipboard (or downloads it, if the clipboard says no) and shows
+it to you first; you paste it into the form yourself. A dice table code is the whole of a table's
+key, so it is hidden from the screenshot and dropped from the address. Only a generator link keeps
+its query, because the seed and locks are what rebuild the site you were looking at.
+
+The link opens the form by name from the default branch, so a change to
+`.github/ISSUE_TEMPLATE/user-report.yml` only reaches the link once it is merged.
+`ProblemReportTests` holds the template, its field ids and its labels to what the link expects.
+
 ## On content, and where the tables come from
 
 The Games Omnivorous Third-Party Licence permits reusing **rules, mechanics, terminology and random

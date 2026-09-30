@@ -11,6 +11,10 @@
             <NavLink class="nav-link" href="site">@Generate</NavLink>
             <NavLink class="nav-link" href="dice">@Dice</NavLink>
             <NavLink class="nav-link" href="about">@About</NavLink>
+            @if (_data is not null)
+            {
+                <ReportProblem Ui="_data.Ui" />
+            }
         </nav>
     </header>
 

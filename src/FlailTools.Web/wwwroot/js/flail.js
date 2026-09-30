@@ -61,6 +61,160 @@ window.flailTools = {
         }
     },
 
+    // The problem report.
+    //
+    // The address is read off the browser rather than the router, because the pages rewrite it with
+    // replaceState and the router is never told. What may be published of it is decided in C#.
+    pageUrl: function () {
+        return location.href;
+    },
+
+    describeBrowser: function () {
+        return {
+            userAgent: navigator.userAgent || '',
+            viewport: `${window.innerWidth} x ${window.innerHeight}`
+        };
+    },
+
+    showDialog: function (dialog) {
+        if (dialog && !dialog.open) {
+            dialog.showModal();
+        }
+    },
+
+    closeDialog: function (dialog) {
+        if (dialog && dialog.open) {
+            dialog.close();
+        }
+    },
+
+    forget: function (url) {
+        if (url) {
+            URL.revokeObjectURL(url);
+        }
+    },
+
+    canCaptureTab: function () {
+        return !!(navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia);
+    },
+
+    // One picture of the tab, for the problem report.
+    //
+    // Taken by asking the browser to share the tab rather than by redrawing the page, because the
+    // browser already knows exactly what is on screen and a library that re-renders the DOM would
+    // be a dependency paid for to get it slightly wrong. The price is a permission prompt, and no
+    // support on phones, where the button is not offered.
+    //
+    // The dialog is closed first so it is not in the picture, and the page is marked as capturing
+    // so anything it holds private — a dice table code — is hidden for the moment the frame is
+    // taken. The sharing stops as soon as there is a frame.
+    //
+    // GitHub takes images only by paste or drop, so the picture goes on the clipboard, or into the
+    // downloads where the clipboard refuses it, and the reporter carries it across themselves.
+    captureTab: async function (dialog) {
+        if (!window.flailTools.canCaptureTab()) {
+            return { outcome: 'failed' };
+        }
+
+        const root = document.documentElement;
+        let stream = null;
+        let picture = null;
+        let outcome = 'failed';
+
+        if (dialog && dialog.open) {
+            dialog.close();
+        }
+
+        root.classList.add('capturing');
+
+        try {
+            stream = await navigator.mediaDevices.getDisplayMedia({
+                video: { displaySurface: 'browser' },
+                audio: false,
+                preferCurrentTab: true,
+                selfBrowserSurface: 'include',
+                surfaceSwitching: 'exclude'
+            });
+
+            picture = await grabFrame(stream);
+        } catch (error) {
+            // Declining the prompt and a policy refusing it both arrive as NotAllowedError.
+            outcome = error && error.name === 'NotAllowedError' ? 'cancelled' : 'failed';
+        } finally {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+
+            root.classList.remove('capturing');
+
+            if (dialog && !dialog.open) {
+                dialog.showModal();
+            }
+        }
+
+        if (!picture) {
+            return { outcome: outcome };
+        }
+
+        const preview = URL.createObjectURL(picture);
+
+        if (await copyImage(picture)) {
+            return { outcome: 'copied', preview: preview };
+        }
+
+        window.flailTools.download('flail-tools-screenshot.png', picture, 'image/png');
+
+        return { outcome: 'downloaded', preview: preview };
+
+        async function grabFrame(source) {
+            const video = document.createElement('video');
+
+            video.muted = true;
+            video.playsInline = true;
+            video.srcObject = source;
+            await video.play();
+
+            // The first frame can predate the repaint that took the dialog away, so wait a moment
+            // and then for a fresh one. A still page may never send another, hence the race.
+            await new Promise(resolve => setTimeout(resolve, 250));
+
+            if (video.requestVideoFrameCallback) {
+                await Promise.race([
+                    new Promise(resolve => video.requestVideoFrameCallback(() => resolve())),
+                    new Promise(resolve => setTimeout(resolve, 1000))
+                ]);
+            }
+
+            if (!video.videoWidth || !video.videoHeight) {
+                return null;
+            }
+
+            const canvas = document.createElement('canvas');
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            video.pause();
+            video.srcObject = null;
+
+            return await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+        }
+
+        async function copyImage(image) {
+            if (!navigator.clipboard || !navigator.clipboard.write || typeof ClipboardItem === 'undefined') {
+                return false;
+            }
+
+            try {
+                await navigator.clipboard.write([new ClipboardItem({ 'image/png': image })]);
+                return true;
+            } catch {
+                // Commonly a document that has not got its focus back from the sharing prompt.
+                return false;
+            }
+        }
+    },
+
     // Where the dice table's signalling actually stands, relay by relay.
     //
     // The channel and the transport under it both ship in Structed.Inkwell.Party.Blazor and neither

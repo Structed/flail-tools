@@ -108,6 +108,7 @@ read what it is protecting before changing anything — the fix is almost never 
 | `JsonDefaultsTests` | The `System.Text.Json` source generator discards property initialisers, so every non-nullable property must coerce in its **getter**. Easy to forget on the next property added. |
 | `ArtworkTests` | The icons and sharing card are PNGs at their declared sizes, linked relative to the deployment base, with absolute public URLs and the unofficial labelling intact. |
 | `WireFormatTests` | The exact bytes one browser says to another, in both directions, plus the table code's alphabet and the protocol versions. Every round trip changes both ends at once, so nothing else notices when the spelling on the wire moves — the people it breaks are the player who has not reloaded and the player on yesterday's deployment. |
+| `ProblemReportTests` | "Report a problem" opens `.github/ISSUE_TEMPLATE/user-report.yml` by name, fills its fields by id, and relies on it for the `user reported` and `triage` labels — rename any of them and reports arrive blank or unlabelled, with no error. It also keeps a dice table code out of the public issue. |
 
 ### The portability rule, and what became of it
 

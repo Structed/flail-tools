@@ -24,7 +24,7 @@
         {
             <p class="dice-code">
                 <span class="field-label">@Ui.Message("diceTableLabel")</span>
-                <code>@TableCode.Group(_channel.Code)</code>
+                <code class="report-private">@TableCode.Group(_channel.Code)</code>
             </p>
 
             <button type="button" class="button" @onclick="CopyInvite">
@@ -38,6 +38,7 @@
             <label class="dice-field">
                 <span class="field-label">@Ui.Message("diceTableLabel")</span>
                 <input type="text"
+                       class="report-private"
                        spellcheck="false"
                        autocomplete="off"
                        placeholder="@Ui.Message("diceTablePlaceholder")"

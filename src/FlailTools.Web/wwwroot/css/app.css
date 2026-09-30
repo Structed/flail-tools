@@ -108,7 +108,9 @@ code {
 
 .masthead-nav {
     display: flex;
-    gap: 1.25rem;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem 1.25rem;
 }
 
 .nav-link {
@@ -122,6 +124,90 @@ code {
     color: var(--ink);
     text-decoration: underline;
     text-underline-offset: 0.3em;
+}
+
+/* Reporting a problem is on every page and deliberately the quietest thing in the masthead: set off
+   from the navigation by a rule, smaller and fainter than it, and never floating over the page. */
+.nav-report {
+    font: inherit;
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+    background: none;
+    border: 0;
+    border-left: 1px solid var(--rule);
+    padding: 0 0 0 1.25rem;
+    cursor: pointer;
+}
+
+.nav-report:hover {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+}
+
+/* Narrow enough that it wraps onto a line of its own, where a divider would divide nothing. */
+@media (max-width: 23rem) {
+    .nav-report {
+        border-left: 0;
+        padding-left: 0;
+    }
+}
+
+.report {
+    width: min(34rem, calc(100vw - 2rem));
+    border: 1px solid var(--ink);
+    border-radius: 2px;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 1.25rem 1.5rem;
+}
+
+.report::backdrop {
+    background: rgba(28, 26, 23, 0.45);
+}
+
+.report p {
+    color: var(--ink-soft);
+}
+
+.report-title {
+    text-transform: none;
+    letter-spacing: normal;
+    color: var(--ink);
+}
+
+.report-shot {
+    border-top: 1px solid var(--rule);
+    padding-top: 0.25rem;
+}
+
+.report-outcome {
+    font-weight: 600;
+}
+
+.report-preview {
+    display: block;
+    max-width: 100%;
+    max-height: 14rem;
+    border: 1px solid var(--rule);
+}
+
+.report-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+}
+
+.report-actions a.button {
+    text-decoration: none;
+}
+
+/* Hidden for the moment a problem report's screenshot is taken, because the issue it goes into is
+   public. A dice table code is the whole of a table's key. */
+.capturing .report-private {
+    visibility: hidden;
 }
 
 .content {
