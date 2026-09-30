@@ -108,6 +108,7 @@ read what it is protecting before changing anything — the fix is almost never 
 | `JsonDefaultsTests` | The `System.Text.Json` source generator discards property initialisers, so every non-nullable property must coerce in its **getter**. Easy to forget on the next property added. |
 | `ArtworkTests` | The icons and sharing card are PNGs at their declared sizes, linked relative to the deployment base, with absolute public URLs and the unofficial labelling intact. |
 | `WireFormatTests` | The exact bytes one browser says to another, in both directions, plus the table code's alphabet and the protocol versions. Every round trip changes both ends at once, so nothing else notices when the spelling on the wire moves — the people it breaks are the player who has not reloaded and the player on yesterday's deployment. |
+| `SignallingRelaysTests` | The relays the dice table signals through are pinned, well-formed, and still share one with the build before them. Players only meet through a relay they both use, so replacing the whole list at once splits every table across a deployment. |
 
 ### The portability rule, and what became of it
 
@@ -126,10 +127,15 @@ local copy of either. Reach for the package.
 under 130 lines of code. If the presets grow into a rules engine, that is a conversation to have,
 not a limit to raise.
 
-Two values crossing that boundary are load-bearing, and neither of them looks it:
+Three values crossing that boundary are load-bearing, and none of them looks it:
 
 - The **app id** `structed-flail-tools-dice`, passed to the channel from `Dice.razor`. It namespaces
   the signalling. Change it and every table code already written down stops finding its table.
+- The **relays**, in `Core/Connection/SignallingRelays.cs`, passed to the channel beside the app id.
+  They replace the five Trystero would otherwise draw from its bundled list by app id — a draw that
+  included `chorus.pjv.me` and `relay.mostr.pub` long after both stopped answering. Two players
+  only meet through a relay they share, so replace a dead one freely but never the whole list at
+  once: keep at least one relay from the list the deployed build is using.
 - The **wire format** — `RollMessage`, `Hail`, and the table code alphabet. A player on the deployed
   build and a player on a local one must be able to sit at the same table, so a package bump that
   changes any of it has to be a deliberate act. `WireFormatTests` is where it becomes one.
@@ -232,4 +238,5 @@ Work on a feature branch and open a pull request. **Never commit or push to `mai
 - Add a Games Omnivorous logo from anywhere but Games Omnivorous.
 - Re-grow a local copy of the dice, the table or the channel; they come from Inkwell now.
 - Change the app id, the wire format or the table code alphabet without meaning to split a table.
+- Replace every signalling relay at once; keep one the deployed build shares.
 - Put generation logic in a `.razor` file, or an English sentence anywhere but `ui.json`.
