@@ -149,15 +149,12 @@ means opposite things depending on how many others said it.
   leaving the table and rejoining picks the same dead connection back up. **Reload the page.**
   That is the only thing that clears it.
 - **No answer.** Nothing here reached it. One or two is the ordinary condition of the public relay
-  network and costs the table nothing — `chorus.pjv.me` is in the list Trystero ships and its DNS
-  record no longer exists, so everybody sees that one fail. *All* of them failing at once is the
-  real signal: a content blocker, a VPN or a filtered network, and Nostr relay domains are
-  routinely caught by DNS filters. Try another network; a phone hotspot settles it in seconds.
+  network and costs the table nothing. *All* of them failing at once is the real signal: a content
+  blocker, a VPN or a filtered network, and Nostr relay domains are routinely caught by DNS
+  filters. Try another network; a phone hotspot settles it in seconds.
 
 Which relays are in play is read back off the transport rather than worked out again here, so the
-list is always the five actually being used and cannot drift from them. Which of the five you get
-is a shuffle seeded by the app id alone, so it is the same set in every room — changing tables
-cannot route around a bad one.
+list is always the ones actually being used and cannot drift from them.
 
 The dice themselves are C#, and no longer live here: they are
 [Structed.Inkwell](https://github.com/Structed/inkwell) — the notation, the reading and the poker
@@ -173,6 +170,32 @@ What the engine cannot supply is the app id. `structed-flail-tools-dice` namespa
 so a FLAIL! table and a table run by some other tool on the same relays never meet even if both
 happen to pick the same code. It is passed in from here, and it is load-bearing: change it and every
 code already written down stops finding the table it was written down for.
+
+The relays are passed in from here too, in `DiceRelays.cs`, and they are load-bearing for the same
+reason: players only find each other if they share one. Left to itself Trystero takes five relays
+from a list compiled into its bundle, shuffled by the app id alone — the same five for every table
+this app will ever open, in every room, forever. Two of the five it dealt us were no use:
+`chorus.pjv.me`, which has no DNS record at all — not down, deleted, with the zone still answering —
+and `relay.mostr.pub`, which redirects a handshake somewhere no browser will follow it. So every
+table quietly ran on three relays believing it had five, and no new room, reconnect or reload could
+route around it, because none of those were ever what the draw depended on.
+
+So the list is chosen rather than dealt. Every relay Trystero ships was opened, sent a real
+subscription and held until it answered — twenty of twenty-eight did — and the survivors were
+checked again for whether they demand authentication, demand payment, or accept writes only from a
+list they keep, since a relay that answers a subscription and silently drops every roll is worse
+than one that is plainly down. Seven are named, and the three this app was already using lead the
+list on purpose: a tab opened before the change is still running the old draw and has no way to find
+out otherwise, so the two builds have to overlap somewhere or they cannot see each other at all.
+`DiceRelaysTests` holds that overlap in place, because losing it looks exactly like housekeeping and
+reports nothing when it strands somebody.
+
+Test relays from a browser, and distrust anything else. The first pass here was run from a terminal,
+which pronounced `relay.mostr.pub` healthy five times out of five while it was failing for every
+real player: it answers the handshake with a permanent redirect to another host, command-line
+clients follow redirects quietly, and browsers refuse them, because a WebSocket handshake accepts no
+reply but a 101. That relay was in the old draw too, so the five this app was dealt were really
+three.
 
 `FlailRolls.cs` is what stayed behind — the two rolls FLAIL! actually asks for, and what the dice
 mean when they land. While the rest was still here, `PortabilityTests` enforced that it was the only
