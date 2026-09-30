@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using FlailTools.Core.Data;
+using FlailTools.Core.Serialization;
 using Structed.Inkwell.Data;
 
 namespace FlailTools.Core.Tests;
@@ -38,11 +39,54 @@ public sealed class JsonDefaultsTests
         return types;
     }
 
+    public static TheoryData<Type> DocumentTypes()
+    {
+        TheoryData<Type> types = [];
+
+        foreach (Type type in RegisteredOn(typeof(DocumentJsonContext)))
+        {
+            types.Add(type);
+        }
+
+        return types;
+    }
+
     [Theory]
     [MemberData(nameof(RootTypes))]
     public void AnEmptyFileNeverProducesANull(Type type)
     {
         JsonTypeInfo? typeInfo = GameDataJsonContext.Default.GetTypeInfo(type);
+
+        Assert.NotNull(typeInfo);
+
+        object? instance = JsonSerializer.Deserialize("{}", typeInfo);
+
+        Assert.NotNull(instance);
+        AssertNothingNull(instance, type.Name, depth: 0);
+    }
+
+    /// <summary>
+    /// The same trap, one step further from anybody who would notice.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// A data file with a key missing is at least ours, and fails the first time the app is run. A
+    /// document is a link somebody was handed, or a key in a browser written by a version that no
+    /// longer exists, and it arrives on a machine nobody is watching. Half of one is exactly what
+    /// the source generator hands back when a key is absent, so the same coercion rule has to hold
+    /// here, and for the same reason it has to be checked rather than remembered.
+    /// </para>
+    /// <para>
+    /// Note this reaches only as far as <see cref="IsOurs"/> does: a list inside a document is
+    /// generic, so its members are not walked. The document's own properties are the ones a reader
+    /// touches first, and they are the ones pinned.
+    /// </para>
+    /// </remarks>
+    [Theory]
+    [MemberData(nameof(DocumentTypes))]
+    public void AnEmptyDocumentNeverProducesANull(Type type)
+    {
+        JsonTypeInfo? typeInfo = DocumentJsonContext.Default.GetTypeInfo(type);
 
         Assert.NotNull(typeInfo);
 
@@ -58,9 +102,11 @@ public sealed class JsonDefaultsTests
     /// generator also emits a property for every type it had to reach through on the way — strings,
     /// booleans, element lists — and none of those is a file.
     /// </remarks>
-    private static IReadOnlyList<Type> Registered { get; } =
+    private static IReadOnlyList<Type> Registered { get; } = RegisteredOn(typeof(GameDataJsonContext));
+
+    private static IReadOnlyList<Type> RegisteredOn(Type context) =>
     [
-        .. typeof(GameDataJsonContext)
+        .. context
             .GetCustomAttributesData()
             .Where(attribute => attribute.AttributeType == typeof(JsonSerializableAttribute))
             .Select(attribute => (Type)attribute.ConstructorArguments[0].Value!)

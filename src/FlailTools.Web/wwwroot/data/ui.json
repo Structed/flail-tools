@@ -81,6 +81,40 @@
     "top": "Top floor"
   },
 
+  "classes": {
+    "bard": "Bard",
+    "bone-whisperer": "Bone Whisperer",
+    "cleric": "Cleric",
+    "cutthroat": "Cutthroat",
+    "druid": "Druid",
+    "tinkerer": "Tinkerer",
+    "warrior": "Warrior",
+    "wizard": "Wizard"
+  },
+
+  "attributes": {
+    "str": "STR",
+    "dex": "DEX",
+    "luck": "LUCK"
+  },
+
+  "zones": {
+    "hands": "Hands",
+    "body": "Body",
+    "adornments": "Adornments",
+    "satchel": "Satchel"
+  },
+
+  "powerKinds": {
+    "spell": "Spell",
+    "prayer": "Prayer",
+    "gift": "Gift",
+    "gadget": "Gadget",
+    "thieving": "Thieving skill",
+    "instrument": "Instrument",
+    "other": "Other"
+  },
+
   "actions": {
     "generate": "Roll a site",
     "reroll": "Re-roll",
@@ -109,7 +143,25 @@
     "preset/save": "Roll Save",
     "edgeDown": "Disadvantage",
     "edgeUp": "Advantage",
-    "edgeNone": "Straight"
+    "edgeNone": "Straight",
+
+    "party": "Party",
+    "openParty": "Open the party",
+    "newCharacter": "New character",
+    "openCharacter": "Open",
+    "saveCharacter": "Save to this browser",
+    "savedCharacter": "Saved",
+    "removeCharacter": "Remove",
+    "confirmRemove": "Remove for good",
+    "cancel": "Cancel",
+    "openFile": "Open a sheet",
+    "noClass": "No class yet",
+    "addRow": "Add",
+    "removeRow": "Remove",
+    "spendHitPoint": "Lose a hit point",
+    "regainHitPoint": "Regain a hit point",
+    "spendCoin": "Spend a coin",
+    "gainCoin": "Gain a coin"
   },
 
   "messages": {
@@ -220,6 +272,63 @@
     "diceCheckOpen": "The signalling works from here, so this browser can be found. If somebody still never appears, it is the direct connection between the two of you that will not form — paste them the seed beside a roll instead.",
     "diceCheckGaveUp": "The relays answer, but this page has stopped using them and will not go back on its own. Reload the page — leaving the table and rejoining keeps the same dead connection.",
     "diceCheckBlocked": "Nothing here can reach the relays, so nobody can find this table. A content blocker, a VPN or a filtered network is the usual reason. Try another network — a phone hotspot settles it quickly — or allow this site.",
-    "diceCheckUnknown": "The check found nothing to test. Join a table first, then try again."
+    "diceCheckUnknown": "The check found nothing to test. Join a table first, then try again.",
+
+    "landingPartyTitle": "Character sheets",
+    "landingPartyBody": "Keep your party's sheets in this browser and hand one to somebody as a link. Send an updated sheet and it replaces the copy they already had rather than piling up beside it.",
+
+    "partyTagline": "Your party, kept in this browser.",
+    "partyHeading": "Characters",
+    "partyEmpty": "No characters yet. Make one, or open a link somebody sent you.",
+    "partyCount": "characters",
+    "partyCountOne": "1 character",
+
+    "characterTagline": "One sheet, yours to fill in.",
+    "characterUnnamed": "Unnamed character",
+    "characterNameLabel": "Name",
+    "characterNamePlaceholder": "Who this is",
+    "classLabel": "Class",
+    "levelLabel": "Level",
+    "backgroundLabel": "Background",
+    "backgroundPlaceholder": "What they did before",
+    "backgroundPerkLabel": "What that lets them do",
+    "backgroundPerkPlaceholder": "In your own words",
+    "attributesHeading": "Attributes",
+    "hitPointsLabel": "Hit points",
+    "maxHitPointsLabel": "out of",
+    "defenceLabel": "Defence",
+    "coinsLabel": "Coins",
+    "inventoryHeading": "Carried",
+    "itemNamePlaceholder": "What it is",
+    "itemSlotsLabel": "Slots",
+    "itemNotePlaceholder": "Notes, usage, damage",
+    "itemMagicalLabel": "Magical",
+    "talentsHeading": "Talents",
+    "talentNamePlaceholder": "What was taken",
+    "powersHeading": "Spells, prayers and the rest",
+    "powerNamePlaceholder": "What it is called",
+    "powerNotePlaceholder": "What it does, in your own words",
+    "conditionsHeading": "Conditions",
+    "conditionPlaceholder": "Injury, curse, or anything else true right now",
+    "notesHeading": "Notes",
+    "notesPlaceholder": "Anything else worth writing down",
+    "revisionLabel": "Revision",
+    "noCharacter": "No sheet open. Make one, or open a link somebody sent you.",
+
+    "characterSaved": "Kept in this browser.",
+    "characterUnsaved": "Not saved in this browser yet.",
+    "characterChanged": "Changed since it was last saved.",
+    "characterRemoved": "Removed from this browser.",
+    "characterFileBad": "That file is not a character sheet. A sheet and a site both end in .flail.json, so it is an easy one to mix up.",
+    "characterLinkBad": "That link did not bring a character. It may have been cut in half on its way here — ask for it again.",
+    "characterGone": "That character is not in this browser. It may have been removed, or saved somewhere else.",
+
+    "arrivedUnknown": "Somebody has sent you this sheet. Nothing is kept until you save it.",
+    "arrivedNewer": "This is a newer copy of a character you already have. Saving replaces yours.",
+    "arrivedSame": "You already have this character, at this same revision. Saving changes nothing.",
+    "arrivedOlder": "Careful. The copy you already have has been saved since this link was made, so saving this one replaces your newer sheet with an older one.",
+
+    "characterShareHint": "The whole sheet travels inside the link, so whoever opens it has everything — there is nothing to look up and nothing kept anywhere. Send the same character again later and it replaces the copy they saved rather than adding a second one.",
+    "partyPrivacyHint": "Characters are kept in this browser and nowhere else. Clearing your site data clears them, and they do not follow you to another device unless you send yourself a link."
   }
 }

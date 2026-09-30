@@ -464,7 +464,8 @@ select:hover {
    reading gets a line of its own rather than being tucked beside the total. */
 
 input[type="text"],
-input[type="number"] {
+input[type="number"],
+textarea {
     font: inherit;
     font-size: 0.95rem;
     color: var(--ink);
@@ -475,8 +476,14 @@ input[type="number"] {
 }
 
 input[type="text"]:hover,
-input[type="number"]:hover {
+input[type="number"]:hover,
+textarea:hover {
     border-color: var(--ink);
+}
+
+textarea {
+    width: 100%;
+    resize: vertical;
 }
 
 .dice-heading {
@@ -904,6 +911,273 @@ input[type="number"]:hover {
     border-top: 1px solid var(--rule);
 }
 
+/* Character sheets. A sheet is read while the game is running, so the parts that change most —
+   hit points, conditions, what is in each hand — are laid out as short rows that can be found
+   without reading, and everything is an input rather than a display with an edit mode behind it.
+   The roster is a list rather than cards, because a party is four or five long and a card grid at
+   that size is mostly whitespace. */
+
+.hint {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+}
+
+.notice-bad {
+    border-left-color: var(--ink);
+    background: var(--accent-soft);
+}
+
+.button-small {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.45rem;
+}
+
+.button-bad {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.button-bad:hover {
+    background: var(--accent);
+    color: var(--paper);
+}
+
+/* The file picker is its own control with its own look, so the label is dressed as a button and
+   the input inside it is taken out of the layout rather than hidden, which would take the
+   keyboard with it. */
+.file-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.file-button input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.party-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.party-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 0.9rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+.party-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.party-name:hover {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+}
+
+.party-detail {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+}
+
+.party-level {
+    margin-left: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+}
+
+.party-revision {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+}
+
+.party-actions {
+    display: inline-flex;
+    gap: 0.4rem;
+    margin-left: auto;
+}
+
+.sheet {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1.75rem;
+    align-items: start;
+}
+
+.sheet h2 {
+    margin-bottom: 0.6rem;
+}
+
+.sheet h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--ink-faint);
+    margin: 0 0 0.35rem;
+}
+
+/* Identity, scores, conditions and notes run the full width; what is carried and what they can do
+   sit side by side, because those two are the long lists and pairing a long one with a short one
+   leaves a column of nothing beside it. */
+.sheet-identity,
+.sheet-scores,
+.sheet-state-list,
+.sheet-notes {
+    grid-column: 1 / -1;
+}
+
+.sheet-identity {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: 0.75rem 1.25rem;
+}
+
+/* The sheet's fields are labels wrapping their own input, so they stack rather than carrying the
+   generator's rule and value line. */
+.sheet .field,
+.score {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    border-bottom: none;
+    padding: 0;
+}
+
+.sheet .field input,
+.sheet .field select {
+    width: 100%;
+}
+
+.field-wide {
+    grid-column: span 2;
+}
+
+.field-narrow {
+    max-width: 7rem;
+}
+
+.field-full {
+    grid-column: 1 / -1;
+}
+
+.score-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+    gap: 0.75rem 1rem;
+}
+
+/* Hit points are two boxes and a word where the others are one box, so the cell is given the width
+   of two rather than being left to spill over whatever is beside it. */
+.score:has(.score-pair) {
+    grid-column: span 2;
+}
+
+.score-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--ink-faint);
+}
+
+.score input {
+    width: 100%;
+    font-size: 1.05rem;
+}
+
+.score-pair {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35rem;
+}
+
+/* The pair is two boxes and a word, not a field that fills its column: left to stretch, the two
+   inputs shrink to nothing and "out of" wraps between them. */
+.score-pair input {
+    flex: 0 0 auto;
+    width: 3.75rem;
+}
+
+.score-of {
+    color: var(--ink-faint);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    white-space: nowrap;
+}
+
+.sheet-zone,
+.sheet-powers {
+    margin-bottom: 1.1rem;
+}
+
+.sheet-state {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+}
+
+.entry-list {
+    list-style: none;
+    margin: 0 0 0.4rem;
+    padding: 0;
+}
+
+.entry-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+.entry-name {
+    flex: 2 1 8rem;
+    min-width: 0;
+}
+
+.entry-note {
+    flex: 3 1 10rem;
+    min-width: 0;
+}
+
+.entry-slots {
+    width: 3.5rem;
+}
+
+.entry-kind {
+    flex: 0 0 auto;
+}
+
+.entry-magical {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+    white-space: nowrap;
+}
+
 @media (max-width: 52rem) {
     .site {
         grid-template-columns: minmax(0, 1fr);
@@ -919,6 +1193,14 @@ input[type="number"]:hover {
     }
 
     .dice-seed {
+        margin-left: 0;
+    }
+
+    .sheet {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .party-actions {
         margin-left: 0;
     }
 }

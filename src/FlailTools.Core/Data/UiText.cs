@@ -42,6 +42,25 @@ public sealed record UiText
     /// <summary>What each structural area role is called, keyed by its id.</summary>
     public IReadOnlyDictionary<string, string> Roles { get => field ?? Empty; init; } = Empty;
 
+    /// <summary>What each character class is called, keyed by its id.</summary>
+    /// <remarks>
+    /// Names only, and here rather than in a data file under <c>house/</c> for a licensing reason
+    /// as much as a tidiness one: a class name is terminology, which the Third-Party Licence
+    /// permits, and what a class can <em>do</em> is the book's content, which it does not. Keeping
+    /// them as interface wording beside the site kinds makes it plain that this is a label on a
+    /// picker and not a table reproduced from anywhere.
+    /// </remarks>
+    public IReadOnlyDictionary<string, string> Classes { get => field ?? Empty; init; } = Empty;
+
+    /// <summary>What each attribute is called, keyed by its id.</summary>
+    public IReadOnlyDictionary<string, string> Attributes { get => field ?? Empty; init; } = Empty;
+
+    /// <summary>What each part of the inventory is called, keyed by its id.</summary>
+    public IReadOnlyDictionary<string, string> Zones { get => field ?? Empty; init; } = Empty;
+
+    /// <summary>What each sort of class ability is called, keyed by its id.</summary>
+    public IReadOnlyDictionary<string, string> PowerKinds { get => field ?? Empty; init; } = Empty;
+
     /// <summary>Button and control wording, keyed by id.</summary>
     public IReadOnlyDictionary<string, string> Actions { get => field ?? Empty; init; } = Empty;
 
@@ -65,6 +84,30 @@ public sealed record UiText
     public string RoleName(string role) => Roles.TryGetValue(role, out string? name) && name.Length > 0
         ? name
         : "";
+
+    /// <summary>
+    /// What a class is called, falling back to whatever the sheet says.
+    /// </summary>
+    /// <remarks>
+    /// Falls back to the id rather than to nothing, because a sheet may name a class this tool has
+    /// never heard of — one from a later printing, or one a table has house-ruled — and showing a
+    /// blank where a player wrote something would read as the tool having lost it.
+    /// </remarks>
+    public string ClassName(string id) => Classes.TryGetValue(id, out string? name) && name.Length > 0
+        ? name
+        : id;
+
+    public string AttributeName(string id) => Attributes.TryGetValue(id, out string? name) && name.Length > 0
+        ? name
+        : id;
+
+    public string ZoneName(string id) => Zones.TryGetValue(id, out string? name) && name.Length > 0
+        ? name
+        : id;
+
+    public string PowerKindName(string id) => PowerKinds.TryGetValue(id, out string? name) && name.Length > 0
+        ? name
+        : id;
 
     public string Action(string id) => Actions.TryGetValue(id, out string? text) ? text : id;
 

@@ -1,0 +1,84 @@
+@using FlailTools.Core.Characters
+
+<section class="sheet-zone">
+    <h3>@Ui.ZoneName(Zone)</h3>
+
+    <ul class="entry-list">
+        @foreach ((ItemEntry item, int index) in Sheet.Items(Zone).Select((item, index) => (item, index)))
+        {
+            int at = index;
+
+            <li class="entry-row">
+                <input class="entry-name"
+                       type="text"
+                       value="@item.Name"
+                       maxlength="@CharacterLimits.NameLength"
+                       placeholder="@Ui.Message("itemNamePlaceholder")"
+                       aria-label="@Ui.Message("itemNamePlaceholder")"
+                       @oninput="@(args => Set(at, item with { Name = args.Value as string ?? "" }))" />
+
+                <input class="entry-slots"
+                       type="number"
+                       min="0"
+                       max="@CharacterLimits.MostSlots"
+                       value="@item.Slots"
+                       aria-label="@Ui.Message("itemSlotsLabel")"
+                       title="@Ui.Message("itemSlotsLabel")"
+                       @oninput="@(args => Set(at, item with { Slots = Sheets.Number(args, item.Slots) }))" />
+
+                <label class="entry-magical">
+                    <input type="checkbox"
+                           checked="@item.IsMagical"
+                           @onchange="@(args => Set(at, item with { IsMagical = args.Value is true }))" />
+                    <span>@Ui.Message("itemMagicalLabel")</span>
+                </label>
+
+                <input class="entry-note"
+                       type="text"
+                       value="@item.Note"
+                       maxlength="@CharacterLimits.NoteLength"
+                       placeholder="@Ui.Message("itemNotePlaceholder")"
+                       aria-label="@Ui.Message("itemNotePlaceholder")"
+                       @oninput="@(args => Set(at, item with { Note = args.Value as string ?? "" }))" />
+
+                <button type="button"
+                        class="button button-small"
+                        title="@Ui.Action("removeRow")"
+                        @onclick="@(() => Change(() => Sheet.RemoveItem(Zone, at)))">
+                    @Ui.Action("removeRow")
+                </button>
+            </li>
+        }
+    </ul>
+
+    <button type="button" class="button button-small" @onclick="@(() => Change(() => Sheet.AddItem(Zone)))">
+        @Ui.Action("addRow")
+    </button>
+</section>
+
+@code {
+    [CascadingParameter]
+    public GameData Data { get; set; } = default!;
+
+    [Parameter]
+    [EditorRequired]
+    public CharacterSheet Sheet { get; set; } = default!;
+
+    [Parameter]
+    [EditorRequired]
+    public string Zone { get; set; } = "";
+
+    [Parameter]
+    public EventCallback OnChanged { get; set; }
+
+    private UiText Ui => Data.Ui;
+
+    private Task Set(int index, ItemEntry item) => Change(() => Sheet.SetItem(Zone, index, item));
+
+    private Task Change(Action change)
+    {
+        change();
+
+        return OnChanged.InvokeAsync();
+    }
+}

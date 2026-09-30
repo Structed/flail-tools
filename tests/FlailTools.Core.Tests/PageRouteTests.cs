@@ -26,6 +26,8 @@ public sealed partial class PageRouteTests
     [InlineData("/")]
     [InlineData("/site")]
     [InlineData("/dice")]
+    [InlineData("/party")]
+    [InlineData("/character")]
     [InlineData("/about")]
     public void TheAddressIsServedByExactlyOnePage(string route) =>
         Assert.Single(Routes(), served => served == route);

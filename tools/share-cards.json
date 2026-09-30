@@ -44,6 +44,24 @@
       "description": "Roll where the whole party can see it: To Hit pools, saves at or under an attribute, and anything else in ordinary notation. The dice go straight between browsers, with nothing hosted and nothing stored.",
       "image": "open-graph-dice.png",
       "imageAlt": "The dice table - Unofficial FLAIL! Tools. An original ink drawing of a twenty-sided die beside a six-sided die on paper. Not affiliated with Games Omnivorous."
+    },
+    {
+      "route": "/party",
+      "shell": "party",
+      "documentTitle": "Party \u2014 FLAIL! Tools",
+      "title": "Character sheets - Unofficial FLAIL! Tools",
+      "description": "Keep your party's FLAIL! character sheets in your own browser and hand one to somebody as a link. Send an updated sheet and it replaces the copy they already had rather than piling up beside it.",
+      "image": "open-graph-party.png",
+      "imageAlt": "Character sheets - Unofficial FLAIL! Tools. An original ink drawing of three sheets of paper fanned out. Not affiliated with Games Omnivorous."
+    },
+    {
+      "route": "/character",
+      "shell": "character",
+      "documentTitle": "Character sheet \u2014 FLAIL! Tools",
+      "title": "A character sheet - Unofficial FLAIL! Tools",
+      "description": "A FLAIL! character sheet, whole, inside the link. Read it, fill it in, or keep it in your own browser beside the rest of the party. Nothing is stored anywhere else.",
+      "image": "open-graph-character.png",
+      "imageAlt": "A character sheet - Unofficial FLAIL! Tools. An original ink drawing of a character sheet with three attribute boxes. Not affiliated with Games Omnivorous."
     }
   ]
 }
