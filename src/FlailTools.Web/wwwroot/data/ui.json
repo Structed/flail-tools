@@ -122,6 +122,17 @@
     "landingDiceBody": "Roll where the whole party can see it — To Hit pools, saves at or under an attribute, and anything else in ordinary notation. The dice go straight between browsers, so nobody is hosting it: close the tab and the table is gone.",
     "landingAboutBody": "where the tables come from, how the dice reach the other players, and the licence all of this is published under.",
 
+    "siteStatusTitle": "Work in progress",
+    "siteStatusBody": "The generator is far from finished. It builds the skeleton of a site and leaves most of the book's procedures to you.",
+    "siteStatusSummary": "What works so far",
+    "siteStatus/kinds": "Five kinds of site — dungeons, caves, wizard towers, hexcrawl locations and landmarks — each with its theme rolled on FLAIL!'s own tables.",
+    "siteStatus/dungeon": "Dungeons: eight to twelve rooms, each keyed with one of the book's nine keying concepts, from the entrance to the final area.",
+    "siteStatus/cave": "Caves: five to nine chambers from a handful of dropped dice — the way in, the heart, hidden chambers and connected groups — with the second roll for treasure and vestiges.",
+    "siteStatus/tower": "Wizard towers: five to seven floors, each a kind of room and which one, with a top floor of its own.",
+    "siteStatus/hexcrawl": "Locations and landmarks: the theme only.",
+    "siteStatus/extras": "A name and a map for every site, both made for this tool rather than taken from the book.",
+    "siteStatus/sharing": "Locks, single-field re-rolls, a link that rebuilds exactly what you see, and a download.",
+
     "fieldsHeading": "Details",
     "areasHeading": "Areas",
     "mapAlt": "A hand-drawn map of the site",

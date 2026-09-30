@@ -155,6 +155,25 @@ code {
     color: var(--ink-soft);
 }
 
+.notice details {
+    margin-top: 0.6rem;
+}
+
+.notice summary {
+    cursor: pointer;
+    color: var(--ink);
+}
+
+.notice ul {
+    margin: 0.5rem 0 0;
+    padding-left: 1.25rem;
+    color: var(--ink-soft);
+}
+
+.notice li + li {
+    margin-top: 0.25rem;
+}
+
 .controls {
     display: flex;
     flex-wrap: wrap;

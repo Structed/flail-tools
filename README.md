@@ -35,6 +35,9 @@ a stack of four to six d6s with a d4 balanced on top, each die a floor. Caves ar
 dropped on a page: the one nearest the edge is the way in, the one nearest the middle is the heart
 of it, and anything that bounces off the paper has to be reached some other way.
 
+The generator is still far from finished: it builds the skeleton of a site and leaves most of the
+book's procedures to you. The generator page says what works so far.
+
 ## Using it
 
 The front page lists the tools and does nothing else. The generator is at `/site` and the dice
