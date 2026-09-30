@@ -1,0 +1,161 @@
+@*
+    "Report a problem": a quiet link at the end of the masthead, and the dialog behind it.
+
+    The tool has no server, so it cannot file the issue itself. It opens GitHub's form with the page
+    and the browser already filled in, and offers one screenshot of the tab to carry across. How the
+    link is built — and what is kept out of it — is ProblemReport's business, in Core, where it is
+    tested; this only asks the browser the questions and shows the answers.
+
+    It sits in the masthead rather than floating over the page because a floating button covers
+    what people are reading and turns up in every screenshot it asks them to take.
+*@
+@using System.Reflection
+@using FlailTools.Core.Reporting
+@implements IAsyncDisposable
+@inject IJSRuntime Js
+@inject NavigationManager Nav
+
+<button type="button" class="nav-report" aria-haspopup="dialog" @onclick="Open">
+    @Ui.Action("reportProblem")
+</button>
+
+<dialog class="report" aria-labelledby="report-title" @ref="_dialog">
+    <h2 id="report-title" class="report-title">@Ui.Message("reportTitle")</h2>
+    <p>@Ui.Message("reportBody")</p>
+
+    <div class="report-shot">
+        @if (_canCapture)
+        {
+            <p>@Ui.Message("reportScreenshotHint")</p>
+            <button type="button" class="button" disabled="@_capturing" @onclick="Capture">
+                @(_capturing ? Ui.Action("capturing") : Ui.Action("takeScreenshot"))
+            </button>
+        }
+        else
+        {
+            <p>@Ui.Message("reportNoCapture")</p>
+        }
+
+        @if (_outcome is not null)
+        {
+            <p class="report-outcome" role="status">@Ui.Message(ProblemReport.Outcome(_outcome))</p>
+        }
+
+        @if (_preview is not null)
+        {
+            <img class="report-preview" src="@_preview" alt="@Ui.Message("reportPreviewAlt")" />
+            <p class="report-check">
+                @Ui.Message("reportCheckScreenshot")
+                <a href="@_preview" download="flail-tools-screenshot.png">@Ui.Action("download")</a>
+            </p>
+        }
+    </div>
+
+    <div class="report-actions">
+        <button type="button" class="button button-quiet" @onclick="Close">@Ui.Action("close")</button>
+        <a class="button button-primary" href="@_issueUrl" target="_blank" rel="noopener noreferrer"
+           @onclick="Close">@Ui.Action("openReport")</a>
+    </div>
+</dialog>
+
+@code {
+    [Parameter, EditorRequired]
+    public UiText Ui { get; set; } = default!;
+
+    /// <summary>The commit this build came from, read once.</summary>
+    private static readonly string? Build = ProblemReport.Build(
+        typeof(ReportProblem).Assembly
+            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion);
+
+    private ElementReference _dialog;
+    private bool _canCapture;
+    private bool _capturing;
+    private string? _outcome;
+    private string? _preview;
+    private string _issueUrl = ProblemReport.NewIssueUrl("", "");
+
+    /// <summary>
+    /// Works the link out afresh each time, because the page has usually changed since last time.
+    /// </summary>
+    /// <remarks>
+    /// A screenshot already taken is kept. Somebody who went to GitHub, found the clipboard had been
+    /// overwritten and came back for it should find it still here.
+    /// </remarks>
+    private async Task Open()
+    {
+        _canCapture = await Ask("flailTools.canCaptureTab", false);
+
+        string page = await Ask<string?>("flailTools.pageUrl", null) ?? Nav.Uri;
+        Dictionary<string, string>? browser = await Ask<Dictionary<string, string>?>("flailTools.describeBrowser", null);
+
+        _issueUrl = ProblemReport.NewIssueUrl(
+            ProblemReport.Page(page, Nav.BaseUri),
+            ProblemReport.Environment(
+                Build,
+                browser?.GetValueOrDefault("userAgent"),
+                browser?.GetValueOrDefault("viewport")));
+
+        await Call("flailTools.showDialog", _dialog);
+    }
+
+    private Task Close() => Call("flailTools.closeDialog", _dialog);
+
+    private async Task Capture()
+    {
+        _capturing = true;
+
+        Dictionary<string, string>? result =
+            await Ask<Dictionary<string, string>?>("flailTools.captureTab", null, _dialog);
+
+        _capturing = false;
+        _outcome = result?.GetValueOrDefault("outcome") ?? ProblemReport.Failed;
+
+        if (result?.GetValueOrDefault("preview") is { Length: > 0 } preview)
+        {
+            await Call("flailTools.forget", _preview);
+            _preview = preview;
+        }
+    }
+
+    private async Task<T> Ask<T>(string identifier, T fallback, params object?[] arguments)
+    {
+        try
+        {
+            return await Js.InvokeAsync<T>(identifier, arguments);
+        }
+        catch (JSException)
+        {
+            return fallback;
+        }
+    }
+
+    private async Task Call(string identifier, params object?[] arguments)
+    {
+        try
+        {
+            await Js.InvokeVoidAsync(identifier, arguments);
+        }
+        catch (JSException)
+        {
+            // A dialog that will not open or a picture that will not be forgotten is not worth an
+            // error on top of whatever the reporter came here about.
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_preview is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await Js.InvokeVoidAsync("flailTools.forget", _preview);
+        }
+        catch (JSDisconnectedException)
+        {
+            // The page is going away, and the picture with it.
+        }
+    }
+}

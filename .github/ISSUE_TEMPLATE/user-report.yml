@@ -1,0 +1,42 @@
+# Opened from the "Report a problem" link in the tool's masthead, which fills in `page` and
+# `environment` through the URL. Those ids are what the link addresses, so ProblemReportTests pins
+# them: rename one and the link opens this form with that field silently empty.
+#
+# The labels live here rather than in the link because GitHub only honours a `labels=` query
+# parameter from people allowed to label issues, which nobody reporting from the tool is. Labels
+# named by a template are applied for everyone.
+name: Report a problem
+description: Something in FLAIL! Tools did not work the way it should.
+labels: ["user reported", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This becomes a **public** issue. Leave out anything you would not post in the open — a dice table code especially, because it is the whole of a table's key.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What went wrong
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot
+      description: If you took one from the tool it is on your clipboard or in your downloads — paste it or drop it in here. Look at it first; this issue is public.
+
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: Filled in by the tool. A link to the generator rebuilds exactly what was on screen.
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Browser and build
+      description: Filled in by the tool.
+      render: text

@@ -93,6 +93,12 @@
     "download": "Download",
     "about": "About",
 
+    "reportProblem": "Report a problem",
+    "takeScreenshot": "Take a screenshot",
+    "capturing": "Taking it…",
+    "openReport": "Continue on GitHub",
+    "close": "Close",
+
     "dice": "Dice",
     "openDice": "Open the dice table",
     "startTable": "Start a table",
@@ -220,6 +226,17 @@
     "diceCheckOpen": "The signalling works from here, so this browser can be found. If somebody still never appears, it is the direct connection between the two of you that will not form — paste them the seed beside a roll instead.",
     "diceCheckGaveUp": "The relays answer, but this page has stopped using them and will not go back on its own. Reload the page — leaving the table and rejoining keeps the same dead connection.",
     "diceCheckBlocked": "Nothing here can reach the relays, so nobody can find this table. A content blocker, a VPN or a filtered network is the usual reason. Try another network — a phone hotspot settles it quickly — or allow this site.",
-    "diceCheckUnknown": "The check found nothing to test. Join a table first, then try again."
+    "diceCheckUnknown": "The check found nothing to test. Join a table first, then try again.",
+
+    "reportTitle": "Report a problem",
+    "reportBody": "Reports go to GitHub as a public issue, so you will need a GitHub account. The page you are on and the browser you are using are filled in for you; all you have to say is what went wrong.",
+    "reportScreenshotHint": "A screenshot helps. Your browser will ask to share this tab: one picture is taken, the sharing stops straight away, and table codes are hidden from it.",
+    "reportNoCapture": "This browser cannot take a picture of the page. If you can take one with your device, attach it on GitHub.",
+    "reportCopied": "Copied. Paste it into the Screenshot box on GitHub.",
+    "reportDownloaded": "Saved to your downloads. Drop it into the Screenshot box on GitHub.",
+    "reportCancelled": "No screenshot taken.",
+    "reportCaptureFailed": "The screenshot could not be taken. You can still attach one on GitHub.",
+    "reportCheckScreenshot": "Look it over before you paste it — the issue will be public.",
+    "reportPreviewAlt": "The screenshot that will go with the report"
   }
 }
