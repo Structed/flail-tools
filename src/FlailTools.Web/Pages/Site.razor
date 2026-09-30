@@ -6,6 +6,24 @@
 
 <h1 class="visually-hidden">@Ui.App.Title — @Ui.App.Tagline</h1>
 
+<section class="notice notice-status" aria-labelledby="site-status-title">
+    <h2 id="site-status-title">@Ui.Message("siteStatusTitle")</h2>
+    <p>@Ui.Message("siteStatusBody")</p>
+
+    <details>
+        <summary>@Ui.Message("siteStatusSummary")</summary>
+        <ul>
+            <li>@Ui.Message("siteStatus/kinds")</li>
+            <li>@Ui.Message("siteStatus/dungeon")</li>
+            <li>@Ui.Message("siteStatus/cave")</li>
+            <li>@Ui.Message("siteStatus/tower")</li>
+            <li>@Ui.Message("siteStatus/hexcrawl")</li>
+            <li>@Ui.Message("siteStatus/extras")</li>
+            <li>@Ui.Message("siteStatus/sharing")</li>
+        </ul>
+    </details>
+</section>
+
 @if (_workspace.IsAwaitingContent)
 {
     <div class="notice notice-empty" role="status">
