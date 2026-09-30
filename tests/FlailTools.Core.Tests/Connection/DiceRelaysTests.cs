@@ -92,24 +92,36 @@ public sealed class DiceRelaysTests
     }
 
     /// <summary>
-    /// The relay that started all this does not come back.
+    /// The relays that started all this do not come back.
     /// </summary>
     /// <remarks>
+    /// <para>
     /// <c>chorus.pjv.me</c> has no DNS record. It is in the transport's bundled list, it was in the
     /// draw this app was dealt, and it is the reason the list is chosen by hand at all. It would
     /// return to the list only by somebody copying the old draw back in wholesale, which is a
     /// plausible enough accident to be worth a line.
+    /// </para>
+    /// <para>
+    /// <c>relay.mostr.pub</c> is the more dangerous of the two, because it looks alive from
+    /// everywhere except the only place that counts. It answers the WebSocket handshake with a
+    /// permanent redirect to another host; command-line clients follow it and report a healthy
+    /// relay, and browsers refuse it outright, since a handshake accepts no reply but 101. It
+    /// passed a hand-run health check five times out of five while failing for every real player.
+    /// Anybody re-testing the list from a terminal will be told to put it back.
+    /// </para>
     /// </remarks>
-    [Fact]
-    public void TheDeadRelayIsNotAmongThem()
+    [Theory]
+    [InlineData("chorus.pjv.me")]
+    [InlineData("relay.mostr.pub")]
+    public void TheDeadRelaysAreNotAmongThem(string host)
     {
         Assert.DoesNotContain(
             DiceRelays.All,
-            relay => relay.Contains("chorus.pjv.me", StringComparison.OrdinalIgnoreCase));
+            relay => relay.Contains(host, StringComparison.OrdinalIgnoreCase));
 
         Assert.DoesNotContain(
             DiceRelays.Inherited,
-            relay => relay.Contains("chorus.pjv.me", StringComparison.OrdinalIgnoreCase));
+            relay => relay.Contains(host, StringComparison.OrdinalIgnoreCase));
     }
 
     /// <summary>

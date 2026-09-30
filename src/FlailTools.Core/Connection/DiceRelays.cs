@@ -19,11 +19,21 @@ namespace FlailTools.Core.Connection;
 /// </para>
 /// <para>
 /// These were not chosen by taste. Every relay in the bundled list was opened, sent a real
-/// subscription and held until it answered; twenty-one of the twenty-eight did, and each one below
-/// was checked again for whether it demands authentication or payment to accept what the table
-/// writes. What is deliberately absent is as considered as what is here: no relay whose own name
+/// subscription and held until it answered; twenty of the twenty-eight did, and each one below was
+/// checked again for whether it demands authentication or payment to accept what the table writes.
+/// A relay that only accepts writes from a list it keeps is no good to us either — it answers a
+/// subscription perfectly and drops every roll — so the ones advertising restricted writes were put
+/// aside too. What is deliberately absent is as considered as what is here: no relay whose own name
 /// calls it staging or a test, and none run off a single named machine, because a dice table should
 /// not depend on somebody's spare hardware staying plugged in.
+/// </para>
+/// <para>
+/// Test them <em>from a browser</em>, and mistrust any other result. The first pass here was run
+/// with <c>ClientWebSocket</c>, which passed <c>relay.mostr.pub</c> five times out of five while it
+/// was failing for every actual player: the host answers the handshake with a permanent redirect to
+/// <c>relay.ditto.pub</c>, .NET follows it without saying so, and a browser refuses — the WebSocket
+/// handshake admits no reply but 101. A redirect, an authentication wall and a healthy relay are
+/// indistinguishable from a command line, and only one of the three is any use here.
 /// </para>
 /// <para>
 /// Keep the list short. Naming relays replaces the draw outright rather than filtering it, and the
@@ -47,15 +57,16 @@ public static class DiceRelays
     /// connection. Nothing anywhere would report a fault.
     /// </para>
     /// <para>
-    /// <c>chorus.pjv.me</c> is absent because it is the corpse this whole exercise is about; the
-    /// other four are the draw's healthy remainder, and keeping them costs nothing. They are the
-    /// bridge, and <see cref="All"/> may be pruned and rewritten freely so long as one of them
+    /// Two of the five are absent. <c>chorus.pjv.me</c> is the corpse this whole exercise is about,
+    /// and <c>relay.mostr.pub</c> turned out to be a second one wearing better clothes: it answers
+    /// the handshake with a permanent redirect, which no browser will follow, so it never carried a
+    /// roll for anyone. The old draw was three relays deep all along and said five. Those three are
+    /// the bridge, and <see cref="All"/> may be pruned and rewritten freely so long as one of them
     /// survives in it.
     /// </para>
     /// </remarks>
     public static IReadOnlyList<string> Inherited { get; } =
     [
-        "wss://relay.mostr.pub",
         "wss://nostr.sathoarder.com",
         "wss://strfry.shock.network",
         "wss://schnorr.me"
@@ -65,8 +76,8 @@ public static class DiceRelays
     /// Every relay this app signals through, in the order they are dialled.
     /// </summary>
     /// <remarks>
-    /// The four inherited relays first, so the overlap that keeps old tabs reachable is visible as
-    /// the head of the list rather than scattered through it, then three long-running public relays
+    /// The three inherited relays first, so the overlap that keeps old tabs reachable is visible as
+    /// the head of the list rather than scattered through it, then four long-running public relays
     /// under separate operators. Order carries no weight to the transport — all of them are opened
     /// at once — so it is arranged for the reader.
     /// </remarks>
@@ -75,6 +86,7 @@ public static class DiceRelays
         .. Inherited,
         "wss://nos.lol",
         "wss://purplerelay.com",
-        "wss://nostr.data.haus"
+        "wss://nostr.data.haus",
+        "wss://nostr-01.uid.ovh"
     ];
 }

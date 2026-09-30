@@ -171,19 +171,28 @@ code already written down stops finding the table it was written down for.
 The relays are passed in from here too, in `DiceRelays.cs`, and they are load-bearing for the same
 reason: players only find each other if they share one. Left to itself Trystero takes five relays
 from a list compiled into its bundle, shuffled by the app id alone — the same five for every table
-this app will ever open, in every room, forever. One of the five it dealt us was `chorus.pjv.me`,
-which has no DNS record at all. Not down; deleted, with the zone still answering. So every table
-quietly ran on four relays believing it had five, and no new room, reconnect or reload could route
-around it, because none of those were ever what the draw depended on.
+this app will ever open, in every room, forever. Two of the five it dealt us were no use:
+`chorus.pjv.me`, which has no DNS record at all — not down, deleted, with the zone still answering —
+and `relay.mostr.pub`, which redirects a handshake somewhere no browser will follow it. So every
+table quietly ran on three relays believing it had five, and no new room, reconnect or reload could
+route around it, because none of those were ever what the draw depended on.
 
 So the list is chosen rather than dealt. Every relay Trystero ships was opened, sent a real
-subscription and held until it answered — twenty-one of twenty-eight did — and the survivors were
-checked again for whether they demand authentication or payment to accept what a table writes.
-Seven are named, and the four this app was already using lead the list on purpose: a tab opened
-before the change is still running the old draw and has no way to find out otherwise, so the two
-builds have to overlap somewhere or they cannot see each other at all. `DiceRelaysTests` holds that
-overlap in place, because losing it looks exactly like housekeeping and reports nothing when it
-strands somebody.
+subscription and held until it answered — twenty of twenty-eight did — and the survivors were
+checked again for whether they demand authentication, demand payment, or accept writes only from a
+list they keep, since a relay that answers a subscription and silently drops every roll is worse
+than one that is plainly down. Seven are named, and the three this app was already using lead the
+list on purpose: a tab opened before the change is still running the old draw and has no way to find
+out otherwise, so the two builds have to overlap somewhere or they cannot see each other at all.
+`DiceRelaysTests` holds that overlap in place, because losing it looks exactly like housekeeping and
+reports nothing when it strands somebody.
+
+Test relays from a browser, and distrust anything else. The first pass here was run from a terminal,
+which pronounced `relay.mostr.pub` healthy five times out of five while it was failing for every
+real player: it answers the handshake with a permanent redirect to another host, command-line
+clients follow redirects quietly, and browsers refuse them, because a WebSocket handshake accepts no
+reply but a 101. That relay was in the old draw too, so the five this app was dealt were really
+three.
 
 `FlailRolls.cs` is what stayed behind — the two rolls FLAIL! actually asks for, and what the dice
 mean when they land. While the rest was still here, `PortabilityTests` enforced that it was the only
