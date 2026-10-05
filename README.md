@@ -157,14 +157,17 @@ means opposite things depending on how many others said it.
 
 One failure the check cannot see is **a wrong device clock**, and it was the commonest: one player
 alone at every table, every evening, while everybody else could see each other. The relays date
-each signalling message by the sender's clock and judge it by their own. The strfry relays refuse
-an announcement stamped more than a minute in the past or a quarter of an hour in the future, and
-a relay that accepts it anyway leaves it out of everybody else's subscription. The relay check
-still reads *Carrying this table*, because the relay is open — it is just carrying messages nobody
-is shown. So before it joins, the page asks the site's own server what time it is, from the `Date`
-header of a request nobody may cache, and if the device is ten seconds or more out it allows for the
-difference in every time the transport reads, and says so under the status line along with how far
-out it was. Sync the clock anyway; every other site trips over it too.
+each signalling message by the sender's clock and judge it by their own. Most of them refuse an
+announcement stamped more than a minute in the past, and the ones that take it leave it out of
+everybody else's subscription, because each player asked only for messages from the moment they
+arrived. A fast clock fails the mirror way: some relays refuse it, and where one passes it on, that
+browser has asked only for messages from a moment nobody else has reached, so it never hears an
+answer. The relay check still reads *Carrying this table*, because the relay is open — it is just
+carrying messages nobody is shown. So before it joins, the page asks the site's own server what
+time it is, from the `Date` header of a request nobody may cache, and if the device is ten seconds
+or more out it allows for the difference in every time the transport reads, and says so under the
+status line along with how far out it was. Sync the clock anyway; every other site trips over it
+too.
 
 Which relays are in play is read back off the transport rather than worked out again here, so the
 list is always the ones actually being used and cannot drift from them. The relays themselves are

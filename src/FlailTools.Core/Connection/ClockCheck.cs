@@ -9,12 +9,15 @@ namespace FlailTools.Core.Connection;
 /// <remarks>
 /// <para>
 /// The relays that carry the signalling date every message by the sender's clock, and judge it by
-/// their own. Probed directly, the four strfry relays then in the pinned list refused an
-/// announcement stamped more than a minute in the past (<c>invalid: ephemeral event expired</c>) or
-/// a quarter of an hour in the future (<c>invalid: created_at too late</c>). The fifth accepted it
-/// and then left it out of every other player's subscription, because each of those asked only for
-/// messages from the moment they arrived onwards. Either way the player behind the wrong clock is
-/// never seen, and sees nobody.
+/// their own. Probed directly, three of the relays then in the pinned list refused an announcement
+/// stamped a minute and a half in the past (<c>invalid: ephemeral event expired</c>, or
+/// <c>invalid: created_at too early</c>), and the fourth refused everything regardless. The fifth
+/// accepted it and then left it out of every other player's subscription, because each of those
+/// asked only for messages from the moment they arrived onwards. A fast clock fails the mirror
+/// way: two of them refused an announcement a quarter of an hour ahead
+/// (<c>invalid: created_at too late</c>), and where one passed it on, the fast browser had asked
+/// only for messages from a moment nobody else had reached, so the answers never came. Either way
+/// the player behind the wrong clock is never seen, and sees nobody.
 /// </para>
 /// <para>
 /// It was found as a player who was alone at every table, every evening, while everybody else
