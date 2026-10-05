@@ -42,7 +42,9 @@ public sealed class SignallingRelaysTests
     /// <remarks>
     /// Written out as a literal rather than referenced, so the test compares the value against the
     /// intent rather than against itself. Replacing a relay that has died is expected; replacing
-    /// every relay at once is how a table splits.
+    /// every relay at once is how a table splits. <c>strfry.shock.network</c> was replaced by
+    /// <c>cdn.satellite.earth</c> once it began refusing every announcement while still answering
+    /// the socket; the other four were kept.
     /// </remarks>
     [Fact]
     public void TheTableIsSignalledThroughExactlyTheseRelays()
@@ -51,10 +53,10 @@ public sealed class SignallingRelaysTests
             SignallingRelays.All.SequenceEqual(
             [
                 "wss://nostr.sathoarder.com",
-                "wss://strfry.shock.network",
                 "wss://schnorr.me",
                 "wss://nos.lol",
-                "wss://bucket.coracle.social"
+                "wss://bucket.coracle.social",
+                "wss://cdn.satellite.earth"
             ],
             StringComparer.Ordinal),
             "The relay list has changed. Keep at least one relay from the list it replaces, or players " +

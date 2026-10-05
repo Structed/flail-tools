@@ -50,13 +50,13 @@ public sealed class RelayCheckTests
     }
 
     /// <summary>
-    /// Relays that answer while the page is not on them means the page gave up, not the network.
+    /// Relays that answer while the page is on none of them mean the page, not the network.
     /// </summary>
     /// <remarks>
-    /// This is the failure that looks least like one. The transport abandons a relay for good once
-    /// its backoff passes a minute and remembers that against the relay's address rather than the
-    /// room, so the player who leaves the table and rejoins — the obvious thing to try — picks the
-    /// same dead connection straight back up and concludes the tool is broken.
+    /// This is the failure that looks least like one. The network is fine — the relays just
+    /// answered — so sending the player off to try another network would be sending them after the
+    /// wrong problem. The page reconnects on its own now, so the advice is to wait a minute and
+    /// then reload, rather than the reload alone that was the only cure on Trystero 0.25.4.
     /// </remarks>
     [Fact]
     public void RelaysThatAnswerWhileNothingIsOpenMeanTheFixIsAReload()

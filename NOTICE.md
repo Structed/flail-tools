@@ -117,7 +117,7 @@ It depends on [Structed.Inkwell](https://github.com/Structed/inkwell) and
 ### Trystero
 
 The dice table's peer-to-peer connection uses
-[Trystero](https://github.com/dmotz/trystero) 0.25.4 by Dan Motzenbecker, MIT licensed. The Nostr
+[Trystero](https://github.com/dmotz/trystero) 0.26.0 by Dan Motzenbecker, MIT licensed. The Nostr
 strategy bundle is vendored verbatim in `Structed.Inkwell.Party.Blazor` and served from this site as
 `_content/Structed.Inkwell.Party.Blazor/js/trystero-nostr.js`, with its origin and refresh
 instructions in a banner at the top of the file. It is shipped by this site either way, so it is

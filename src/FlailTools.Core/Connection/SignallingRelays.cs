@@ -18,14 +18,20 @@ namespace FlailTools.Core.Connection;
 /// players only meet if they share at least one. The player who has not reloaded and the player on
 /// yesterday's deployment are both still signalling through the previous list, and a change that
 /// leaves nothing in common with it splits every table across the deployment with no error at either
-/// end — the far side simply never arrives. That is why the three relays from Trystero's draw that
-/// still answer are kept at the head of this list, and why any future change must keep at least one
+/// end — the far side simply never arrives. That is why the relays from Trystero's draw that still
+/// answer are kept at the head of this list, and why any future change must keep at least one
 /// relay from the list it replaces.
 /// </para>
 /// <para>
 /// Every entry comes from Trystero's own bundled list, which is curated for relays that accept the
 /// ephemeral events its signalling is carried in; a relay chosen from anywhere else might answer the
-/// socket and quietly refuse to carry the handshake.
+/// socket and quietly refuse to carry the handshake. Being on that list once is not a promise,
+/// though. <c>strfry.shock.network</c> came from the original draw and later began refusing every
+/// announcement with an empty reason while still opening the socket, so the connection check
+/// counted it as carrying the table when it carried nothing. It was replaced by
+/// <c>cdn.satellite.earth</c>, from Trystero 0.26.0's list, after a signed announcement sent to it
+/// was both accepted and delivered to a second subscriber — the only test that says a relay will
+/// actually introduce two players.
 /// </para>
 /// <para>
 /// Kept here rather than beside the app id in <c>FlailRolls.cs</c>: nothing about a relay says which
@@ -38,9 +44,9 @@ public static class SignallingRelays
     public static IReadOnlyList<string> All { get; } =
     [
         "wss://nostr.sathoarder.com",
-        "wss://strfry.shock.network",
         "wss://schnorr.me",
         "wss://nos.lol",
-        "wss://bucket.coracle.social"
+        "wss://bucket.coracle.social",
+        "wss://cdn.satellite.earth"
     ];
 }

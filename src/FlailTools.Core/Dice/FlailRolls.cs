@@ -33,9 +33,17 @@ public static class FlailRolls
     /// <remarks>
     /// <para>
     /// Load-bearing, and it does not look it. The channel namespaces its signalling by this string,
-    /// so two tables only meet if their app ids match exactly. Every table code anybody has written
-    /// on a character sheet was handed out under this one; change it and those codes stop finding
-    /// their tables, with no error at either end — the far side simply never arrives.
+    /// so two tables only meet if their app ids match exactly. Change it and a browser on the build
+    /// before never meets a browser on the build after, however carefully the code was copied —
+    /// with no error at either end; the far side simply never arrives.
+    /// </para>
+    /// <para>
+    /// That has been done once, on purpose. It was <c>structed-flail-tools-dice</c> until the
+    /// transport moved to Trystero 0.26.0, whose messages a 0.25.4 browser cannot read. Keeping the
+    /// name would have let the two builds find each other and then fail to exchange a single roll
+    /// or name, which looks like a table that is broken rather than a table that is elsewhere. A
+    /// new name splits them cleanly instead, and a code still finds its table as soon as everybody
+    /// at it has reloaded.
     /// </para>
     /// <para>
     /// It reads like configuration and belongs with the rest of the transport, which is exactly why
@@ -43,7 +51,7 @@ public static class FlailRolls
     /// engine that does the connecting deliberately does not.
     /// </para>
     /// </remarks>
-    public const string PartyAppId = "structed-flail-tools-dice";
+    public const string PartyAppId = "structed-flail-tools-dice-2";
 
     /// <summary>Identifies the To Hit preset.</summary>
     public const string HitId = "hit";
