@@ -142,16 +142,29 @@ means opposite things depending on how many others said it.
 
 - **Carrying this table.** Signalling works and you can be found. One is enough. If somebody still
   never appears, it is the direct browser-to-browser leg that will not form — the first bullet
-  above. Paste them the seed beside a roll; it rebuilds the same dice anywhere.
-- **Answering, but this page is not using it.** The relay is fine and the page has given up on it.
-  Trystero retries a relay on a doubling backoff and abandons it for good once that passes a
-  minute, and it remembers having done so against the relay's address rather than the room — so
-  leaving the table and rejoining picks the same dead connection back up. **Reload the page.**
-  That is the only thing that clears it.
+  above. The page says so on its own when it sees it happen: somebody found the table, and the two
+  browsers could not connect. Paste them the seed beside a roll; it rebuilds the same dice anywhere.
+- **Answering, but this page is not using it.** The relay is fine and the page is not on it right
+  now. Trystero 0.26.0 retries a dropped relay at most a minute apart and never stops, so this is
+  usually a page about to rejoin: give it a minute and check again. A relay that has refused this
+  page outright stays this way, and the others carry the table without it. If every relay says
+  this a minute later, **reload the page**. On 0.25.4 that was the only cure, because the
+  transport abandoned a relay for good after a minute of retries or a single refused message.
 - **No answer.** Nothing here reached it. One or two is the ordinary condition of the public relay
   network and costs the table nothing. *All* of them failing at once is the real signal: a content
   blocker, a VPN or a filtered network, and Nostr relay domains are routinely caught by DNS
   filters. Try another network; a phone hotspot settles it in seconds.
+
+One failure the check cannot see is **a wrong device clock**, and it was the commonest: one player
+alone at every table, every evening, while everybody else could see each other. The relays date
+each signalling message by the sender's clock and judge it by their own. The strfry relays refuse
+an announcement stamped more than a minute in the past or a quarter of an hour in the future, and
+a relay that accepts it anyway leaves it out of everybody else's subscription. The relay check
+still reads *Carrying this table*, because the relay is open — it is just carrying messages nobody
+is shown. So before it joins, the page asks the site's own server what time it is, from the `Date`
+header of a request nobody may cache, and if the device is ten seconds or more out it allows for the
+difference in every time the transport reads, and says so under the status line along with how far
+out it was. Sync the clock anyway; every other site trips over it too.
 
 Which relays are in play is read back off the transport rather than worked out again here, so the
 list is always the ones actually being used and cannot drift from them. The relays themselves are

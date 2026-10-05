@@ -622,6 +622,24 @@ input[type="number"]:hover {
     color: var(--accent);
 }
 
+/* A wrong device clock hides a player from every relay, so it is said up beside the status rather
+   than inside the connection check: the one player it is about would otherwise read "At the table"
+   and wait for people who can never see them. */
+.dice-clock {
+    margin: 0.75rem 0 0;
+    max-width: 44rem;
+    font-size: 0.85rem;
+}
+
+.dice-clock .dice-clock-drift {
+    margin-top: 0.35rem;
+}
+
+.dice-clock-drift span {
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+}
+
 /* Names rather than a headcount: a table that has gone quiet still shows who is sitting at it. */
 .dice-present {
     display: flex;

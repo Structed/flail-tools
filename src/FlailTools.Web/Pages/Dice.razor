@@ -55,6 +55,19 @@
         @StatusText@(_channel.IsJoined ? $" — {PeerText}." : "")
     </p>
 
+    @if (_channel.ClockOffset is { } offset && ClockCheck.Line(offset, _channel.ClockCorrected) is { } clock)
+    {
+        <div class="notice dice-clock" role="status">
+            <p>@Ui.Message(clock)</p>
+            <p class="dice-clock-drift">@Ui.Message(ClockCheck.DriftLabel) <span>@ClockCheck.Drift(offset)</span></p>
+        </div>
+    }
+
+    @if (_channel.IsJoined && _channel.Unreachable > 0)
+    {
+        <p class="dice-hint dice-verdict dice-unreachable" role="status">@Ui.Message("diceUnreachable")</p>
+    }
+
     @if (_channel.IsJoined)
     {
         <div class="dice-present">
