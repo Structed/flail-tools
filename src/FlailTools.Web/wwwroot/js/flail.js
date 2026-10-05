@@ -229,9 +229,9 @@ window.flailTools = {
     // back a second copy with no sockets in it, and the check cheerfully reports nothing at all.
     //
     // Asking each relay again, directly, is the half that earns this its place. A relay that
-    // answers a fresh socket while the transport's is shut is one this page has given up on and
-    // will not retry; a relay that answers neither is being stopped before it leaves the machine.
-    // The two look the same on screen and want opposite things done about them.
+    // answers a fresh socket while the transport's is shut is one this page is waiting to rejoin,
+    // or one that has turned it away; a relay that answers neither is being stopped before it
+    // leaves the machine. The two look the same on screen and want opposite things done about them.
     relays: async function (patience) {
         const wait = patience > 0 ? patience : 8000;
         let sockets;

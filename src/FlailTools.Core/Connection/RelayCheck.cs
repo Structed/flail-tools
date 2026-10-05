@@ -13,11 +13,19 @@ namespace FlailTools.Core.Connection;
 /// <para>
 /// Two quite different failures hide behind that one sentence, and they have opposite cures. Either
 /// the relays that carry the signalling cannot be reached from this machine at all — a content
-/// blocker, a VPN, a filtered network — or they can be reached perfectly well and this page has
-/// stopped talking to them. The transport retries a relay on a doubling backoff and abandons it for
-/// good once that backoff passes a minute, and it remembers having done so against the relay's
-/// address rather than against the room, so leaving the table and rejoining picks the same dead
-/// connection straight back up. Only reloading the page clears it.
+/// blocker, a VPN, a filtered network — or they can be reached perfectly well and this page is not
+/// on them. On Trystero 0.25.4 the second was permanent: the transport abandoned a relay for good
+/// once its retry backoff passed a minute, or the first time the relay refused a message, and
+/// remembered it against the relay's address rather than the room, so only a reload cleared it.
+/// From 0.26.0 the transport keeps retrying at most a minute apart, so a relay that answers while
+/// the page is off it is usually one it is about to rejoin, and only a relay that has refused this
+/// page outright stays that way.
+/// </para>
+/// <para>
+/// That refusal is how a wrong device clock used to show up here, and why the check got it wrong:
+/// four relays refused every message from a clock several minutes slow, the fifth accepted them and
+/// hid them, and the verdict read one open relay as a working table. The clock is now measured and
+/// allowed for before joining, and <see cref="ClockCheck"/> says so when it was out.
 /// </para>
 /// <para>
 /// So the check asks each relay twice: once for what the transport currently holds, and once
@@ -149,13 +157,15 @@ public static class RelayCheck
     /// <para>
     /// One open relay is enough to be found, so a single <see cref="Open"/> settles it however badly
     /// the rest did: whatever is wrong at that point is the direct connection between two browsers,
-    /// which is a different problem with a different answer.
+    /// which is a different problem with a different answer. The one exception is a wrong device
+    /// clock, which leaves relays open and carrying messages nobody is shown; that is
+    /// <see cref="ClockCheck"/>'s to say, and it is shown beside this rather than folded into it.
     /// </para>
     /// <para>
     /// Failing that, one relay that answers on its own account is the more useful finding, because
     /// it proves the network is fine and points at the page instead. It is checked before the
     /// blanket verdict for exactly that reason — a mix of blocked and reachable is still a page that
-    /// wants reloading.
+    /// wants a minute to rejoin, and then a reload.
     /// </para>
     /// </remarks>
     public static string Verdict(IReadOnlyDictionary<string, string>? relays)

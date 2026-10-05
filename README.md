@@ -173,10 +173,14 @@ because a channel that can only carry dice and names cannot be talked into carry
 `party.js` opens the room and passes those as opaque strings. It has no vocabulary of its own — no
 dice, no FLAIL!, no wording — so the transport could be replaced without touching a rule.
 
-What the engine cannot supply is the app id. `structed-flail-tools-dice` namespaces the signalling,
+What the engine cannot supply is the app id. `structed-flail-tools-dice-2` namespaces the signalling,
 so a FLAIL! table and a table run by some other tool on the same relays never meet even if both
-happen to pick the same code. It is passed in from here, and it is load-bearing: change it and every
-code already written down stops finding the table it was written down for.
+happen to pick the same code. It is passed in from here, and it is load-bearing: two browsers only
+meet if theirs match, so changing it splits every table between the build before and the build
+after. It has been changed once, on purpose, from `structed-flail-tools-dice`, when the transport
+moved to Trystero 0.26.0 — whose messages a 0.25.4 browser cannot read. Two builds that could find
+each other and then not exchange a single roll looked broken; two builds that cannot find each
+other at all are simply at different tables until somebody reloads.
 
 `FlailRolls.cs` is what stayed behind — the two rolls FLAIL! actually asks for, and what the dice
 mean when they land. While the rest was still here, `PortabilityTests` enforced that it was the only
@@ -286,7 +290,7 @@ CI runs the suite on Linux *and* Windows for the same reason.
 
 ### The vendored Trystero bundle
 
-The dice table's transport is [Trystero](https://github.com/dmotz/trystero) 0.25.4, MIT licensed,
+The dice table's transport is [Trystero](https://github.com/dmotz/trystero) 0.26.0, MIT licensed,
 committed verbatim rather than fetched from a CDN so the table keeps working when a CDN does not and
 nothing third-party can change under the page between sessions. It no longer lives in this
 repository: it is vendored in `Structed.Inkwell.Party.Blazor` and arrives as a static web asset at

@@ -220,11 +220,11 @@
     "diceRelayUnknown": "unclear",
     "diceCheckKeyHeading": "What these mean",
     "diceRelayOpenNote": "This page is signalling through this relay right now. One is enough for the table to be found.",
-    "diceRelayReachableNote": "The relay is healthy and this page has given up on it, which it will not undo on its own. Reloading the page is the only thing that clears it; leaving the table and rejoining keeps the same dead connection.",
+    "diceRelayReachableNote": "The relay is healthy, but this page is not on it right now. Usually the connection dropped and the page is waiting to rejoin, which it does on its own within a minute. If it stays like this, the relay has turned this page away, and the others carry the table without it.",
     "diceRelayBlockedNote": "Nothing here reached it. One or two failing is the normal state of the public relays and costs the table nothing — all of them failing at once is a content blocker, a VPN or a filtered network.",
     "diceRelayUnknownNote": "The browser answered in terms this page does not recognise. Read it as no answer.",
     "diceCheckOpen": "The signalling works from here, so this browser can be found. If somebody still never appears, it is the direct connection between the two of you that will not form — paste them the seed beside a roll instead.",
-    "diceCheckGaveUp": "The relays answer, but this page has stopped using them and will not go back on its own. Reload the page — leaving the table and rejoining keeps the same dead connection.",
+    "diceCheckGaveUp": "The relays answer, but this page is not on any of them right now. It rejoins them on its own, so give it a minute and check again — and if nothing has changed by then, reload the page.",
     "diceCheckBlocked": "Nothing here can reach the relays, so nobody can find this table. A content blocker, a VPN or a filtered network is the usual reason. Try another network — a phone hotspot settles it quickly — or allow this site.",
     "diceCheckUnknown": "The check found nothing to test. Join a table first, then try again.",
 

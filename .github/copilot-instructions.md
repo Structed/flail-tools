@@ -130,8 +130,10 @@ not a limit to raise.
 
 Three values crossing that boundary are load-bearing, and none of them looks it:
 
-- The **app id** `structed-flail-tools-dice`, passed to the channel from `Dice.razor`. It namespaces
-  the signalling. Change it and every table code already written down stops finding its table.
+- The **app id** `structed-flail-tools-dice-2`, passed to the channel from `Dice.razor`. It namespaces
+  the signalling, so a browser on the build before a change never meets one on the build after. It
+  moved once, deliberately, from `structed-flail-tools-dice` when Trystero 0.26.0 changed its message
+  framing: a clean split beat two builds that could find each other and exchange nothing.
 - The **relays**, in `Core/Connection/SignallingRelays.cs`, passed to the channel beside the app id.
   They replace the five Trystero would otherwise draw from its bundled list by app id — a draw that
   included `chorus.pjv.me` and `relay.mostr.pub` long after both stopped answering. Two players
@@ -139,7 +141,9 @@ Three values crossing that boundary are load-bearing, and none of them looks it:
   once: keep at least one relay from the list the deployed build is using.
 - The **wire format** — `RollMessage`, `Hail`, and the table code alphabet. A player on the deployed
   build and a player on a local one must be able to sit at the same table, so a package bump that
-  changes any of it has to be a deliberate act. `WireFormatTests` is where it becomes one.
+  changes any of it has to be a deliberate act. `WireFormatTests` is where it becomes one. Trystero's
+  own framing underneath is part of it too, and no test can see that: a Trystero bump that changes
+  it needs the app id to move with it.
 
 ## Data tables
 
@@ -209,10 +213,16 @@ distinct, non-blank entries per table and every joined name at 32 characters or 
 
 ## Files that need special care
 
-- **The dice table's transport** — Trystero 0.25.4, MIT, vendored verbatim in
+- **The dice table's transport** — Trystero 0.26.0, MIT, vendored verbatim in
   `Structed.Inkwell.Party.Blazor` and served from `_content/`. It is bumped over there, not here.
   There are no unit tests behind that boundary, so open the dice table in two browsers after any
-  bump of that package.
+  bump of that package — and once with one browser's clock set five minutes wrong, because that is
+  the failure that hid a player at every table and reads as "At the table" while it does.
+- **`Date.now` on the dice page** — when the device clock is ten seconds or more out, the channel
+  measures it against the site's own `Date` header on first join and shifts `Date.now` for the rest
+  of the page's life, because the relays judge every signalling message by its timestamp. It is
+  never put back: Trystero's timers are already reading the corrected clock. Anything on that page
+  that reads the time reads the corrected one, which is the point; `ClockCheck` says what was found.
 - **`tests/FlailTools.Core.Tests/Fixtures/*.txt`** — pinned to LF in `.gitattributes`. Leave them
   that way.
 - **`wwwroot/index.html`** — sharing metadata lives here, in static HTML, so crawlers need not run

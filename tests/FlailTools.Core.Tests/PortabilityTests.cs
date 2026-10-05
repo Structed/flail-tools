@@ -98,14 +98,20 @@ public sealed class PortabilityTests
     /// <para>
     /// Written out as a literal here rather than referenced, so the test compares the value against
     /// the intent rather than against itself. Tidying it — renaming the app, dropping the vendor
-    /// prefix — would quietly invalidate every table code already written on a character sheet, and
+    /// prefix — would quietly split every table between the build before and the build after, and
     /// the failure looks like the other player simply never joining.
+    /// </para>
+    /// <para>
+    /// It has moved once, deliberately, from <c>structed-flail-tools-dice</c>: Trystero 0.26.0
+    /// changed the framing of its messages, so a browser on the old build and one on the new could
+    /// find each other and then exchange nothing. Splitting the tables outright was the kinder
+    /// failure. Moving it again wants a reason that good, written down beside it.
     /// </para>
     /// </remarks>
     [Fact]
     public void TheTableIsStillCalledWhatItWasCalled()
     {
-        Assert.Equal("structed-flail-tools-dice", Core.Dice.FlailRolls.PartyAppId);
+        Assert.Equal("structed-flail-tools-dice-2", Core.Dice.FlailRolls.PartyAppId);
     }
 
     /// <summary>
