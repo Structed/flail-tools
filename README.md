@@ -172,6 +172,9 @@ named in `SignallingRelays.cs` and are the same in every room, so changing table
 around a bad one. Left to itself, Trystero would draw five from the list it ships, shuffled by the
 app id alone. That draw put `chorus.pjv.me`, whose DNS record no longer exists, and
 `relay.mostr.pub` in front of every FLAIL! table for good. Naming them replaces the draw outright.
+A relay can also die without looking dead: `strfry.shock.network` kept opening the socket and then
+refused every announcement with an empty reason, so it was swapped for `cdn.satellite.earth` once a
+signed announcement sent there was shown to reach a second subscriber.
 The list is load-bearing in the same way as the app id: two players only meet through a relay they
 share, so a dead relay can be swapped for a live one, but a change must keep at least one relay the
 deployed build is still using.

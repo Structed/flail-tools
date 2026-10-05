@@ -9,10 +9,10 @@ namespace FlailTools.Core.Connection;
 /// <remarks>
 /// <para>
 /// The relays that carry the signalling date every message by the sender's clock, and judge it by
-/// their own. Probed directly, the four strfry relays in the pinned list refuse an announcement
-/// stamped more than a minute in the past (<c>invalid: ephemeral event expired</c>) or a quarter of
-/// an hour in the future (<c>invalid: created_at too late</c>). The fifth accepts it and then
-/// leaves it out of every other player's subscription, because each of those asked only for
+/// their own. Probed directly, the four strfry relays then in the pinned list refused an
+/// announcement stamped more than a minute in the past (<c>invalid: ephemeral event expired</c>) or
+/// a quarter of an hour in the future (<c>invalid: created_at too late</c>). The fifth accepted it
+/// and then left it out of every other player's subscription, because each of those asked only for
 /// messages from the moment they arrived onwards. Either way the player behind the wrong clock is
 /// never seen, and sees nobody.
 /// </para>
