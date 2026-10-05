@@ -228,6 +228,12 @@
     "diceCheckBlocked": "Nothing here can reach the relays, so nobody can find this table. A content blocker, a VPN or a filtered network is the usual reason. Try another network — a phone hotspot settles it quickly — or allow this site.",
     "diceCheckUnknown": "The check found nothing to test. Join a table first, then try again.",
 
+    "diceClockBehind": "This device's clock is slow, and the relays turn away messages stamped with the wrong time, which would have hidden this browser from the table. The table allows for it, but set the clock to update automatically and sync it, because other sites will trip over it too.",
+    "diceClockAhead": "This device's clock is fast, and the relays turn away messages stamped with the wrong time, which would have hidden this browser from the table. The table allows for it, but set the clock to update automatically and sync it, because other sites will trip over it too.",
+    "diceClockWrong": "This device's clock is wrong, and the relays turn away messages stamped with the wrong time, so nobody at the table can see this browser. Set the clock to update automatically, sync it, then reload this page.",
+    "diceClockDrift": "Out by",
+    "diceUnreachable": "Somebody found this table, but their browser and this one could not connect directly. A strict network at either end is the usual cause — joining from a different one, a phone hotspot say, usually settles it.",
+
     "reportTitle": "Report a problem",
     "reportBody": "Reports go to GitHub as a public issue, so you will need a GitHub account. The page you are on and the browser you are using are filled in for you; all you have to say is what went wrong.",
     "reportScreenshotHint": "A screenshot helps. Your browser will ask to share this tab: one picture is taken, the sharing stops straight away, and table codes are hidden from it.",
